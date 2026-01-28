@@ -1,0 +1,15 @@
+import { redirect } from 'next/navigation';
+import { getCurrentUser } from "@/lib/auth/jwt-server";
+import { SignInViewPage } from '@/features/auth/components/sign-in-view';
+
+export default async function Page() {
+  const user = await getCurrentUser();
+
+  // If user is already logged in, redirect to dashboard
+  if (user) {
+    // Send already-authenticated users straight to dashboard overview
+    redirect('/dashboard/overview');
+  }
+
+  return <SignInViewPage />;
+}
