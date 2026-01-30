@@ -1,7 +1,8 @@
 import Home from "@/components/home/Index.html";
 import { Metadata } from "next";
-import { AdLeaderboard } from '@/components/ads/ad-leaderboard';
+import { AdHeader } from '@/components/ads/ad-header';
 import { AdFooter } from '@/components/ads/ad-footer';
+
 
 // Revalidate every 60 seconds for fresh content
 export const revalidate = 1;
@@ -40,16 +41,18 @@ export const metadata: Metadata = {
   },
 };
 
+
+
 export default async function HomePage() {
   return (
     <>
       {/* Top Banner Ad - Zone: header, Position: 0 */}
-      <AdLeaderboard
+      <AdHeader
         className="w-full"
         showDefault={true}
       />
 
-      <div className="max-w-[90rem] mx-auto py-8">
+      <div className="max-w-[85rem] mx-auto py-8">
         <Home />
       </div>
 

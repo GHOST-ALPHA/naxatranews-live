@@ -5,6 +5,7 @@ import { ArticleRightSidebar } from "./_components/article-right-sidebar"
 import { AdLeaderboard } from "@/components/ads/ad-leaderboard"
 import { AdFooter } from "@/components/ads/ad-footer"
 import { AdPopup } from "@/components/ads/ad-popup"
+import { AdHeader } from "@/components/ads/ad-header"
 
 export const metadata: Metadata = {
   title: "News Article | Modern News Platform",
@@ -21,9 +22,10 @@ export default function ArticleLayout({
   return (
     <div className="bg-background min-h-screen">
       {/* Top Banner Ad - Zone: header, Position: 0 */}
-      <AdLeaderboard 
-        className="w-full" 
-        showDefault={true} 
+
+      <AdHeader
+        className="w-full"
+        showDefault={true}
       />
 
       <div className="max-w-[90rem] justify-center mx-auto px-4 py-8">
@@ -43,10 +45,10 @@ export default function ArticleLayout({
       </div>
 
       {/* Footer Ad - Zone: footer, Position: 0 */}
-      <AdFooter 
-        className="w-full my-8" 
-        showDefault={true} 
-        position={0} 
+      <AdFooter
+        className="w-full my-8"
+        showDefault={true}
+        position={0}
       />
 
       {/* Popup Ad - Zone: popup, Position: 0 (Client-side, shows after delay) */}

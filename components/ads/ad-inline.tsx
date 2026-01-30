@@ -14,7 +14,7 @@ interface AdInlineProps {
 
 async function AdInlineContent({ showDefault = true }: { showDefault: boolean }) {
   let ad: AdDisplay | null = null;
-  
+
   try {
     const ads = await getActiveAdsByZone("inline", 1);
     ad = ads[0] || null;
@@ -39,7 +39,7 @@ export function AdInline({ className, showDefault = true }: AdInlineProps) {
     <div className={className}>
       <Suspense
         fallback={
-          <div className="w-full h-48 bg-muted rounded-lg animate-pulse border border-border" />
+          <div className="w-full h-48 bg-muted animate-pulse border border-border" />
         }
       >
         <AdInlineContent showDefault={showDefault} />

@@ -26,7 +26,7 @@ export function BreakingNewsTicker({ news, onClose, className }: BreakingNewsTic
   return (
     <div
       className={cn(
-        "relative w-full bg-[#102039] rounded-full text-white py-2 px-4 overflow-hidden shadow-lg border border-white/10",
+        "relative w-full  bg-red-700 rounded-full text-white py-2 px-4 overflow-hidden shadow-lg border border-white/10",
         className
       )}
       role="region"
@@ -34,19 +34,19 @@ export function BreakingNewsTicker({ news, onClose, className }: BreakingNewsTic
     >
       <div className="flex items-center gap-4 h-full relative z-10">
         {/* Breaking News Label */}
-        <div className="flex items-center gap-2 shrink-0 md:bg-red-700 px-3 py-1 rounded-full font-bold text-xs md:text-sm uppercase tracking-wider shadow-sm z-20">
+        <div className="flex items-center hidden md:flex gap-2 shrink-0 bg-[#102039] px-3 py-1 rounded-full font-bold text-xs md:text-sm uppercase tracking-wider shadow-sm z-20">
           <span className="animate-pulse relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
           </span>
-          <span className="hidden md:block">Breaking News</span>
+          <span>Breaking News</span>
         </div>
 
         {/* Ticker Content */}
-        <div className="flex-1 overflow-hidden relative h-6 group">
+        <div className="flex-1 overflow-hidden relative h-4 md:h-6 group">
           {/* Mask shadows for smooth fade effect at edges */}
-          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#102039] to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#102039] to-transparent z-10 pointer-events-none" />
+          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-red-700 to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-red-700 to-transparent z-10 pointer-events-none" />
 
           <div
             className="flex items-center absolute whitespace-nowrap animate-marquee group-hover:pause"
@@ -54,10 +54,10 @@ export function BreakingNewsTicker({ news, onClose, className }: BreakingNewsTic
             {/* Duplicate functionality for seamless loop */}
             {[...news, ...news].map((item, i) => (
               <div key={`${item.id}-${i}`} className="inline-flex items-center mx-8">
-                <ChevronRight className="h-4 w-4 text-red-500 mr-2" />
+                <ChevronRight className="h-4 w-4 text-[#102039] mr-2" />
                 <Link
                   href={`/news/${item.slug}`}
-                  className="hover:text-red-400 transition-colors font-semibold text-sm"
+                  className="hover:text-[#102039] transition-colors text-sm md:text-base"
                 >
                   {item.title}
                 </Link>

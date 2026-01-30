@@ -14,12 +14,12 @@ function stableUuidFromSlug(slug: string): string {
     .createHash("sha1")
     .update(namespace + slug)
     .digest();
-  
+
   // Format as UUID v5
   const bytes = Array.from(hash);
   bytes[6] = (bytes[6] & 0x0f) | 0x50; // Version 5
   bytes[8] = (bytes[8] & 0x3f) | 0x80; // Variant 10
-  
+
   return [
     bytes.slice(0, 4).map(b => b.toString(16).padStart(2, "0")).join(""),
     bytes.slice(4, 6).map(b => b.toString(16).padStart(2, "0")).join(""),
@@ -154,13 +154,13 @@ async function main() {
    */
   console.log("🗂️  Migrating legacy categories from old DB as menus...");
   const oldDbUrl = process.env.OLD_DATABASE_URL;
-  
+
   if (!oldDbUrl) {
     console.log("  ⚠️  OLD_DATABASE_URL not set, skipping legacy category migration");
   } else {
     try {
       const oldPool = new pg.Pool({ connectionString: oldDbUrl });
-      
+
       // Fetch all categories from old DB
       const oldCategoriesRes = await oldPool.query<{
         id: number;
@@ -176,14 +176,14 @@ async function main() {
         FROM categories
         ORDER BY sort_order, id
       `);
-      
+
       const oldCategories = oldCategoriesRes.rows;
       console.log(`  📦 Found ${oldCategories.length} categories in old DB`);
-      
+
       // Map: old category ID -> new Menu UUID (by slug)
       const legacyMenuIdByOldId = new Map<number, string>();
       const slugToMenuId = new Map<string, string>();
-      
+
       // First pass: create all menus with stable UUIDs from slugs
       for (const cat of oldCategories) {
         const stableId = stableUuidFromSlug(cat.slug);
@@ -212,7 +212,7 @@ async function main() {
         slugToMenuId.set(cat.slug, created.id);
         console.log(`  ✓ Category: ${cat.slug} -> ${created.id}`);
       }
-      
+
       // Second pass: set parentId (requires parents to exist)
       for (const cat of oldCategories) {
         if (!cat.parent_id) continue;
@@ -222,14 +222,14 @@ async function main() {
           console.log(`  ⚠️  Skipped parent link: cat ${cat.id} -> parent ${cat.parent_id} (missing)`);
           continue;
         }
-        
+
         await prisma.menu.update({
           where: { id: childId },
           data: { parentId },
         });
         console.log(`  ✓ Linked parent: ${cat.slug} -> parent`);
       }
-      
+
       await oldPool.end();
       console.log(`  ✅ Migrated ${oldCategories.length} categories`);
     } catch (err: any) {
@@ -308,7 +308,7 @@ async function main() {
   const blogPermissions = createdPermissions.filter(
     (p) => p.slug.startsWith("blog.")
   );
-  
+
   await prisma.rolePermission.deleteMany({
     where: { roleId: citizenRole.id },
   });
@@ -544,8 +544,8 @@ async function main() {
 
   // Assign menus to Editor
   const editorMenus = createdMenus.filter(
-    (m) => m.slug === "dashboard" || m.slug === "news" || m.slug === "media" || 
-          m.slug === "analytics" || m.slug === "profile" || m.slug === "menus"
+    (m) => m.slug === "dashboard" || m.slug === "news" || m.slug === "media" ||
+      m.slug === "analytics" || m.slug === "profile" || m.slug === "menus"
   );
 
   await prisma.roleMenu.createMany({

@@ -3,10 +3,10 @@ import { StaticPageLayout } from "@/components/static-pages/static-page-layout"
 import { staticPagesData } from "@/lib/data/static-pages"
 
 export const metadata: Metadata = {
-  title: "Cookie Policy | Bawal News",
+  title: "Cookie Policy | Naxatra News Hindi",
   description: staticPagesData.cookies.description,
   openGraph: {
-    title: "Cookie Policy | Bawal News",
+    title: "Cookie Policy | Naxatra News Hindi",
     description: staticPagesData.cookies.description,
     type: "website",
   },

@@ -21,9 +21,9 @@ interface AdBannerProps {
 
 const sizeClasses = {
   small: "w-full h-16",
-  medium: "w-full h-32",
-  large: "w-full h-48",
-  leaderboard: "w-full max-w-[1400px] h-[140px]",
+  medium: "w-full h-28",
+  large: "w-full md:h-36 h-28",
+  leaderboard: "w-full max-w-[1400px] h-[180px]",
   sidebar: "w-full aspect-[3/4] max-w-[350px]",
 };
 
@@ -59,7 +59,7 @@ export function AdBanner({
   const content = (
     <div
       className={cn(
-        "relative overflow-hidden rounded-lg border border-border bg-muted/50 transition-all duration-300 hover:shadow-lg",
+        "relative overflow-hidden rounded-xs border border-border bg-muted/50 transition-all duration-300 hover:shadow-lg",
         sizeClasses[size],
         className
       )}
@@ -71,7 +71,7 @@ export function AdBanner({
       )}
 
       <Image
-        src={ad.imageUrl || "https://www.bawalnews.com/storage/media/uploads/placeholder-1764866027363-00de23ee72a4108a.jpg"}
+        src={ad.imageUrl || ""}
         alt={ad.title}
         fill
         className="object-cover transition-transform duration-300 hover:scale-105"
@@ -83,14 +83,14 @@ export function AdBanner({
               : "(max-width: 768px) 100vw, 50vw"
         }
         priority={priority}
-        unoptimized={ad.imageUrl?.startsWith("https://www.bawalnews.com/storage/media/uploads/placeholder-1764866027363-00de23ee72a4108a.jpg") || false}
+        unoptimized={ad.imageUrl?.startsWith("") || false}
       />
 
-      {ad.description && (
+      {/* {ad.description && (
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3">
           <p className="text-xs font-medium text-white line-clamp-2">{ad.description}</p>
         </div>
-      )}
+      )} */}
     </div>
   );
 

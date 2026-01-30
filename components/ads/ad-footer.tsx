@@ -15,7 +15,7 @@ interface AdFooterProps {
 
 async function AdFooterContent({ showDefault = true, position = 0 }: { showDefault: boolean; position: number }) {
   let ad: AdDisplay | null = null;
-  
+
   try {
     const ads = await getActiveAdsByZone("footer", 5); // Fetch up to 5 ads
     ad = ads[position] || null;

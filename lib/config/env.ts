@@ -9,22 +9,26 @@ import { z } from "zod";
 const envSchema = z.object({
   // Database
   DATABASE_URL: z.string().url("DATABASE_URL must be a valid URL"),
-  
+
   // JWT Configuration
   JWT_SECRET: z.string().min(32, "JWT_SECRET must be at least 32 characters long"),
   JWT_EXPIRES_IN: z.string().default("7d"),
-  
+
   // Application
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
   APP_URL: z.string().url().optional(),
   NEXT_PUBLIC_BASE_URL: z.string().url().optional(),
-  
+
+  // Live TV
+  NEXT_PUBLIC_LIVE_TV_URL: z.string().url().optional(),
+  NEXT_PUBLIC_LIVE_TV_ENABLED: z.string().transform((val) => val === "true").pipe(z.boolean()).optional(),
+
   // Optional OAuth
   GOOGLE_CLIENT_ID: z.string().optional(),
   GOOGLE_CLIENT_SECRET: z.string().optional(),
   WHATSAPP_CLIENT_ID: z.string().optional(),
   WHATSAPP_CLIENT_SECRET: z.string().optional(),
-  
+
   // Default Admin (only for seeding)
   DEFAULT_ADMIN_EMAIL: z.string().email().optional(),
   DEFAULT_ADMIN_USERNAME: z.string().min(3).optional(),
@@ -47,12 +51,14 @@ export const env = (() => {
       NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
       GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
       GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+      NEXT_PUBLIC_LIVE_TV_URL: process.env.NEXT_PUBLIC_LIVE_TV_URL,
+      NEXT_PUBLIC_LIVE_TV_ENABLED: process.env.NEXT_PUBLIC_LIVE_TV_ENABLED,
       WHATSAPP_CLIENT_ID: process.env.WHATSAPP_CLIENT_ID,
       WHATSAPP_CLIENT_SECRET: process.env.WHATSAPP_CLIENT_SECRET,
       DEFAULT_ADMIN_EMAIL: process.env.DEFAULT_ADMIN_EMAIL,
       DEFAULT_ADMIN_USERNAME: process.env.DEFAULT_ADMIN_USERNAME,
       DEFAULT_ADMIN_PASSWORD: process.env.DEFAULT_ADMIN_PASSWORD,
-  
+
     });
   } catch (error) {
     if (error instanceof z.ZodError) {

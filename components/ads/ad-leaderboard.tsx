@@ -10,21 +10,22 @@ import { Suspense } from "react";
 interface AdLeaderboardProps {
   className?: string;
   showDefault?: boolean;
+  position?: number;
 }
 
-async function AdLeaderboardContent({ showDefault = true }: { showDefault: boolean }) {
+async function AdLeaderboardContent({ showDefault = true, position = 0 }: { showDefault: boolean; position: number }) {
   let ad: AdDisplay | null = null;
-  
+
   try {
-    const ads = await getActiveAdsByZone("header", 1);
-    ad = ads[0] || null;
+    const ads = await getActiveAdsByZone("leaderboard", 5);
+    ad = ads[position] || null;
   } catch (error) {
     console.error("Error loading leaderboard ad:", error);
   }
 
   // Always show default if no ad found and showDefault is true
   if (!ad && showDefault) {
-    ad = getDefaultAd("header");
+    ad = getDefaultAd("leaderboard");
   }
 
   if (!ad) {
@@ -38,15 +39,15 @@ async function AdLeaderboardContent({ showDefault = true }: { showDefault: boole
   );
 }
 
-export function AdLeaderboard({ className, showDefault = true }: AdLeaderboardProps) {
+export function AdLeaderboard({ className, showDefault = true, position = 0 }: AdLeaderboardProps) {
   return (
     <div className={className || "w-full py-4 flex justify-center items-center"}>
       <Suspense
         fallback={
-          <div className="w-full max-w-[970px] h-[90px] bg-muted rounded-lg animate-pulse mx-auto border border-border" />
+          <div className="w-full max-w-[970px] h-[90px] bg-muted rounded-sm animate-pulse mx-auto border border-border" />
         }
       >
-        <AdLeaderboardContent showDefault={showDefault} />
+        <AdLeaderboardContent showDefault={showDefault} position={position} />
       </Suspense>
     </div>
   );

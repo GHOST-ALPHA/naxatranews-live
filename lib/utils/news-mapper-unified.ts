@@ -96,11 +96,11 @@ export interface SectionOneSmallArticle {
  */
 function getAuthorName(news: NewsResponse): string {
   if (!news.author) return "Unknown Author";
-  
+
   const firstName = news.author.firstName || "";
   const lastName = news.author.lastName || "";
   const fullName = `${firstName} ${lastName}`.trim();
-  
+
   return fullName || news.author.username || "Unknown Author";
 }
 
@@ -119,7 +119,7 @@ function getCategoryName(news: NewsResponse, fallback: string = "General"): stri
  */
 function formatDate(news: NewsResponse, includeTime: boolean = false): string {
   const date = news.publishedAt || news.createdAt;
-  
+
   if (includeTime) {
     return new Date(date).toLocaleString("en-US", {
       year: "numeric",
@@ -131,7 +131,7 @@ function formatDate(news: NewsResponse, includeTime: boolean = false): string {
       timeZone: "Asia/Kolkata",
     }) + " IST";
   }
-  
+
   return new Date(date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "short",
@@ -159,7 +159,7 @@ export function getBestImageUrl(news: NewsResponse): string {
   if (news.coverImage) {
     return news.coverImage;
   }
-  
+
   // If video exists, extract thumbnail
   if (news.coverVideo) {
     const videoInfo = parseVideoUrl(news.coverVideo);
@@ -167,7 +167,7 @@ export function getBestImageUrl(news: NewsResponse): string {
       return videoInfo.thumbnailUrl;
     }
   }
-  
+
   // Fallback to placeholder
   return "/placeholder.svg?height=600&width=1200";
 }
@@ -185,7 +185,7 @@ export function mapToFeaturedArticle(news: NewsResponse): Article {
   const category = getCategoryName(news);
   const publishedDate = formatDate(news, true);
   const updatedDate = news.updatedAt ? formatDate(news, false) : undefined;
-  
+
   // Calculate read time from excerpt or estimate
   const contentLength = news.excerpt?.length || 1000;
   const readTime = calculateReadTime(contentLength);
@@ -288,7 +288,7 @@ export function mapToArticle(news: NewsResponse): Article {
   const category = getCategoryName(news);
   const publishedDate = formatDate(news, true);
   const updatedDate = news.updatedAt ? formatDate(news, false) : undefined;
-  
+
   // Calculate read time
   const contentLength = news.excerpt?.length || 1000;
   const readTime = calculateReadTime(contentLength);

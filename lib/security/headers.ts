@@ -18,8 +18,9 @@ export function applySecurityHeaders(response: NextResponse): NextResponse {
     "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://platform.twitter.com https://cdn.syndication.twimg.com; " +
     "style-src 'self' 'unsafe-inline' https://platform.twitter.com https://fonts.googleapis.com; " +
     "img-src 'self' blob: data: https: http: https://img.youtube.com https://i.vimeocdn.com https://pbs.twimg.com https://abs.twimg.com; " +
+    "media-src 'self' blob: https://account18.livebox.co.in; " +
     "font-src 'self' data: https://fonts.gstatic.com; " +
-    "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://api.twitter.com https://syndication.twitter.com https://api.open-meteo.com https://air-quality-api.open-meteo.com https://api.bigdatacloud.net https://api-bdc.io; " +
+    "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://api.twitter.com https://syndication.twitter.com https://api.open-meteo.com https://air-quality-api.open-meteo.com https://api.bigdatacloud.net https://api-bdc.io https://account18.livebox.co.in; " +
     "frame-src 'self' https://www.youtube.com https://youtube.com https://youtu.be https://www.youtube-nocookie.com https://youtube-nocookie.com https://player.vimeo.com https://vimeo.com https://twitter.com https://x.com https://platform.twitter.com; " +
     "frame-ancestors 'none';"
   );

@@ -39,6 +39,8 @@ export interface CategoryBlockTypeBData {
   title: string;
   featured: {
     title: string;
+    author: string;
+    date: string;
     excerpt: string;
     image: string;
     videoUrl?: string; // YouTube, Vimeo, or direct video URL
@@ -93,11 +95,11 @@ export interface SidebarSmallListItem {
 
 function getAuthorName(news: NewsResponse): string {
   if (!news.author) return "UNKNOWN AUTHOR";
-  
+
   const firstName = news.author.firstName || "";
   const lastName = news.author.lastName || "";
   const fullName = `${firstName} ${lastName}`.trim();
-  
+
   return (fullName || news.author.username || "UNKNOWN AUTHOR").toUpperCase();
 }
 
@@ -154,6 +156,8 @@ export function mapToCategoryBlockTypeB(
     title,
     featured: {
       title: featured.title,
+      author: getAuthorName(featured),
+      date: formatDate(featured),
       excerpt: featured.excerpt || "",
       image: getBestImageUrl(featured), // Uses coverImage or video thumbnail
       videoUrl: featured.coverVideo || undefined,

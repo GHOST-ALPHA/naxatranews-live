@@ -1,22 +1,22 @@
 export const staticPagesData: any = {
   about: {
     title: "About Us",
-    description: "Learn more about Bawal News and our mission to deliver accurate, timely, and comprehensive news coverage.",
+    description: "Learn more about Naxatra News Hindi and our mission to deliver accurate, timely, and comprehensive news coverage.",
     sections: [
       {
         type: "hero",
-        title: "About Bawal News",
-        content: "Bawal News is a leading digital news platform committed to delivering accurate, timely, and comprehensive news coverage to our readers. We strive to keep you informed about the latest developments across politics, technology, business, entertainment, sports, and more."
+        title: "About Naxatra News Hindi",
+        content: "Naxatra News Hindi (www.naxatranewshindi.com), owned and operated by Media Point Broadcasting Pvt. Ltd., is a leading digital news platform committed to delivering accurate, timely, and comprehensive news coverage. We strive to keep you informed about the latest developments across politics, technology, business, entertainment, sports, and more."
       },
       {
         type: "content",
         title: "Our Mission",
-        content: "Our mission is to provide unbiased, fact-based journalism that empowers our readers to make informed decisions. We believe in the power of information and its ability to shape a better society."
+        content: "Our mission is to provide unbiased, fact-based journalism that empowers our readers to make informed decisions. We maintain editorial independence and neutrality in our reporting, striving to shape a better society through the power of information."
       },
       {
         type: "content",
         title: "Our Values",
-        content: "At Bawal News, we are guided by core values of integrity, accuracy, transparency, and accountability. We are committed to maintaining the highest standards of journalism and serving our community with dedication."
+        content: "At Naxatra News Hindi, we are guided by core values of integrity, accuracy, transparency, and accountability. We are committed to maintaining the highest standards of journalism and serving our community with dedication."
       },
       {
         type: "features",
@@ -44,17 +44,12 @@ export const staticPagesData: any = {
         type: "content",
         title: "Our Team",
         content: "Our team consists of experienced journalists, editors, and content creators who are passionate about delivering quality news. We work tirelessly to ensure that our readers receive accurate and timely information."
-      },
-      {
-        type: "content",
-        title: "Contact Us",
-        content: "Have questions or feedback? We'd love to hear from you. Visit our Contact Us page to get in touch with our team."
       }
     ]
   },
   contact: {
     title: "Contact Us",
-    description: "Get in touch with Bawal News. We're here to help and would love to hear from you.",
+    description: "Get in touch with Naxatra News Hindi. We're here to help and would love to hear from you.",
     sections: [
       {
         type: "hero",
@@ -65,254 +60,153 @@ export const staticPagesData: any = {
         type: "contact-info",
         items: [
           {
-            title: "Email",
-            description: "For general inquiries and feedback",
-            value: "contact@bawalnews.com",
+            title: "Editorial & General",
+            description: "For story submissions, press releases, and general inquiries",
+            value: "media@naxatraindia.com",
             icon: "mail"
           },
           {
-            title: "Editorial",
-            description: "For news tips and editorial inquiries",
-            value: "editorial@bawalnews.com",
-            icon: "edit"
-          },
-          {
             title: "Advertising",
-            description: "For advertising and partnership opportunities",
-            value: "ads@bawalnews.com",
+            description: "For advertising opportunities and partnership programs",
+            value: "media@naxatraindia.com",
             icon: "megaphone"
           },
           {
-            title: "Support",
-            description: "For technical support and assistance",
-            value: "support@BawalNews.com",
-            icon: "help-circle"
+            title: "Legal & Compliance",
+            description: "For legal matters and copyright concerns",
+            value: "media@naxatraindia.com",
+            icon: "edit"
           }
         ]
       },
       {
         type: "content",
-        title: "Response Time",
-        content: "We aim to respond to all inquiries within 24-48 hours during business days. For urgent matters, please mark your email as 'Urgent' in the subject line."
+        title: "Office Address",
+        content: "2nd floor, Maa Lakshmi Plaza, Harmu Rd, near Sahjanand Chowk, Tongritoli, Ranchi, Jharkhand 834002"
       },
       {
         type: "content",
-        title: "Social Media",
-        content: "You can also connect with us on our social media platforms for the latest updates and news."
-      }
-    ]
-  },
-  ads: {
-    title: "Advertising",
-    description: "Partner with Bawal News to reach your target audience. Explore our advertising opportunities and packages.",
-    sections: [
-      {
-        type: "hero",
-        title: "Advertise With Us",
-        content: "Bawal News offers various advertising opportunities to help you reach your target audience. Whether you're a small business or a large corporation, we have advertising solutions that fit your needs."
-      },
-      {
-        type: "content",
-        title: "Why Advertise With Us?",
-        content: "With a growing readership and engaged audience, Bawal News provides an excellent platform for advertisers to showcase their products and services. Our diverse content categories ensure your ads reach the right audience."
-      },
-      {
-        type: "features",
-        title: "Advertising Options",
-        items: [
-          {
-            title: "Banner Ads",
-            description: "Display your banner advertisements in strategic positions across our website for maximum visibility."
-          },
-          {
-            title: "Sponsored Content",
-            description: "Partner with us to create engaging sponsored content that resonates with our audience."
-          },
-          {
-            title: "Newsletter Advertising",
-            description: "Reach our subscribers directly through our newsletter advertising options."
-          },
-          {
-            title: "Custom Packages",
-            description: "We offer custom advertising packages tailored to your specific needs and budget."
-          }
-        ]
-      },
-      {
-        type: "content",
-        title: "Ad Guidelines",
-        content: "We maintain strict advertising guidelines to ensure quality and relevance. All advertisements must comply with our editorial standards and policies. We reserve the right to reject any advertisement that doesn't meet our criteria."
-      },
-      {
-        type: "content",
-        title: "Get Started",
-        content: "Ready to advertise with us? Contact our advertising team at ads@BawalNews.com to discuss your requirements and get a customized quote."
+        title: "Phone Number",
+        content: "+91 81020 88661"
       }
     ]
   },
   privacy: {
     title: "Privacy Policy",
-    description: "Learn how Bawal News collects, uses, and protects your personal information.",
+    description: "Learn how Naxatra News Hindi collects, uses, and protects your personal information.",
     sections: [
       {
         type: "hero",
         title: "Privacy Policy",
-        content: "At Bawal News, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website."
+        content: "Naxatra News Hindi respects your privacy and is committed to protecting your personal data. This Privacy Policy explains how we collect and safeguard your information when you access our website. By using our services, you consent to the data practices described in this policy."
       },
       {
         type: "content",
         title: "Information We Collect",
-        content: "We collect information that you provide directly to us, such as when you subscribe to our newsletter, create an account, or contact us. This may include your name, email address, and any other information you choose to provide."
+        content: "We collect personal information (name, email) you provide voluntarily (e.g., contact forms or subscriptions), and non-personal information (browser type, IP address, device info) via cookies and analytics tools to improve our services."
       },
       {
         type: "content",
         title: "How We Use Your Information",
-        content: "We use the information we collect to provide, maintain, and improve our services, send you newsletters and updates, respond to your inquiries, and analyze how our website is used."
+        content: "We use your data to provide news updates, improve website performance, respond to queries, send newsletters (with consent), and ensure website security and prevent misuse."
       },
       {
-        type: "content",
-        title: "Cookies and Tracking Technologies",
-        content: "We use cookies and similar tracking technologies to track activity on our website and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent."
-      },
-      {
-        type: "content",
-        title: "Data Security",
-        content: "We implement appropriate security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security."
-      },
-      {
-        type: "content",
-        title: "Third-Party Services",
-        content: "We may use third-party services that collect, monitor, and analyze information to help us improve our services. These third parties may have access to your personal information only to perform these tasks on our behalf."
+        type: "features",
+        title: "Security Measures",
+        items: [
+          {
+            title: "Encryption",
+            description: "Encryption of data in transit and at rest."
+          },
+          {
+            title: "Security Audits",
+            description: "Regular security audits and assessments."
+          },
+          {
+            title: "Access Controls",
+            description: "Strict access controls and authentication mechanisms."
+          },
+          {
+            title: "Secure Infrastructure",
+            description: "Secure data centers and infrastructure protection."
+          }
+        ]
       },
       {
         type: "content",
         title: "Your Rights",
-        content: "You have the right to access, update, or delete your personal information at any time. You can also opt-out of receiving marketing communications from us."
-      },
-      {
-        type: "content",
-        title: "Changes to This Policy",
-        content: "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the 'Last Updated' date."
-      },
-      {
-        type: "content",
-        title: "Contact Us",
-        content: "If you have any questions about this Privacy Policy, please contact us at privacy@BawalNews.com."
+        content: "Depending on applicable laws, you may have the right to access, correct, or delete your personal information, opt-out of newsletters, or request limitation of data processing. Contact us at media@naxatraindia.com to exercise these rights."
       }
     ],
-    lastUpdated: "2024-01-15"
+    lastUpdated: "17 Sep 2025"
   },
   dmca: {
     title: "DMCA Policy",
-    description: "Bawal News respects intellectual property rights. Learn about our DMCA policy and how to file a takedown request.",
+    description: "Naxatra News Hindi respects intellectual property rights. Learn about our DMCA policy and how to file a takedown request.",
     sections: [
       {
         type: "hero",
-        title: "DMCA Copyright Policy",
-        content: "Bawal News respects the intellectual property rights of others and expects our users to do the same. In accordance with the Digital Millennium Copyright Act (DMCA), we have implemented procedures for receiving and responding to notices of alleged copyright infringement."
+        title: "DMCA Notice and Takedown Procedure",
+        content: "Naxatra News Hindi complies with the Digital Millennium Copyright Act (DMCA) and responds promptly to notices of alleged copyright infringement. We are committed to protecting intellectual property rights."
       },
       {
         type: "content",
-        title: "Filing a DMCA Takedown Notice",
-        content: "If you believe that content on our website infringes your copyright, you may submit a DMCA takedown notice. Your notice must include: (1) A physical or electronic signature of the copyright owner; (2) Identification of the copyrighted work; (3) Identification of the infringing material; (4) Your contact information; (5) A statement of good faith; and (6) A statement of accuracy."
+        title: "Filing a Takedown Notice",
+        content: "To file a notice, please provide: (1) Physical or electronic signature; (2) Description of copyrighted work; (3) Specific location (URL) of infringing material; (4) Your contact info; (5) Good faith statement; (6) Statement of accuracy under penalty of perjury."
       },
       {
         type: "content",
-        title: "Counter-Notification",
-        content: "If you believe that your content was removed in error, you may file a counter-notification. The counter-notification must include: (1) Your physical or electronic signature; (2) Identification of the removed content; (3) A statement under penalty of perjury; and (4) Your contact information."
+        title: "Copyright Agent",
+        content: "Send all DMCA notices and counter-notices to media@naxatraindia.com. We strive to acknowledge receipt within 24-48 hours and remove infringing content within 3-5 business days."
       },
       {
         type: "content",
-        title: "Repeat Infringers",
-        content: "We reserve the right to terminate accounts of users who are repeat infringers of copyright. We will make a good faith effort to identify and remove infringing content promptly upon receiving a valid DMCA notice."
-      },
-      {
-        type: "content",
-        title: "Contact Information",
-        content: "Please send all DMCA notices and counter-notifications to our designated agent at dmca@BawalNews.com. We will respond to valid notices within a reasonable timeframe."
+        title: "Repeat Infringers Policy",
+        content: "Naxatra News Hindi maintains a policy of terminating accounts of users who are repeat infringers of copyrights. We may permanently suspend accounts after multiple valid DMCA notices."
       }
-    ]
+    ],
+    lastUpdated: "August 2025"
   },
   terms: {
     title: "Terms and Conditions",
-    description: "Read our terms and conditions to understand the rules and regulations for using Bawal News.",
+    description: "Read our terms and conditions to understand the rules and regulations for using Naxatra News Hindi.",
     sections: [
       {
         type: "hero",
         title: "Terms and Conditions",
-        content: "Welcome to Bawal News. By accessing and using our website, you agree to comply with and be bound by the following terms and conditions. Please read these terms carefully before using our services."
-      },
-      {
-        type: "content",
-        title: "Acceptance of Terms",
-        content: "By accessing or using Bawal News, you agree to be bound by these Terms and Conditions. If you do not agree to these terms, please do not use our website."
+        content: "Welcome to Naxatra News Hindi. By accessing or using our site, you agree to be bound by these Terms and Conditions. These Terms govern your use of our website, services, and content."
       },
       {
         type: "content",
         title: "Use of Website",
-        content: "You may use our website for lawful purposes only. You agree not to use the website in any way that violates any applicable laws or regulations, or that infringes upon the rights of others."
+        content: "The content provided is for general information and news reporting. You agree not to misuse the website for unlawful purposes, spreading misinformation, defamation, or hate speech."
       },
       {
         type: "content",
         title: "Intellectual Property",
-        content: "All content on Bawal News, including text, graphics, logos, images, and software, is the property of Bawal News or its content suppliers and is protected by copyright and other intellectual property laws."
-      },
-      {
-        type: "content",
-        title: "User Accounts",
-        content: "If you create an account on our website, you are responsible for maintaining the confidentiality of your account and password. You agree to accept responsibility for all activities that occur under your account."
-      },
-      {
-        type: "content",
-        title: "User-Generated Content",
-        content: "You retain ownership of any content you submit to our website. However, by submitting content, you grant us a worldwide, non-exclusive, royalty-free license to use, reproduce, and distribute your content."
-      },
-      {
-        type: "content",
-        title: "Prohibited Activities",
-        content: "You agree not to: (1) Post false or misleading information; (2) Violate any laws or regulations; (3) Infringe upon intellectual property rights; (4) Harass or harm others; (5) Use automated systems to access our website; or (6) Interfere with the website's operation."
-      },
-      {
-        type: "content",
-        title: "Disclaimer",
-        content: "The information on Bawal News is provided 'as is' without warranties of any kind. We do not guarantee the accuracy, completeness, or timeliness of the information provided."
+        content: "All content, including articles, videos, graphics, and logos, are protected by copyright and are the property of Media Point Broadcasting Pvt. Ltd. Unauthorized reproduction is prohibited."
       },
       {
         type: "content",
         title: "Limitation of Liability",
-        content: "Bawal News shall not be liable for any indirect, incidental, special, or consequential damages arising out of or in connection with your use of our website."
+        content: "Media Point Broadcasting Pvt. Ltd. will not be liable for any direct or indirect damages arising from the use of our website, reliance on any content, or technical issues beyond our control."
       },
       {
         type: "content",
-        title: "Changes to Terms",
-        content: "We reserve the right to modify these Terms and Conditions at any time. Your continued use of the website after such modifications constitutes your acceptance of the updated terms."
-      },
-      {
-        type: "content",
-        title: "Contact Us",
-        content: "If you have any questions about these Terms and Conditions, please contact us at legal@bawalnews.com."
+        title: "Governing Law",
+        content: "These Terms are governed by the laws of India. Any disputes shall fall under the exclusive jurisdiction of the courts in RANCHI JURISDICTION."
       }
     ],
-    lastUpdated: "2024-01-15"
+    lastUpdated: "19 Sep 2025"
   },
   cookies: {
     title: "Cookie Policy",
-    description: "Learn about how Bawal News uses cookies and similar technologies to enhance your browsing experience.",
+    description: "Learn about how Naxatra News Hindi uses cookies and similar technologies to enhance your browsing experience.",
     sections: [
       {
         type: "hero",
         title: "Cookie Policy",
-        content: "This Cookie Policy explains how Bawal News uses cookies and similar technologies when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them."
-      },
-      {
-        type: "content",
-        title: "What Are Cookies?",
-        content: "Cookies are small text files that are placed on your device when you visit a website. They are widely used to make websites work more efficiently and provide information to website owners."
-      },
-      {
-        type: "content",
-        title: "How We Use Cookies",
-        content: "We use cookies for various purposes, including: (1) To remember your preferences and settings; (2) To analyze how you use our website; (3) To provide personalized content and advertisements; and (4) To improve our website's functionality and user experience."
+        content: "This Cookies Policy explains how Naxatra News Hindi uses cookies and similar technologies to improve your browsing experience and recognize your device."
       },
       {
         type: "features",
@@ -320,49 +214,93 @@ export const staticPagesData: any = {
         items: [
           {
             title: "Essential Cookies",
-            description: "These cookies are necessary for the website to function properly. They enable basic functions like page navigation and access to secure areas."
+            description: "Required for website functionality, security, and navigation."
           },
           {
-            title: "Analytics Cookies",
-            description: "These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously."
+            title: "Performance & Analytics",
+            description: "Collect anonymous data via tools like Google Analytics to improve site performance."
+          },
+          {
+            title: "Advertising & Targeting",
+            description: "Used by third-party partners (Google Ads/AdSense) for personalized ads."
           },
           {
             title: "Functional Cookies",
-            description: "These cookies allow the website to remember choices you make and provide enhanced, personalized features."
-          },
-          {
-            title: "Advertising Cookies",
-            description: "These cookies are used to deliver advertisements that are relevant to you and your interests."
+            description: "Remember your preferences (language, region, font size) for a customized experience."
           }
         ]
       },
       {
         type: "content",
-        title: "Third-Party Cookies",
-        content: "In addition to our own cookies, we may also use various third-party cookies to report usage statistics, deliver advertisements, and provide other services."
-      },
-      {
-        type: "content",
-        title: "Managing Cookies",
-        content: "You can control and manage cookies in various ways. Most web browsers allow you to control cookies through their settings. However, please note that disabling cookies may affect the functionality of our website."
-      },
-      {
-        type: "content",
-        title: "Your Consent",
-        content: "By continuing to use our website, you consent to our use of cookies in accordance with this Cookie Policy. If you do not agree to our use of cookies, please adjust your browser settings accordingly."
-      },
-      {
-        type: "content",
-        title: "Updates to This Policy",
-        content: "We may update this Cookie Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. Please review this page periodically for the latest information."
-      },
-      {
-        type: "content",
-        title: "Contact Us",
-        content: "If you have any questions about our use of cookies, please contact us at privacy@bawalnews.com."
+        title: "How to Control Cookies",
+        content: "You can manage or disable cookies in your browser settings. Note that disabling essential cookies may affect website functionality, and disabling ad cookies won't remove ads but will make them less relevant."
       }
     ],
-    lastUpdated: "2024-01-15"
+    lastUpdated: "17 Sep 2025"
+  },
+  disclaimer: {
+    title: "Disclaimer",
+    description: "Please read this Disclaimer carefully before using our website and content.",
+    sections: [
+      {
+        type: "hero",
+        title: "Disclaimer",
+        content: "The information provided on Naxatra News Hindi is published in good faith and for general information and news reporting purposes only. Media Point Broadcasting Pvt. Ltd. makes no warranties about its completeness, reliability, or accuracy."
+      },
+      {
+        type: "content",
+        title: "No Responsibility for Errors",
+        content: "While we strive for accuracy, we do not guarantee that all news is free from errors. Any action you take based on the information found on this website is strictly at your own risk."
+      },
+      {
+        type: "content",
+        title: "Editorial Independence",
+        content: "Views expressed by contributors do not necessarily reflect the official policy of the company. We maintain editorial independence and neutrality in our reporting."
+      },
+      {
+        type: "content",
+        title: "Limitation of Liability",
+        content: "Media Point Broadcasting Pvt. Ltd. will not be liable for any losses, damages, or consequences arising from the use of our website or reliance on our content."
+      }
+    ],
+    lastUpdated: "15 Aug 2025"
+  },
+  careers: {
+    title: "Join Our Team",
+    description: "Help us deliver the latest news and stories to millions of readers worldwide.",
+    sections: [
+      {
+        type: "hero",
+        title: "Join Our Team",
+        content: "We're always looking for passionate journalists, editors, and innovators to help us redefine news coverage for the digital age."
+      },
+      {
+        type: "features",
+        title: "Why Join Us?",
+        items: [
+          {
+            title: "Collaborative Culture",
+            description: "Work with talented individuals who share your passion for journalism and innovation."
+          },
+          {
+            title: "Growth Opportunities",
+            description: "Advance your career with continuous learning and development programs."
+          },
+          {
+            title: "Flexible Work",
+            description: "Enjoy work-life balance with remote options and flexible schedules."
+          }
+        ]
+      },
+      {
+        type: "cta",
+        title: "Don't see a perfect fit?",
+        content: "We're always looking for talented individuals to join our team. Send us your resume and we'll keep you in mind for future opportunities.",
+        buttonText: "Send Resume",
+        buttonLink: "mailto:media@naxatraindia.com"
+      }
+    ],
+    lastUpdated: "30 Jan 2026"
   }
 }
 

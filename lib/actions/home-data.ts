@@ -72,10 +72,10 @@ const HOME_DATA_CONFIG = {
     bihar: "bihar",
     national: "national",
     technology: ["technology", "tech", "technologies"],
-    politics: "politics",
-    sports: "sports",
-    entertainment: "entertainment",
-    crime: "crime",
+    politics: "rajneeti",
+    sports: "khel",
+    entertainment: "manoranjan",
+    crime: "apradh",
   },
   // Fallback Titles
   titles: {
@@ -173,14 +173,14 @@ function processFeaturedSection(
   const breakingAll = mapArrayToFeaturedArticles(breakingRaw);
 
   // 1a. Main & Middle (Priority 1)
-  const featuredPool = deduplicator.getUnique(featuredAll, 4); // 1 Main + 3 Middle
+  const featuredPool = deduplicator.getUnique(featuredAll, 7); // 1 Main + 6 Middle
   const mainFeatured = featuredPool[0] || null;
-  const middleFeatured = featuredPool.slice(1, 4);
+  const middleFeatured = featuredPool.slice(1, 7);
 
   // 1b. Right Column (Most Viewed)
-  const mostViewedPool = deduplicator.getUnique(mostViewedAll, 4); // 1 Top + 3 List
+  const mostViewedPool = deduplicator.getUnique(mostViewedAll, 7); // 1 Top + 3 List
   const rightTopFeatured = mostViewedPool[0] || null;
-  const rightListMostViewed = mostViewedPool.slice(1, 4);
+  const rightListMostViewed = mostViewedPool.slice(0, 7);
 
   // 1c. Breaking News
   const breakingNews = deduplicator.getUnique(breakingAll, 12);

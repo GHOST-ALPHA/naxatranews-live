@@ -1,6 +1,11 @@
 import Link from "next/link"
 import SectionHeader from "../SectionHeader"
 import { OptimizedArticleImage } from "@/components/news/optimized-article-image"
+import dynamic from "next/dynamic"
+
+const MultiCityWeather = dynamic(() => import("@/components/widgets/multi-city-weather").then(mod => mod.MultiCityWeather), {
+  loading: () => <div className="w-full h-64 bg-muted/10 animate-pulse rounded-sm" />
+})
 
 interface Article {
   id: string
@@ -53,49 +58,49 @@ export function ContentSidebarSection({
   }
 
   return (
-    <div className="w-full border-t-2 border-black mb-6">
+    <div className="w-full border-t-2 border-black mb-6 feature-section-font">
       <div className="container mx-auto px-4 py-8 lg:py-12">
-        <div className="flex flex-col lg:flex-row gap-6 lg:gap-6">
-          {/* Main Content Area - 80% on desktop */}
-          <div className="w-full lg:w-[calc(75%-1.5rem)] space-y-8 ">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
+          {/* Main Content Area - 75% on desktop */}
+          <div className="w-full lg:w-[calc(75%-2.5rem)] space-y-10 ">
             {/* Featured Article with Video */}
             {featuredArticle && (
-              <div className="pb-6 border-b-2 border-border">
+              <div className="pb-8 border-b border-border/50">
                 {/* Category Badge */}
-                <SectionHeader title="झारखंड" />
+                <SectionHeader title="झारखंड" href="/category/jharkhand" />
 
                 <article>
                   {/* Featured Content Grid */}
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
                     {/* Left: Title and Text */}
-                    <div className="lg:col-span-4 space-y-4">
-                      <Link href={`/news/${featuredArticle.id}`} className="group hover:text-red-500">
-                        <h1 className="content-title leading-tight transition-colors duration-200">
+                    <div className="lg:col-span-4 space-y-5">
+                      <Link href={`/news/${featuredArticle.id}`} className="group transition-colors hover:text-red-500">
+                        <h2 className="leading-tight transition-colors group-hover:text-red-600 hindi-clamp hindi-clamp-4" title={featuredArticle.title}>
                           {featuredArticle.title}
-                        </h1>
+                        </h2>
                       </Link>
 
                       {/* Author and Date */}
                       {featuredArticle.author && featuredArticle.date && (
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground uppercase tracking-wider font-medium">
                           <span>By</span>
-                          <span className="font-semibold text-foreground uppercase tracking-wide">
+                          <span className="text-foreground">
                             {featuredArticle.author}
                           </span>
                           <span>—</span>
-                          <time className="text-muted-foreground">{featuredArticle.date}</time>
+                          <time>{featuredArticle.date}</time>
                         </div>
                       )}
 
                       {/* Excerpt */}
                       {featuredArticle.excerpt && (
-                        <p className="text-muted-foreground leading-relaxed">{featuredArticle.excerpt}</p>
+                        <p className="feature-section-description hindi-clamp hindi-clamp-4">{featuredArticle.excerpt}</p>
                       )}
                     </div>
 
                     {/* Right: Video/Image */}
                     <div className="lg:col-span-8">
-                      <Link href={`/news/${featuredArticle.id}`} className="group block hover:text-red-500">
+                      <Link href={`/news/${featuredArticle.id}`} className="group block overflow-hidden rounded-sm hover:shadow-lg transition-all">
                         <OptimizedArticleImage
                           src={featuredArticle.image || "/placeholder.svg?height=600&width=1200"}
                           alt={featuredArticle.title}
@@ -103,8 +108,8 @@ export function ContentSidebarSection({
                           priority
                           sizes="(max-width: 1024px) 100vw, 60vw"
                           aspectRatio="video"
-                          className="rounded-sm"
-                          imageClassName="group-hover:scale-105"
+                          className="w-full h-full"
+                          imageClassName="transition-transform duration-500 group-hover:scale-105"
                           showPlayButton={featuredArticle.isVideo}
                         />
                       </Link>
@@ -113,11 +118,11 @@ export function ContentSidebarSection({
                 </article>
 
                 {jharkhandSupporting.length > 0 && (
-                  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-border">
+                  <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-border/50">
                     {jharkhandSupporting.map((article) => (
-                      <article key={article.id}>
-                        <Link href={`/news/${article.id}`} className="group block hover:text-red-500 ">
-                          <h3 className="headlines-title transition-colors duration-200 group-hover:text-primary hover:font-semibold">
+                      <article key={article.id} className="group">
+                        <Link href={`/news/${article.id}`} className="block transition-colors hover:text-red-600">
+                          <h3 className="headlines-title hindi-clamp hindi-clamp-3 transition-colors group-hover:text-red-600">
                             {article.title}
                           </h3>
                         </Link>
@@ -128,26 +133,27 @@ export function ContentSidebarSection({
 
                 {/* Jharkhand Bottom News (Image + Title) */}
                 {jharkhandBottom && jharkhandBottom.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-border">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="mt-6 pt-6 border-t border-border/50">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {jharkhandBottom.map((article) => (
-                        <article key={article.id}>
-                          <Link href={`/news/${article.id}`} className="group flex gap-4 hover:text-red-500">
-                            <div className="relative w-24 h-24 flex-shrink-0 overflow-hidden rounded-md bg-muted">
-                              <OptimizedArticleImage
-                                src={article.image || "/placeholder.svg?height=96&width=96"}
-                                alt={article.title}
-                                priority
-                                sizes="(max-width: 768px) 100vw, 60vw"
-                                aspectRatio="16/9"
-                                imageClassName="group-hover:scale-105" />
-                            </div>
-                            <div className="flex flex-col justify-center">
-                              <h4 className="text-sm font-medium line-clamp-3 leading-snug group-hover:text-red-500 transition-colors">
-                                {article.title}
-                              </h4>
-                            </div>
+                        <article key={article.id} className="group flex gap-4">
+                          <Link href={`/news/${article.id}`} className="relative w-28 h-20 flex-shrink-0 overflow-hidden rounded-sm bg-muted shadow-sm group-hover:shadow-md transition-all">
+                            <OptimizedArticleImage
+                              src={article.image || "/placeholder.svg?height=96&width=96"}
+                              alt={article.title}
+                              priority
+                              sizes="120px"
+                              aspectRatio="16/9"
+                              className="w-full h-full"
+                              imageClassName="transition-transform duration-500 group-hover:scale-110" />
                           </Link>
+                          <div className="flex flex-col justify-center">
+                            <Link href={`/news/${article.id}`} className="transition-colors hover:text-red-600">
+                              <h3 className="headlines-title hindi-clamp hindi-clamp-3 group-hover:text-red-600" title={article.title}>
+                                {article.title}
+                              </h3>
+                            </Link>
+                          </div>
                         </article>
                       ))}
                     </div>
@@ -158,27 +164,27 @@ export function ContentSidebarSection({
 
             {/* Politics and More News - Two Column Layout */}
             {(biharPrimary.length > 0 || biharSecondary.length > 0) && (
-              <section>
-                <SectionHeader title="बिहार" />
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-6">
+              <section className="space-y-6">
+                <SectionHeader title="बिहार" href="/category/bihar" />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                   {biharPrimary.length > 0 && (
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       {biharPrimary.map((article) => (
-                        <article key={article.id} className="flex gap-4 group cursor-pointer items-center">
-                          <Link href={`/news/${article.id}`} className="group hover:font-semi-bold flex-shrink-0 w-24 h-16">
+                        <article key={article.id} className="group flex gap-4 py-1">
+                          <Link href={`/news/${article.id}`} className="flex-shrink-0 w-28 h-20 overflow-hidden rounded-sm bg-muted shadow-sm group-hover:shadow-md transition-all">
                             <OptimizedArticleImage
                               src={article.image || "/placeholder.svg?height=600&width=1200"}
                               alt={article.title}
-                              sizes="96px"
+                              sizes="120px"
                               aspectRatio="3/2"
-                              className="rounded"
-                              imageClassName="group-hover:scale-110"
+                              className="w-full h-full"
+                              imageClassName="transition-transform duration-500 group-hover:scale-110"
                             />
                           </Link>
-                          <Link href={`/news/${article.id}`} className="group ">
-                            <h4 className="font-bold text-sm leading-snug group-hover:text-red-600 transition-colors line-clamp-3">
+                          <Link href={`/news/${article.id}`} className="flex-1 transition-colors hover:text-red-600">
+                            <h3 className="content-title hindi-clamp hindi-clamp-3 group-hover:text-red-600" title={article.title}>
                               {article.title}
-                            </h4>
+                            </h3>
                           </Link>
                         </article>
                       ))}
@@ -186,38 +192,37 @@ export function ContentSidebarSection({
                   )}
 
                   {biharSecondary.length > 0 && (
-                    <div className="space-y-4 border-l border-border lg:pl-6">
+                    <div className="space-y-8 border-l border-border/50 lg:pl-8">
                       {biharSecondary.map((article, index) => (
-                        <article key={article.id} className="pb-4 last:pb-0 border-border">
+                        <article key={article.id} className="group pb-6 last:pb-0 border-b border-border/30 last:border-0">
                           {index === 0 && article.image ? (
-                            <div className="space-y-4">
-                              <Link href={`/news/${article.id}`} className="group hover:text-red-600">
-                                <h3 className="font-serif text-xl lg:text-2xl font-bold leading-tight text-foreground transition-colors duration-200">
+                            <div className="space-y-5">
+                              <Link href={`/news/${article.id}`} className="block transition-colors hover:text-red-600">
+                                <h1 className="leading-tight group-hover:text-red-600 hindi-clamp hindi-clamp-4" title={article.title}>
                                   {article.title}
-                                </h3>
+                                </h1>
                               </Link>
-                              <Link href={`/news/${article.id}`} className="group block">
+                              <Link href={`/news/${article.id}`} className="block overflow-hidden rounded-sm shadow-md group-hover:shadow-lg transition-all">
                                 <OptimizedArticleImage
                                   src={article.image || "/placeholder.svg?height=600&width=1200"}
                                   alt={article.title}
                                   sizes="(max-width: 1024px) 100vw, 40vw"
                                   aspectRatio="video"
-                                  className="rounded-sm"
-                                  imageClassName="group-hover:scale-105"
+                                  className="w-full h-full"
+                                  imageClassName="transition-transform duration-500 group-hover:scale-105"
                                 />
                               </Link>
                               {article.excerpt && (
-                                <p className="text-sm text-muted-foreground leading-relaxed">{article.excerpt}</p>
+                                <p className="feature-section-description hindi-clamp hindi-clamp-3">{article.excerpt}</p>
                               )}
                             </div>
                           ) : (
-                            <Link href={`/news/${article.id}`} className="group block">
-                              <h4 className="headlines-sub-title leading-tight text-foreground group-hover:text-red-600 transition-colors duration-200">
+                            <Link href={`/news/${article.id}`} className="block transition-colors hover:text-red-600">
+                              <h3 className="content-title hindi-clamp hindi-clamp-3 transition-colors group-hover:text-red-600" title={article.title}>
                                 {article.title}
-                              </h4>
+                              </h3>
                             </Link>
                           )}
-                          {index < biharSecondary.length - 1 && <div className="mt-4 border-b border-border" />}
                         </article>
                       ))}
                     </div>
@@ -226,33 +231,35 @@ export function ContentSidebarSection({
               </section>
             )}
           </div>
-          <span className="border-r " />
-          {/* Sidebar - 20% on desktop */}
-          <aside className="w-full lg:w-[calc(25%-1.5rem)] space-y-6 lg:sticky lg:top-24 lg:self-start">
+
+          <span className="hidden lg:block border-r border-border/50" />
+
+          {/* Sidebar - 25% on desktop */}
+          <aside className="w-full lg:w-[calc(25%-1.5rem)] space-y-8 lg:sticky lg:top-24 lg:self-start">
             {/* Top Featured Sidebar Article with Circular Image */}
             {sidebarTopArticle && (
-              <div className="pb-6 border-b border-border">
-                <article className="space-y-5">
-                  <Link href={`/news/${sidebarTopArticle.id}`} className="group block">
+              <div className="pb-8 border-b border-border/50">
+                <article className="space-y-4">
+                  <Link href={`/news/${sidebarTopArticle.id}`} className="group block overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-all">
                     <OptimizedArticleImage
                       src={sidebarTopArticle.image || "/placeholder.svg?height=600&width=1200"}
                       alt={sidebarTopArticle.title}
-                      sizes="200px"
+                      sizes="(max-width: 1024px) 100vw, 25vw"
                       aspectRatio="3/2"
-                      className="mb-2 rounded-sm"
-                      imageClassName="group-hover:scale-105"
+                      className="w-full h-full"
+                      imageClassName="transition-transform duration-500 group-hover:scale-105"
                     />
                   </Link>
-                  <div className="text-center lg:text-left">
-                    <Link href={`/news/${sidebarTopArticle.id}`} className="group hover:text-red-600">
-                      <h3 className="feature-section-font duration-200">
+                  <div className="text-left">
+                    <Link href={`/news/${sidebarTopArticle.id}`} className="group block transition-colors hover:text-red-600">
+                      <span className="content-title leading-snug transition-colors group-hover:text-red-600 hindi-clamp hindi-clamp-4" title={sidebarTopArticle.title}>
                         {sidebarTopArticle.title}
-                      </h3>
+                      </span>
                     </Link>
                     {sidebarTopArticle.author && (
-                      <p className="text-xs text-muted-foreground mt-3">
+                      <p className="text-xs text-muted-foreground mt-3 font-medium uppercase tracking-wider">
                         By{" "}
-                        <span className="font-semibold text-foreground uppercase tracking-wide">
+                        <span className="text-foreground">
                           {sidebarTopArticle.author}
                         </span>
                       </p>
@@ -264,32 +271,31 @@ export function ContentSidebarSection({
 
             {/* Columns Section */}
             {sidebarColumns.length > 0 && (
-              <section className="pb-6 border-b border-border">
-
-                <div className="space-y-8">
+              <section className="pb-8 border-b border-border/50">
+                <div className="space-y-6">
                   {sidebarColumns.slice(0, 5).map((item) => (
-                    <article key={item.id} className="flex gap-4 items-start">
+                    <article key={item.id} className="group flex gap-3 items-start">
                       <div className="flex-1 min-w-0">
-                        <Link href={`/news/${item.id}`} className="group hover:text-red-600">
-                          <h4 className="expert transition-colors duration-200">
+                        <Link href={`/news/${item.id}`} className="block transition-colors hover:text-red-600">
+                          <span className="headlines-title hindi-clamp hindi-clamp-3 transition-colors group-hover:text-red-600" title={item.title}>
                             {item.title}
-                          </h4>
+                          </span>
                         </Link>
                         {item.author && (
-                          <p className="text-xs text-muted-foreground mt-2">
+                          <p className="text-[10px] text-muted-foreground mt-2 font-bold uppercase tracking-widest">
                             By{" "}
-                            <span className="font-semibold text-foreground uppercase tracking-wide">{item.author}</span>
+                            <span className="text-foreground">{item.author}</span>
                           </p>
                         )}
                       </div>
-                      <Link href={`/news/${item.id}`} className="group flex-shrink-0 w-20 h-20 lg:w-24 lg:h-24">
+                      <Link href={`/news/${item.id}`} className="flex-shrink-0 w-20 h-20 overflow-hidden rounded-sm shadow-sm group-hover:shadow-md transition-all">
                         <OptimizedArticleImage
                           src={item.image || "/placeholder.svg?height=600&width=1200"}
                           alt={item.title}
-                          sizes="96px"
+                          sizes="80px"
                           aspectRatio="square"
-                          className="rounded"
-                          imageClassName="group-hover:scale-110"
+                          className="w-full h-full"
+                          imageClassName="transition-transform duration-500 group-hover:scale-110"
                         />
                       </Link>
                     </article>
@@ -300,17 +306,16 @@ export function ContentSidebarSection({
 
             {/* Opinion Section - 2 Column Grid */}
             {sidebarOpinion && (
-              <section className="pb-10 border-b border-border">
-
+              <section className="pb-10 border-b border-border/50">
                 <div className="grid grid-cols-2 gap-6">
                   {/* Left Column */}
                   <div className="space-y-6">
                     {sidebarOpinion.left.map((article) => (
-                      <article key={article.id}>
-                        <Link href={`/news/${article.id}`} className="group ">
-                          <h4 className="font-serif text-sm lg:text-base font-bold leading-tight text-foreground group-hover:text-red-600 transition-colors duration-200">
+                      <article key={article.id} className="group">
+                        <Link href={`/news/${article.id}`} className="block transition-colors hover:text-red-600">
+                          <span className="hindi-clamp hindi-clamp-3 text-sm transition-colors group-hover:text-red-600" title={article.title}>
                             {article.title}
-                          </h4>
+                          </span>
                         </Link>
                       </article>
                     ))}
@@ -318,11 +323,11 @@ export function ContentSidebarSection({
                   {/* Right Column */}
                   <div className="space-y-6">
                     {sidebarOpinion.right.map((article) => (
-                      <article key={article.id}>
-                        <Link href={`/news/${article.id}`} className="group">
-                          <h4 className="font-serif text-sm lg:text-base font-bold leading-tight text-foreground group-hover:text-red-600 transition-colors duration-200">
+                      <article key={article.id} className="group">
+                        <Link href={`/news/${article.id}`} className="block transition-colors hover:text-red-600">
+                          <span className="hindi-clamp hindi-clamp-3 text-sm transition-colors group-hover:text-red-600" title={article.title}>
                             {article.title}
-                          </h4>
+                          </span>
                         </Link>
                       </article>
                     ))}
@@ -331,27 +336,13 @@ export function ContentSidebarSection({
               </section>
             )}
 
-            {/* Advertisement Space - SMARTMAG */}
-            <div className="relative overflow-hidden rounded-lg bg-gradient-to-br from-red-600 via-red-700 to-red-900 p-8 lg:p-10 text-white text-center shadow-xl">
-              <div className="relative z-10 space-y-6">
-                <p className="text-xs font-bold uppercase tracking-widest opacity-90">The New</p>
-                <h3 className="text-4xl lg:text-5xl font-bold tracking-tight">Bawal News</h3>
-                <p className="text-sm opacity-90 max-w-[200px] mx-auto">
-                  Trusted by over <span className="font-bold">10000</span> users worldwide
-                </p>
-                <button className="inline-block bg-white text-red-600 px-8 py-3 rounded-full font-bold text-sm uppercase tracking-wide hover:bg-gray-100 hover:shadow-lg transition-all duration-200 transform hover:scale-105">
-                  Get Started
-                </button>
-              </div>
-              {/* Decorative background pattern */}
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full -translate-y-1/2 translate-x-1/2" />
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-white rounded-full translate-y-1/2 -translate-x-1/2" />
-              </div>
+            {/* Weather Widget */}
+            <div className="sticky top-24">
+              <MultiCityWeather />
             </div>
           </aside>
         </div>
       </div>
     </div>
-  )
+  );
 }

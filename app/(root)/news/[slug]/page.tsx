@@ -8,11 +8,24 @@ import { ArticleHeader } from "./_components/article-header"
 import { ArticleContent } from "./_components/article-content"
 import { AuthorBio } from "./_components/author-bio"
 import { RelatedPosts } from "./_components/related-posts"
-import { CommentsSection } from "./_components/comments-section"
-import { SocialSidebar } from "./_components/social-sidebar"
 import { TrackView } from "./_components/track-view"
-import { AdInline } from "@/components/ads/ad-inline"
 import type { Article } from "@/constants/news-data"
+import dynamic from "next/dynamic"
+
+// Dynamic Components for Performance
+const CommentsSection = dynamic(() => import("./_components/comments-section").then(mod => mod.CommentsSection), {
+  loading: () => <div className="w-full h-32 bg-muted/5 animate-pulse my-8" />
+})
+
+const SocialSidebar = dynamic(() => import("./_components/social-sidebar").then(mod => mod.SocialSidebar), {
+  ssr: true, // Keep sidebar SSR for layout, but can be prioritized lower? actually sticky needs to be there. Let's keep it default or simple.
+  // Actually, social buttons are client interaction heavily. Let's lazy load it.
+  loading: () => <div className="w-12 h-64 bg-muted/5 animate-pulse hidden lg:block sticky top-24" />
+})
+
+const AdInline = dynamic(() => import("@/components/ads/ad-inline").then(mod => mod.AdInline), {
+  loading: () => <div className="w-full h-32 bg-muted/5 animate-pulse my-12" />
+})
 
 export const revalidate = 60
 

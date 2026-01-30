@@ -3,10 +3,10 @@ import { StaticPageLayout } from "@/components/static-pages/static-page-layout"
 import { staticPagesData } from "@/lib/data/static-pages"
 
 export const metadata: Metadata = {
-  title: "DMCA Policy | Bawal News",
+  title: "DMCA Policy | Naxatra News Hindi",
   description: staticPagesData.dmca.description,
   openGraph: {
-    title: "DMCA Policy | Bawal News",
+    title: "DMCA Policy | Naxatra News Hindi",
     description: staticPagesData.dmca.description,
     type: "website",
   },

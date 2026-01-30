@@ -5,7 +5,8 @@ import {
   Inter,
   Mulish,
   Noto_Sans_Mono,
-  Noto_Sans_Devanagari
+  Noto_Sans_Devanagari,
+  Khand
 } from 'next/font/google';
 
 import { cn } from '@/lib/utils';
@@ -56,6 +57,13 @@ const fontHindi = Noto_Sans_Devanagari({
   preload: true,
 });
 
+const fontKhand = Khand({
+  subsets: ['devanagari', 'latin'],
+  variable: '--font-khand',
+  weight: ['300', '400', '500', '600', '700'],
+  display: 'swap',
+});
+
 export const fontVariables = cn(
   fontSans.variable,
   fontMono.variable,
@@ -63,5 +71,6 @@ export const fontVariables = cn(
   fontNotoMono.variable,
   fontMullish.variable,
   fontInter.variable,
-  fontHindi.variable
+  fontHindi.variable,
+  fontKhand.variable
 );

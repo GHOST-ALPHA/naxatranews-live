@@ -16,7 +16,7 @@ interface AdSidebarProps {
 
 async function AdSidebarContent({ showDefault = true, position = 0 }: { showDefault: boolean; position: number }) {
   let ad: AdDisplay | null = null;
-  
+
   try {
     const ads = await getActiveAdsByZone("sidebar", 5); // Fetch up to 5 ads
     ad = ads[position] || null;
@@ -41,7 +41,7 @@ export function AdSidebar({ className, limit = 1, showDefault = true, position =
     <div className={className}>
       <Suspense
         fallback={
-          <div className="w-full aspect-[3/4] max-w-[300px] bg-muted rounded-lg animate-pulse border border-border" />
+          <div className="w-full aspect-[3/4] max-w-[300px] bg-muted rounded-sm animate-pulse border border-border" />
         }
       >
         <AdSidebarContent showDefault={showDefault} position={position} />

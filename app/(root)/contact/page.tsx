@@ -3,10 +3,10 @@ import { StaticPageLayout } from "@/components/static-pages/static-page-layout"
 import { staticPagesData } from "@/lib/data/static-pages"
 
 export const metadata: Metadata = {
-  title: "Contact Us | Bawal News",
+  title: "Contact Us | Naxatra News Hindi",
   description: staticPagesData.contact.description,
   openGraph: {
-    title: "Contact Us | Bawal News",
+    title: "Contact Us | Naxatra News Hindi",
     description: staticPagesData.contact.description,
     type: "website",
   },
