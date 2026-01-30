@@ -102,7 +102,7 @@ export function ContentSidebarSection({
                     <div className="lg:col-span-8">
                       <Link href={`/news/${featuredArticle.id}`} className="group block overflow-hidden rounded-sm hover:shadow-lg transition-all">
                         <OptimizedArticleImage
-                          src={featuredArticle.image || "/placeholder.svg?height=600&width=1200"}
+                          src={featuredArticle.image || "/assets/newsplaceholder.webp"}
                           alt={featuredArticle.title}
                           videoUrl={featuredArticle.isVideo ? featuredArticle.image : undefined}
                           priority
@@ -139,7 +139,7 @@ export function ContentSidebarSection({
                         <article key={article.id} className="group flex gap-4">
                           <Link href={`/news/${article.id}`} className="relative w-28 h-20 flex-shrink-0 overflow-hidden rounded-sm bg-muted shadow-sm group-hover:shadow-md transition-all">
                             <OptimizedArticleImage
-                              src={article.image || "/placeholder.svg?height=96&width=96"}
+                              src={article.image || "/assets/newsplaceholder.webp"}
                               alt={article.title}
                               priority
                               sizes="120px"
@@ -173,7 +173,7 @@ export function ContentSidebarSection({
                         <article key={article.id} className="group flex gap-4 py-1">
                           <Link href={`/news/${article.id}`} className="flex-shrink-0 w-28 h-20 overflow-hidden rounded-sm bg-muted shadow-sm group-hover:shadow-md transition-all">
                             <OptimizedArticleImage
-                              src={article.image || "/placeholder.svg?height=600&width=1200"}
+                              src={article.image || "/assets/newsplaceholder.webp"}
                               alt={article.title}
                               sizes="120px"
                               aspectRatio="3/2"
@@ -204,7 +204,7 @@ export function ContentSidebarSection({
                               </Link>
                               <Link href={`/news/${article.id}`} className="block overflow-hidden rounded-sm shadow-md group-hover:shadow-lg transition-all">
                                 <OptimizedArticleImage
-                                  src={article.image || "/placeholder.svg?height=600&width=1200"}
+                                  src={article.image || "/assets/newsplaceholder.webp"}
                                   alt={article.title}
                                   sizes="(max-width: 1024px) 100vw, 40vw"
                                   aspectRatio="video"
@@ -242,7 +242,7 @@ export function ContentSidebarSection({
                 <article className="space-y-4">
                   <Link href={`/news/${sidebarTopArticle.id}`} className="group block overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-all">
                     <OptimizedArticleImage
-                      src={sidebarTopArticle.image || "/placeholder.svg?height=600&width=1200"}
+                      src={sidebarTopArticle.image || "/assets/newsplaceholder.webp"}
                       alt={sidebarTopArticle.title}
                       sizes="(max-width: 1024px) 100vw, 25vw"
                       aspectRatio="3/2"
@@ -290,7 +290,7 @@ export function ContentSidebarSection({
                       </div>
                       <Link href={`/news/${item.id}`} className="flex-shrink-0 w-20 h-20 overflow-hidden rounded-sm shadow-sm group-hover:shadow-md transition-all">
                         <OptimizedArticleImage
-                          src={item.image || "/placeholder.svg?height=600&width=1200"}
+                          src={item.image || "/assets/newsplaceholder.webp"}
                           alt={item.title}
                           sizes="80px"
                           aspectRatio="square"

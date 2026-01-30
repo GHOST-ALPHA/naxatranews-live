@@ -13,7 +13,7 @@ export function NewsCard({ article }: NewsCardProps) {
     <article className="group flex flex-col md:flex-row gap-6 space-y-6 border-b border-zinc-800 ">
       <Link href={`/news/${article.slug}`} className="w-full md:w-64 h-48 md:h-40 flex-shrink-0">
         <OptimizedArticleImage
-          src={article.image || "/placeholder.svg?height=600&width=1200"}
+          src={article.image || "/assets/newsplaceholder.webp"}
           alt={article.title}
           videoUrl={article.video}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

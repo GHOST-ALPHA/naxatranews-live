@@ -37,7 +37,7 @@ export function OrgSwitcher({
                 <GalleryVerticalEnd className='size-4' />
               </div>
               <div className='flex flex-col gap-0.5 leading-none'>
-                <span className='font-semibold'>Bawal Panel</span>
+                <span className='font-semibold'>Naxatra Panel</span>
                 <span className=''>{activeUser}</span>
               </div>
               <ChevronsUpDown className='ml-auto' />

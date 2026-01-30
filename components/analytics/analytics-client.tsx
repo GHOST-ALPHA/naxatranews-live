@@ -63,7 +63,7 @@ export function AnalyticsClient({ initialData, initialDays }: AnalyticsClientPro
           <div>
             <h1 className="text-3xl font-bold">Analytics & Overview</h1>
             <p className="text-muted-foreground mt-2">
-              Comprehensive analytics dashboard for Bawal News
+              Comprehensive analytics dashboard for Naxatra News
             </p>
           </div>
           <Select value={String(days)} onValueChange={handleDaysChange}>

@@ -133,8 +133,8 @@ export function SocialSidebar() {
           size="icon"
           onClick={() =>
             nativeShare({
-              title: "Bawal News",
-              text: "Read this breaking news on Bawal News",
+              title: "Naxatra News",
+              text: "Read this breaking news on Naxatra News",
               url: window.location.href,
             })
           }

@@ -196,10 +196,10 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
               >
                 {/* Logo Icon (Always Visible & Centered on Mobile) */}
                 <div className="flex h-9 sm:h-6 md:h-10 w-auto items-center justify-center">
-                  <Image src="/logo/logo.png" alt="Bawal_News" width={140} height={140} />
+                  <Image src="/logo/logo.png" alt="Naxatra_News" width={140} height={140} />
                 </div>
               </a>
-            
+
               <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetTrigger asChild>
                   <Button variant="noting" size="icon" aria-label="Toggle menu" className="h-9 w-9 cursor-pointer">
@@ -215,11 +215,11 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
                   <div className="flex items-center justify-between p-3 border-b border-border">
                     <SheetTitle className="flex items-center gap-2 m-0 p-0">
 
-                      <Image src="/logo/logo.png" alt="Bawal_News" width={40} height={40} />
+                      <Image src="/logo/logo.png" alt="Naxatra_News" width={40} height={40} />
                       {/* Compact Text */}
                       <div className="flex flex-col items-start">
                         <span className="font-bold text-base leading-none bg-gradient-to-r from-[#FF9933] to-[#138808] bg-clip-text text-transparent">
-                          Bawal News
+                          Naxatra News
                         </span>
                         <span className="text-[10px] mt-0.5 font-medium text-muted-foreground">
                           खबरें जो आपको जगा दे
@@ -307,7 +307,7 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
                     {/* Ultra Compact Credits */}
                     <div className="text-center pt-1">
                       <p className="text-[10px] text-muted-foreground">
-                        © {new Date().getFullYear()} Bawal News
+                        © {new Date().getFullYear()} Naxatra News
                       </p>
                     </div>
                   </div>
@@ -315,9 +315,9 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
               </Sheet>
               <div
                 className=
-                  "flex items-center justify-center group relative md:hidden pl-2"
+                "flex items-center justify-center group relative md:hidden pl-2"
               >
-                <Image src="/logo/logo.png" alt="Bawal_News" width={50} height={50} />
+                <Image src="/logo/logo.png" alt="Naxatra_News" width={50} height={50} />
 
               </div>
 
@@ -366,15 +366,15 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
                   "absolute left-0 top-0 w-full h-full flex items-center px-4 transition-all duration-200 ease-in-out z-50",
                   isMobileSearchOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none",
                 )}
-              > 
+              >
                 <div className="relative w-full max-w-md mx-auto">
                   <SearchBar variant="mobile" onClose={() => setIsMobileSearchOpen(false)} />
                 </div>
               </div>
-                 <Button variant="ghost" size="icon" className="cursor-pointer hover:scale-110 transition-all duration-200 ease-in-out hover:text-white">
+              <Button variant="ghost" size="icon" className="cursor-pointer hover:scale-110 transition-all duration-200 ease-in-out hover:text-white">
                 <IconDeviceTv className="h-6 w-6 text-red-500" />
-               </Button>
-              
+              </Button>
+
               {/* notification */}
               <Notification />
               <Button
@@ -402,7 +402,7 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
                   !visible ? "w-auto opacity-100 mr-4" : "w-0 opacity-0",
                 )}
               >
-                <Image src="/logo/logo.png" alt="Bawal_News" width={80} height={80} />
+                <Image src="/logo/logo.png" alt="Naxatra_News" width={80} height={80} />
 
               </div>
 

@@ -37,7 +37,7 @@ export async function NewsSidebar() {
               <Link key={item.id} href={`/news/${item.id}`} className="flex gap-3 group">
                 <div className="relative w-20 h-14 flex-shrink-0 rounded-md overflow-hidden bg-zinc-800">
                   <Image
-                    src={item.image || "/placeholder.svg"}
+                    src={item.image || "/assets/newsplaceholder.webp"}
                     alt={item.title}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform"

@@ -19,7 +19,7 @@ export function GooglePreview({
     minHeight = false
 }: GooglePreviewProps) {
     // Mock domain for preview
-    const domain = "bawalnews.com";
+    const domain = "naxatranewshindi.com";
     // Truncate function
     const truncate = (str: string, length: number) => {
         if (!str) return "";
@@ -36,10 +36,10 @@ export function GooglePreview({
                 {/* Mobile/Modern View Header */}
                 <div className="flex items-center gap-3 mb-2 group cursor-pointer">
                     <div className="bg-muted rounded-full w-7 h-7 flex items-center justify-center border border-border/50">
-                        <span className="text-xs font-bold text-muted-foreground">B</span>
+                        <span className="text-xs font-bold text-muted-foreground">N</span>
                     </div>
                     <div className="flex flex-col leading-none">
-                        <span className="text-sm text-foreground/90 font-medium">Bawal News</span>
+                        <span className="text-sm text-foreground/90 font-medium">Naxatra News</span>
                         <span className="text-xs text-muted-foreground mt-0.5">{previewUrl}</span>
                     </div>
                 </div>

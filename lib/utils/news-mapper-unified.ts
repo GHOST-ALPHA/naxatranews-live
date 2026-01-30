@@ -169,7 +169,7 @@ export function getBestImageUrl(news: NewsResponse): string {
   }
 
   // Fallback to placeholder
-  return "/placeholder.svg?height=600&width=1200";
+  return "/assets/newsplaceholder.webp";
 }
 
 // ============================================================================

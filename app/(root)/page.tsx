@@ -9,7 +9,7 @@ export const revalidate = 1;
 
 export const metadata: Metadata = {
   title: "Naxatra News Hindi - Latest Hindi News | Breaking News in Hindi",
-  description: "BawalNews पर पढ़ें ताज़ा हिंदी समाचार, ब्रेकिंग न्यूज़, और दुनिया भर की खबरें। Get latest Hindi news, breaking news, and featured stories from around the world.",
+  description: "Naxatra News News पर पढ़ें ताज़ा हिंदी समाचार, ब्रेकिंग न्यूज़, और दुनिया भर की खबरें। Get latest Hindi news, breaking news, and featured stories from around the world.",
   keywords: [
     "Hindi News",
     "Latest News in Hindi",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Naxatra News Hindi - Latest Hindi News | Breaking News in Hindi",
-    description: "BawalNews पर पढ़ें ताज़ा हिंदी समाचार, ब्रेकिंग न्यूज़, और दुनिया भर की खबरें।",
+    description: "Naxatra News पर पढ़ें ताज़ा हिंदी समाचार, ब्रेकिंग न्यूज़, और दुनिया भर की खबरें।",
     type: "website",
     locale: "hi_IN",
     alternateLocale: "en_US",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Naxatra News Hindi - Latest Hindi News",
-    description: "BawalNews पर पढ़ें ताज़ा हिंदी समाचार, ब्रेकिंग न्यूज़, और दुनिया भर की खबरें।",
+    description: "Naxatra News पर पढ़ें ताज़ा हिंदी समाचार, ब्रेकिंग न्यूज़, और दुनिया भर की खबरें।",
   },
   alternates: {
     canonical: "/",

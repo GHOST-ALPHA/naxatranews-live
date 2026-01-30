@@ -39,14 +39,14 @@ export function FeaturedSection({
         <div className="lg:col-span-5">
           <article className="group flex flex-col gap-2">
             <div className="flex flex-col gap-3">
-              <div className="flex items-center gap-3">
+              {/* <div className="flex items-center gap-3">
                 <Badge className="rounded bg-red-600 px-2 py-0.5 text-[10px] font-bold uppercase text-white hover:bg-red-700">
                   Top News
                 </Badge>
                 <time className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
                   {mainFeatured?.date || ""}
                 </time>
-              </div>
+              </div> */}
               <Link href={`/news/${mainFeatured?.slug || "#"}`} className="block transition-colors hover:text-red-600">
                 <h1 className="leading-tight transition-colors hindi-clamp hindi-clamp-4" title={mainFeatured?.title}>
                   {mainFeatured?.title || ""}
@@ -62,7 +62,7 @@ export function FeaturedSection({
             <Link href={`/news/${mainFeatured?.slug || "#"}`} className="block overflow-hidden rounded-sm ">
               <div className="relative aspect-[16/9] w-full">
                 <OptimizedArticleImage
-                  src={mainFeatured?.image || "/placeholder.svg?height=600&width=1200"}
+                  src={mainFeatured?.image || "/assets/newsplaceholder.webp"}
                   alt={mainFeatured?.title || ""}
                   videoUrl={mainFeatured?.video}
                   priority
@@ -89,7 +89,7 @@ export function FeaturedSection({
                       <Link href={`/news/${item.slug}`} className="flex gap-3">
                         <div className="relative h-16 w-28 md:h-20 md:w-36 shrink-0 overflow-hidden rounded-sm">
                           <OptimizedArticleImage
-                            src={item.image || "/placeholder.svg?height=100&width=200"}
+                            src={item.image || "/assets/newsplaceholder.webp"}
                             alt={item.title}
                             videoUrl={item.video}
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
@@ -126,7 +126,7 @@ export function FeaturedSection({
                 <Link href={`/news/${article.slug}`} className="flex gap-3">
                   <div className="relative h-16 w-28 md:h-20 md:w-36 shrink-0 overflow-hidden rounded-sm">
                     <OptimizedArticleImage
-                      src={article.image || "/placeholder.svg?height=100&width=200"}
+                      src={article.image || "/assets/newsplaceholder.webp"}
                       alt={article.title}
                       videoUrl={article.video}
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
@@ -168,12 +168,12 @@ export function FeaturedSection({
       {/* Must Read Section - Horizontal 5 Card Layout */}
       <div className="my-6 border-t border-border/50 pt-4">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
-          {rightListMostViewed.slice(0, 7).map((item) => (
+          {rightListMostViewed.slice(0, 5).map((item) => (
             <article key={item.id} className="group flex flex-col gap-4">
               <Link href={`/news/${item.slug}`} className="block overflow-hidden rounded-sm">
                 <div className="relative aspect-[16/9] w-full">
                   <OptimizedArticleImage
-                    src={item.image || "/placeholder.svg?height=600&width=1200"}
+                    src={item.image || "/assets/newsplaceholder.webp"}
                     alt={item.title}
                     videoUrl={item.video}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"

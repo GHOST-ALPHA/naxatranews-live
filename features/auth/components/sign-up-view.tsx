@@ -170,10 +170,10 @@ export function SignUpViewPage() {
         <div className="z-10 mt-auto">
           <blockquote className="space-y-2">
             <p className="text-xl">
-              &ldquo;Truth is our mission, speed is our strength — Bawal News brings the world to you as it happens.&rdquo;
+              &ldquo;Truth is our mission, speed is our strength — Naxatra News brings the world to you as it happens.&rdquo;
             </p>
             <footer className="font-mono font-semibold text-sm">
-              ~ Bawal News Network
+              ~ Naxatra News Network
             </footer>
           </blockquote>
 

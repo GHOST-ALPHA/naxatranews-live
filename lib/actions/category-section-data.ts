@@ -4,11 +4,11 @@
  */
 
 import { cache } from "react";
-import { 
+import {
   getCachedFeaturedNews,
   getCachedMostViewedNews,
   getNewsByCategory,
-  type NewsResponse 
+  type NewsResponse
 } from "@/lib/services/news-api.service";
 import {
   mapToCategoryBlockTypeA,
@@ -36,7 +36,7 @@ export const getTopTrendingNews = cache(async (limit: number = 5): Promise<TopTr
       includeCategories: true,
       includeContent: false,
     });
-    
+
     return mapArrayToTopTrendingItems(news);
   } catch (error) {
     console.error("Error fetching top trending news:", error);
@@ -58,7 +58,7 @@ export const getExclusiveNews = cache(async (limit: number = 4): Promise<Exclusi
       includeCategories: true,
       includeContent: false,
     });
-    
+
     return mapArrayToExclusiveNewsItems(news);
   } catch (error) {
     console.error("Error fetching exclusive news:", error);
@@ -90,13 +90,13 @@ export const getCategorySectionData = cache(async () => {
         { slug: "politics", includeChildren: false },
         { limit: 5, includeAuthor: true, includeCategories: true, includeContent: false }
       )).catch(() => ({ data: [], pagination: { page: 1, limit: 5, total: 0, totalPages: 0, hasNext: false, hasPrev: false } })),
-      
+
       // Sports category
       getNewsByCategory(
         { slug: "sports", includeChildren: false },
         { limit: 5, includeAuthor: true, includeCategories: true, includeContent: false }
       ).catch(() => ({ data: [], pagination: { page: 1, limit: 5, total: 0, totalPages: 0, hasNext: false, hasPrev: false } })),
-      
+
       // entertainment/International category
       getNewsByCategory(
         { slug: "entertainment", includeChildren: false },
@@ -105,13 +105,13 @@ export const getCategorySectionData = cache(async () => {
         { slug: "entertainment", includeChildren: false },
         { limit: 9, includeAuthor: true, includeCategories: true, includeContent: false }
       )).catch(() => ({ data: [], pagination: { page: 1, limit: 9, total: 0, totalPages: 0, hasNext: false, hasPrev: false } })),
-      
-       // crime category
-       getNewsByCategory(
+
+      // crime category
+      getNewsByCategory(
         { slug: "crime", includeChildren: false },
         { limit: 5, includeAuthor: true, includeCategories: true, includeContent: false }
       ).catch(() => ({ data: [], pagination: { page: 1, limit: 5, total: 0, totalPages: 0, hasNext: false, hasPrev: false } })),
-      
+
 
       // Top Trending (most viewed last 7 days)
       getCachedMostViewedNews({
@@ -121,7 +121,7 @@ export const getCategorySectionData = cache(async () => {
         includeCategories: true,
         includeContent: false,
       }),
-      
+
       // Exclusive News (featured)
       getCachedFeaturedNews({
         limit: 4,
@@ -129,7 +129,7 @@ export const getCategorySectionData = cache(async () => {
         includeCategories: true,
         includeContent: false,
       }),
-      
+
       // Sidebar Bottom (recent featured)
       getCachedFeaturedNews({
         limit: 6,
@@ -140,18 +140,18 @@ export const getCategorySectionData = cache(async () => {
     ]);
 
     // Extract data from results
-    const politicsResult = results[0].status === "fulfilled" && "data" in results[0].value 
-      ? results[0].value.data 
+    const politicsResult = results[0].status === "fulfilled" && "data" in results[0].value
+      ? results[0].value.data
       : [];
-    const sportsResult = results[1].status === "fulfilled" && "data" in results[1].value 
-      ? results[1].value.data 
+    const sportsResult = results[1].status === "fulfilled" && "data" in results[1].value
+      ? results[1].value.data
       : [];
-    const entertainmentResult = results[2].status === "fulfilled" && "data" in results[2].value 
-      ? results[2].value.data 
+    const entertainmentResult = results[2].status === "fulfilled" && "data" in results[2].value
+      ? results[2].value.data
       : [];
 
-    const crimeResult = results[3].status === "fulfilled" && "data" in results[3].value 
-      ? results[3].value.data 
+    const crimeResult = results[3].status === "fulfilled" && "data" in results[3].value
+      ? results[3].value.data
       : [];
     const topTrendingNews = results[4].status === "fulfilled" ? results[4].value : [];
     const exclusiveNews = results[5].status === "fulfilled" ? results[5].value : [];
@@ -166,38 +166,38 @@ export const getCategorySectionData = cache(async () => {
     const politics: CategoryBlockTypeAData = politicsResult.length > 0
       ? mapToCategoryBlockTypeA(
         politicsTitle,
-          politicsResult[0],
-          politicsResult.slice(1, 5)
-        )
+        politicsResult[0],
+        politicsResult.slice(1, 5)
+      )
       : {
-          title: politicsTitle,
-          featured: {
-            title: "",
-            author: "",
-            date: "",
-            excerpt: "",
-            image: "/placeholder.svg",
-          },
-          subArticles: [],
-        };
+        title: politicsTitle,
+        featured: {
+          title: "",
+          author: "",
+          date: "",
+          excerpt: "",
+          image: "/assets/newsplaceholder.webp",
+        },
+        subArticles: [],
+      };
 
     const sports: CategoryBlockTypeAData = sportsResult.length > 0
       ? mapToCategoryBlockTypeA(
-          sportsTitle,
-          sportsResult[0],
-          sportsResult.slice(1, 5)
-        )
+        sportsTitle,
+        sportsResult[0],
+        sportsResult.slice(1, 5)
+      )
       : {
-          title: sportsTitle,
-          featured: {
-            title: "",
-            author: "",
-            date: "",
-            excerpt: "",
-            image: "/placeholder.svg",
-          },
-          subArticles: [],
-        };
+        title: sportsTitle,
+        featured: {
+          title: "",
+          author: "",
+          date: "",
+          excerpt: "",
+          image: "/assets/newsplaceholder.webp",
+        },
+        subArticles: [],
+      };
 
     const entertainment: CategoryBlockTypeBData = entertainmentResult.length > 0
       ? mapToCategoryBlockTypeB(
@@ -205,35 +205,35 @@ export const getCategorySectionData = cache(async () => {
         entertainmentResult[0],
         entertainmentResult.slice(1, 5), // 4 middle articles
         entertainmentResult.slice(5, 9)  // 4 bottom articles
-        )
+      )
       : {
-          title: entertainmentTitle,
-          featured: {
-            title: "",
-            excerpt: "",
-            image: "/placeholder.svg",
-          },
-          middleArticles: [],
-          bottomArticles: [],
-        };
+        title: entertainmentTitle,
+        featured: {
+          title: "",
+          excerpt: "",
+          image: "/assets/newsplaceholder.webp",
+        },
+        middleArticles: [],
+        bottomArticles: [],
+      };
 
-        const crime: CategoryBlockTypeAData = crimeResult.length > 0
-        ? mapToCategoryBlockTypeA(
-          crimeTitle,
-          crimeResult[0],
-          crimeResult.slice(1, 5)
-          )
-        : {
-            title: crimeTitle,
-            featured: {
-              title: "",
-              author: "",
-              date: "",
-              excerpt: "",
-              image: "/placeholder.svg",
-            },
-            subArticles: [],
-          };
+    const crime: CategoryBlockTypeAData = crimeResult.length > 0
+      ? mapToCategoryBlockTypeA(
+        crimeTitle,
+        crimeResult[0],
+        crimeResult.slice(1, 5)
+      )
+      : {
+        title: crimeTitle,
+        featured: {
+          title: "",
+          author: "",
+          date: "",
+          excerpt: "",
+          image: "/assets/newsplaceholder.webp",
+        },
+        subArticles: [],
+      };
 
     const topTrending: TopTrendingItem[] = mapArrayToTopTrendingItems(topTrendingNews);
     const exclusive: ExclusiveNewsItem[] = mapArrayToExclusiveNewsItems(exclusiveNews);
@@ -259,7 +259,7 @@ export const getCategorySectionData = cache(async () => {
           author: "",
           date: "",
           excerpt: "",
-          image: "/placeholder.svg",
+          image: "/assets/newsplaceholder.webp",
         },
         subArticles: [],
       },
@@ -270,7 +270,7 @@ export const getCategorySectionData = cache(async () => {
           author: "",
           date: "",
           excerpt: "",
-          image: "/placeholder.svg",
+          image: "/assets/newsplaceholder.webp",
         },
         subArticles: [],
       },
@@ -279,7 +279,7 @@ export const getCategorySectionData = cache(async () => {
         featured: {
           title: "",
           excerpt: "",
-          image: "/placeholder.svg",
+          image: "/assets/newsplaceholder.webp",
         },
         middleArticles: [],
         bottomArticles: [],
@@ -291,7 +291,7 @@ export const getCategorySectionData = cache(async () => {
           author: "",
           date: "",
           excerpt: "",
-          image: "/placeholder.svg",
+          image: "/assets/newsplaceholder.webp",
         },
         subArticles: [],
       },

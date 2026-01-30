@@ -20,7 +20,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
             <div className="flex flex-col h-full">
               <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg mb-3">
                 <Image
-                  src={post.image || "/placeholder.svg?height=300&width=480"}
+                  src={post.image || "/assets/newsplaceholder.webp"}
                   alt={post.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"

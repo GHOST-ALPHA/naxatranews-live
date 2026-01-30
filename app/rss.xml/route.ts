@@ -3,9 +3,9 @@ import { prisma } from '@/lib/prisma'
 import { env } from '@/lib/config/env'
 
 export async function GET() {
-  const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'https://www.bawalnews.com'
-  const siteName = 'Bawal News'
-  const siteDescription = 'Latest news and breaking updates from Bawal News'
+  const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'https://www.naxatranewshindi.com'
+  const siteName = 'Naxatra News'
+  const siteDescription = 'Latest news and breaking updates from Naxatra News'
 
   // Get latest published news (last 50)
   const news = await prisma.news.findMany({
@@ -42,7 +42,7 @@ export async function GET() {
   const rssItems = news.map((item: typeof news[number]) => {
     const authorName = item.author
       ? `${item.author.firstName || ''} ${item.author.lastName || ''}`.trim() || item.author.username
-      : 'Bawal News'
+      : 'Naxatra News'
 
     const categories = item.categories.map((cat: typeof item.categories[number]) => cat.menu.name).join(', ')
     const excerpt = item.excerpt || item.content.substring(0, 200).replace(/<[^>]*>/g, '') + '...'

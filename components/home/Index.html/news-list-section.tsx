@@ -52,7 +52,7 @@ export function NewsListSection({ newsJustIn, rightArticles }: NewsListSectionPr
                 <div className="flex gap-4 rounded-lg border bg-card p-4 transition-shadow hover:shadow-md">
                   <div className="relative size-24 shrink-0 overflow-hidden rounded">
                     <Image
-                      src={article.image || "/placeholder.svg"}
+                      src={article.image || "/assets/newsplaceholder.webp"}
                       alt={article.title}
                       fill
                       className="object-cover transition-transform duration-300 group-hover:scale-110"

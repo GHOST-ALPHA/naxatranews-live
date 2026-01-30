@@ -46,7 +46,7 @@ export function generateNewsMetaTags(news: {
     };
   }>;
   slug: string;
-}, baseUrl: string = "https://bawalnews.com") {
+}, baseUrl: string = "https://naxatranewshindi.com") {
   const title = news.metaTitle || news.title;
   const description = news.metaDescription || news.excerpt || news.title;
   const keywords = news.metaKeywords || "";
@@ -63,8 +63,8 @@ export function generateNewsMetaTags(news: {
   const modifiedTime = news.updatedAt.toISOString();
   const author = news.author
     ? `${news.author.firstName || ""} ${news.author.lastName || ""}`.trim() || news.author.username
-    : "Bawal News";
-  const section = news.categories?.[0]?.menu.name || "Bawal News";
+    : "Naxatra News";
+  const section = news.categories?.[0]?.menu.name || "Naxatra News";
 
   return {
     // Basic meta tags
@@ -77,7 +77,7 @@ export function generateNewsMetaTags(news: {
     "og:image": image,
     "og:url": url,
     "og:type": "article",
-    "og:site_name": "Bawal News",
+    "og:site_name": "Naxatra News",
     "article:published_time": publishedTime,
     "article:modified_time": modifiedTime,
     "article:author": author,
@@ -111,7 +111,7 @@ export function generateNewsStructuredData(news: {
     username: string;
   } | null;
   slug: string;
-}, baseUrl: string = "https://bawalnews.com") {
+}, baseUrl: string = "https://naxatranewshindi.com") {
   const url = `${baseUrl}/news/${news.slug}`;
   const image = getBestOGImage(
     {
@@ -128,7 +128,7 @@ export function generateNewsStructuredData(news: {
     }
     : {
       "@type": "Organization",
-      name: "Bawal News",
+      name: "Naxatra News",
     };
 
   return {
@@ -142,7 +142,7 @@ export function generateNewsStructuredData(news: {
     author: author,
     publisher: {
       "@type": "Organization",
-      name: "Bawal News",
+      name: "Naxatra News",
       logo: {
         "@type": "ImageObject",
         url: `${baseUrl}/logo.png`,
@@ -163,7 +163,7 @@ export function generateSitemapEntry(news: {
   slug: string;
   updatedAt: Date;
   publishedAt?: Date | null;
-}, baseUrl: string = "https://bawalnews.com") {
+}, baseUrl: string = "https://naxatranewshindi.com") {
   return {
     url: `${baseUrl}/news/${news.slug}`,
     lastmod: news.updatedAt.toISOString(),

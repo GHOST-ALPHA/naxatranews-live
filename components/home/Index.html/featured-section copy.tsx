@@ -47,7 +47,7 @@ export function FeaturedSection({
               </h2>
 
               <OptimizedArticleImage
-                src={mainFeatured?.image || "/placeholder.svg?height=600&width=1200"}
+                src={mainFeatured?.image || "/assets/newsplaceholder.webp"}
                 alt={mainFeatured?.title || ""}
                 videoUrl={mainFeatured?.video}
                 priority
@@ -146,7 +146,7 @@ export function FeaturedSection({
                   </div>
                   <div className="col-span-1">
                     <OptimizedArticleImage
-                      src={item.image || "/placeholder.svg?height=600&width=1200"}
+                      src={item.image || "/assets/newsplaceholder.webp"}
                       alt={item.title}
                       videoUrl={item.video}
                       sizes="(max-width: 768px) 100vw, 8vw"

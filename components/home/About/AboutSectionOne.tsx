@@ -20,7 +20,7 @@ const AboutSectionOne = () => {
           <div className="space-y-6">
             <div className="space-y-4">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground font-hindi">
-                {staticPagesData.about.sections[0]?.title || "About Bawal News"}
+                {staticPagesData.about.sections[0]?.title || "About Naxatra News"}
               </h2>
               <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed font-hindi">
                 {staticPagesData.about.sections[0]?.content || ""}
@@ -66,7 +66,7 @@ const AboutSectionOne = () => {
                 <div className="relative w-full h-full min-h-[400px] bg-gradient-to-br from-primary/10 to-primary/5">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center space-y-4 p-8">
-                      <div className="text-6xl font-bold text-primary/20">Bawal News</div>
+                      <div className="text-6xl font-bold text-primary/20">Naxatra News</div>
                       <p className="text-muted-foreground font-hindi">
                         Your trusted source for news
                       </p>

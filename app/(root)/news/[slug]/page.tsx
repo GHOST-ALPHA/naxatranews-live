@@ -98,7 +98,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   })
 
   // Get base URL from environment or use default
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://bawalnews.com"
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.naxatranewshindi.com"
   const fullImageUrl = image.startsWith("http") ? image : `${baseUrl}${image}`
   const canonicalUrl = `${baseUrl}/news/${news.slug}`;
   const categoryName = news.categories?.[0]?.menu?.name || "News";
@@ -111,7 +111,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description,
-    authors: [{ name: news.author?.username || "Bawal News Team" }],
+    authors: [{ name: news.author?.username || "Naxatra News Team" }],
     openGraph: {
       title,
       description,
@@ -121,9 +121,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       publishedTime: news.publishedAt?.toISOString(),
       modifiedTime: news.updatedAt?.toISOString(),
       section: categoryName,
-      authors: news.author ? [news.author.username] : ["Bawal News Team"],
+      authors: news.author ? [news.author.username] : ["Naxatra News Team"],
       tags: keywords,
-      siteName: "Bawal News", // BRANDING
+      siteName: "Naxatra News", // BRANDING
       locale: "hi_IN",
       alternateLocale: "en_US",
     },
@@ -132,8 +132,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description,
       images: [fullImageUrl],
-      creator: "@BawalNews", // Replace with actual handle
-      site: "@BawalNews",
+      creator: "@NaxatraNews", // Replace with actual handle
+      site: "@NaxatraNews",
     },
     keywords: keywords,
     alternates: {
@@ -167,7 +167,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const newsItem = result.news;
 
   // SEO Helper Data
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://bawalnews.com"
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://www.naxatranewshindi.com"
   const canonicalUrl = `${baseUrl}/news/${newsItem.slug}`;
   const imageUrl = getBestOGImage({
     ogImage: newsItem.ogImage,
@@ -178,7 +178,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const dateModified = newsItem.updatedAt?.toISOString() || datePublished;
 
   // Author Data for Schema
-  const authorName = newsItem.author ? (newsItem.author.firstName ? `${newsItem.author.firstName} ${newsItem.author.lastName || ''}`.trim() : newsItem.author.username) : "Bawal News Team";
+  const authorName = newsItem.author ? (newsItem.author.firstName ? `${newsItem.author.firstName} ${newsItem.author.lastName || ''}`.trim() : newsItem.author.username) : "Naxatra News Team";
   const authorUrl = newsItem.author ? `${baseUrl}/author/${newsItem.author.username}` : baseUrl;
 
   // JSON-LD Schema (NewsArticle)
@@ -196,7 +196,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     }],
     "publisher": {
       "@type": "Organization",
-      "name": "Bawal News",
+      "name": "Naxatra News",
       "logo": {
         "@type": "ImageObject",
         "url": `${baseUrl}/assets/logo.png`

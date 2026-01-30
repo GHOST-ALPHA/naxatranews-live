@@ -10,8 +10,8 @@ import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
 
 export const metadata: Metadata = {
-  title: 'Bawal News Dashboard',
-  description: 'Bawal News Dashboard'
+  title: 'Naxatra News Dashboard',
+  description: 'Naxatra News Dashboard'
 };
 
 export default async function DashboardLayout({

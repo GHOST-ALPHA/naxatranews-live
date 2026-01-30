@@ -56,7 +56,7 @@ export default async function NewsPage({
           <div>
             <h1 className="text-3xl font-bold tracking-tight">News Management</h1>
             <p className="text-muted-foreground mt-1">
-              Manage your news posts for Bawal News
+              Manage your news posts for Naxatra News
             </p>
           </div>
           <div className="flex flex-wrap gap-2 w-full sm:w-auto">

@@ -318,7 +318,7 @@ function processTechnologySection(
   const rightArticles = uniqueTech.slice(3, 7).map(a => ({
     id: a.id,
     title: a.title,
-    image: a.image || "/placeholder.svg"
+    image: a.image || "/assets/newsplaceholder.webp"
   }));
 
   return {

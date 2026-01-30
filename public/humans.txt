@@ -1,6 +1,6 @@
 /* TEAM */
-Developer: Bawal News Team
-Contact: contact@bawalnews.com
+Developer: Naxatra News Team
+Contact: contact@naxatranewshindi.com
 Location: India
 
 /* THANKS */

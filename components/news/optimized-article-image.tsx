@@ -13,20 +13,13 @@ interface OptimizedArticleImageProps {
   sizes?: string
   className?: string
   imageClassName?: string
-  aspectRatio?: "16/9" | "16/10" | "3/2" | "4/3" | "square" | "video"
+  aspectRatio?: "16/9" | "16/10" | "3/2" | "4/3" | "square" | "video" | "auto"
   showPlayButton?: boolean
+  objectFit?: "cover" | "contain"
   onError?: () => void
 }
 
-/**
- * Optimized Article Image Component
- * Production-ready image component with:
- * - Fast loading with Next.js Image optimization
- * - Video thumbnail detection and play button overlay
- * - Error handling with fallback
- * - Responsive sizing
- * - Lazy loading for non-priority images
- */
+
 export function OptimizedArticleImage({
   src,
   alt,
@@ -37,6 +30,7 @@ export function OptimizedArticleImage({
   imageClassName = "",
   aspectRatio = "16/9",
   showPlayButton = true,
+  objectFit = "cover",
   onError,
 }: OptimizedArticleImageProps) {
   const [imageError, setImageError] = useState(false)
@@ -47,20 +41,20 @@ export function OptimizedArticleImage({
   const hasVideo = videoUrl && showPlayButton
 
   // Determine aspect ratio class
-  const aspectRatioClass = {
+  const aspectRatioClass = aspectRatio !== "auto" ? {
     "16/9": "aspect-video",
     "16/10": "aspect-[16/10]",
     "3/2": "aspect-[3/2]",
     "4/3": "aspect-[4/3]",
     square: "aspect-square",
     video: "aspect-video",
-  }[aspectRatio]
+  }[aspectRatio] : ""
 
   const handleError = () => {
     if (!imageError) {
       setImageError(true)
       // Fallback to placeholder
-      setImageSrc("/placeholder.svg?height=600&width=1200")
+      setImageSrc("/assets/newsplaceholder.webp")
       onError?.()
     }
   }
@@ -77,7 +71,8 @@ export function OptimizedArticleImage({
             alt={alt}
             fill
             className={cn(
-              "object-cover transition-transform duration-300",
+              objectFit === "cover" ? "object-cover" : "object-contain",
+              "transition-transform duration-300",
               imageClassName
             )}
             sizes={sizes}
@@ -99,20 +94,18 @@ export function OptimizedArticleImage({
         </>
       ) : (
         // Fallback placeholder
-        <div className="flex items-center justify-center w-full h-full bg-muted">
-          <div className="text-center p-4">
-            <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-muted-foreground/20 flex items-center justify-center">
-              <Image
-                src="/placeholder.svg?height=600&width=1200"
-                alt="Placeholder"
-                width={24}
-                height={24}
-                className="opacity-50"
-              />
-            </div>
-            <p className="text-xs text-muted-foreground">Image unavailable</p>
-          </div>
+        <div className="relative w-full h-full bg-muted/50">
+          <Image
+            src="/assets/newsplaceholder.webp"
+            alt="Placeholder"
+            fill
+            className={cn(
+              objectFit === "cover",
+            )}
+            priority
+          />
         </div>
+
       )}
     </div>
   )

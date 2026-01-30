@@ -1,4 +1,9 @@
-# bawal - News Platform
+# naxatra - News Platform
+
+
+pnpm migrate:old-news -- --limit=5000
+
+
 
 A modern news platform built with Next.js, PostgreSQL, and Docker.
 

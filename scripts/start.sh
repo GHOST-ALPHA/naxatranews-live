@@ -4,7 +4,7 @@
 
 set -e
 
-echo "🚀 Starting Bawal News application..."
+echo "🚀 Starting Naxatra application..."
 
 # Wait for database to be ready
 echo "⏳ Waiting for database to be ready..."

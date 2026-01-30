@@ -27,7 +27,7 @@ export function SocialIcons({ size = "md", className = "" }: BrandSocialIconsPro
           >
             <Link href={item.href} target="_blank" rel="noopener noreferrer" aria-label={`Visit ${item.name}`}>
               <Image
-                src={item.logo || "/placeholder.svg"}
+                src={item.logo || ""}
                 alt={item.name}
                 width={imageSize}
                 height={imageSize}

@@ -241,7 +241,7 @@ async function main() {
             const byId = await prisma.user.findUnique({ where: { id: oldUser.id } });
             console.log(
               `  - DRY author map oldUser=${oldUser.id} email=${email} username=${username} ` +
-                `existsByEmail=${byEmail ? "yes" : "no"} existsById=${byId ? "yes" : "no"}`
+              `existsByEmail=${byEmail ? "yes" : "no"} existsById=${byId ? "yes" : "no"}`
             );
             authorUserId = byId?.id ?? byEmail?.id ?? null;
           } else {
@@ -414,8 +414,8 @@ async function main() {
 
     console.log("✅ Migration finished");
   } finally {
-    await oldPool.end().catch(() => {});
-    await prisma.$disconnect().catch(() => {});
+    await oldPool.end().catch(() => { });
+    await prisma.$disconnect().catch(() => { });
   }
 }
 

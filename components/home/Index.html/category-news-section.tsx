@@ -109,7 +109,7 @@ function CategoryBlockTypeA({
             )}
           >
             <OptimizedArticleImage
-              src={data.featured.image || "/placeholder.svg?height=600&width=1200"}
+              src={data.featured.image || "/assets/newsplaceholder.webp"}
               alt={data.featured.title}
               videoUrl={data.featured.videoUrl}
               priority
@@ -182,7 +182,7 @@ function CategoryBlockTypeB({
           </div>
           <div className="w-full md:w-[40%] overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-all">
             <OptimizedArticleImage
-              src={data.featured.image || "/placeholder.svg?height=600&width=1200"}
+              src={data.featured.image || "/assets/newsplaceholder.webp"}
               alt={data.featured.title}
               videoUrl={data.featured.videoUrl}
               sizes="(max-width: 768px) 100vw, 40vw"
@@ -204,7 +204,7 @@ function CategoryBlockTypeB({
                 className="flex-shrink-0 w-28 h-20 overflow-hidden rounded-sm bg-muted shadow-sm hover:shadow-md transition-all"
               >
                 <OptimizedArticleImage
-                  src={article.image || "/placeholder.svg?height=600&width=1200"}
+                  src={article.image || "/assets/newsplaceholder.webp"}
                   alt={article.title}
                   videoUrl={article.videoUrl}
                   sizes="120px"
@@ -261,7 +261,7 @@ function SidebarTopTrending({ data }: { data: TopTrendingItem[] }) {
               className="block mb-4 overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-all"
             >
               <OptimizedArticleImage
-                src={item.image || "/placeholder.svg?height=600&width=1200"}
+                src={item.image || "/assets/newsplaceholder.webp"}
                 alt={item.title}
                 videoUrl={item.videoUrl}
                 sizes="(max-width: 1024px) 100vw, 25vw"
@@ -301,7 +301,7 @@ function SidebarExclusiveNews({ data }: { data: ExclusiveNewsItem[] }) {
               className="block mb-2 overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-all"
             >
               <OptimizedArticleImage
-                src={item.image || "/placeholder.svg?height=600&width=1200"}
+                src={item.image || "/assets/newsplaceholder.webp"}
                 alt={item.title}
                 videoUrl={item.videoUrl}
                 sizes="(max-width: 1024px) 50vw, 12vw"
@@ -334,7 +334,7 @@ function SidebarSmallList({ data }: { data: SidebarSmallListItem[] }) {
             className="flex-shrink-0 w-24 h-16 overflow-hidden rounded-sm bg-muted shadow-sm hover:shadow-md transition-all"
           >
             <OptimizedArticleImage
-              src={item.image || "/placeholder.svg?height=600&width=1200"}
+              src={item.image || "/assets/newsplaceholder.webp"}
               alt={item.title}
               videoUrl={item.videoUrl}
               sizes="96px"

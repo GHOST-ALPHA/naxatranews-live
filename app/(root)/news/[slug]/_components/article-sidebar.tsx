@@ -45,7 +45,7 @@ export async function ArticleSidebar() {
     <div className="space-y-8">
       {/* Live Score Widget */}
       {/* <LiveScoreWidget /> */}
-      
+
       {/* Ad Block 1 - Dynamic Sidebar Ad (Position 0) */}
       <AdSidebar position={0} showDefault={true} />
 
@@ -57,7 +57,7 @@ export async function ArticleSidebar() {
         </h3>
         <div className="flex flex-wrap gap-2">
           {categories.length > 0 ? (
-            categories.slice(0, 8).map((category:any) => (
+            categories.slice(0, 8).map((category: any) => (
               <Link key={category.slug} href={`/${category.slug}`}>
                 <Badge
                   variant="secondary"
@@ -95,7 +95,7 @@ export async function ArticleSidebar() {
                 <Link href={`/news/${news.slug}`}>
                   <div className="relative aspect-video w-full mb-3 rounded-md overflow-hidden">
                     <Image
-                      src={news.image || "/placeholder.svg?height=200&width=300"}
+                      src={news.image || "/assets/newsplaceholder.webp"}
                       alt={news.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -120,7 +120,7 @@ export async function ArticleSidebar() {
         </div>
       )}
 
-     
+
 
       {/* Trending Widget - Dynamic */}
       {trendingArticles.length > 0 && (
@@ -137,7 +137,7 @@ export async function ArticleSidebar() {
                   <Link href={`/news/${news.slug}`} className="block mb-4">
                     <div className="relative aspect-video w-full mb-3 rounded-lg overflow-hidden">
                       <Image
-                        src={news.image || "/placeholder.svg?height=200&width=300"}
+                        src={news.image || "/assets/newsplaceholder.webp"}
                         alt={news.title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-300"

@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma'
 import { env } from '@/lib/config/env'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'https://www.bawalnews.com/'
+  const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'https://www.naxatranewshindi.com/'
 
   // In some environments (like Docker image build), the database may not be reachable.
   // We handle errors gracefully here so that the build does not fail if Prisma cannot connect.

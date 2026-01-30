@@ -55,7 +55,7 @@ export function OneSection({
                     <Link href={`/news/${featuredArticle.id}`} className="block w-full h-full relative">
                         <div className="w-full h-full aspect-video lg:aspect-[16/10]">
                             <OptimizedArticleImage
-                                src={featuredArticle.image || "/placeholder.svg?height=1000&width=800"}
+                                src={featuredArticle.image || "/assets/newsplaceholder.webp"}
                                 alt={featuredArticle.title}
                                 priority
                                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -94,7 +94,7 @@ export function OneSection({
                             <Link href={`/news/${sideArticles[0].id}`} className="flex flex-col gap-3 h-full">
                                 <div className="relative aspect-video w-full overflow-hidden rounded-lg shadow-sm">
                                     <OptimizedArticleImage
-                                        src={sideArticles[0].image || "/placeholder.svg?height=600&width=1200"}
+                                        src={sideArticles[0].image || "/assets/newsplaceholder.webp"}
                                         alt={sideArticles[0].title}
                                         sizes="(max-width: 1024px) 100vw, 25vw"
                                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -136,7 +136,7 @@ export function OneSection({
                         <Link href={`/news/${article.id}`} className="flex flex-col gap-4">
                             <div className="relative aspect-[16/9] w-full overflow-hidden rounded-sm shadow-sm group-hover:shadow-md transition-all">
                                 <OptimizedArticleImage
-                                    src={article.image || "/placeholder.svg?height=400&width=600"}
+                                    src={article.image || "/assets/newsplaceholder.webp"}
                                     alt={article.title}
                                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                     aspectRatio="16/9"
