@@ -61,8 +61,8 @@ apt install git -y
 
 ### Create application directory
 ```bash
-mkdir -p /var/www/bawal-production
-cd /var/www/bawal-production
+mkdir -p /var/www/naxatra-production
+cd /var/www/naxatra-production
 ```
 docker compose restart app
 ## Step 4: Clone Repository
