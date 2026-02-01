@@ -2,8 +2,7 @@
 // This schema defines User, Role, Permission, Menu, and AuditLog models
 
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-3.0.x"]
+  provider = "prisma-client-js"
 }
 
 datasource db {

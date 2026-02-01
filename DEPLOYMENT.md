@@ -191,7 +191,7 @@ apt install nginx -y
 
 ### Create Nginx configuration
 ```bash
-nano /etc/nginx/sites-available/bawal-production
+nano /etc/nginx/sites-available/naxatra-production
 ```
 
 Paste the configuration from `nginx.conf` and update:
@@ -200,7 +200,7 @@ Paste the configuration from `nginx.conf` and update:
 
 ### Enable site
 ```bash
-ln -s /etc/nginx/sites-available/bawal-production /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/naxatra-production /etc/nginx/sites-enabled/
 rm /etc/nginx/sites-enabled/default
 nginx -t  # Test configuration
 systemctl restart nginx
@@ -228,7 +228,7 @@ ufw status
 apt install certbot python3-certbot-nginx -y
 
 # Get SSL certificate (replace with your domain)
-certbot --nginx -d yourdomain.com -d www.yourdomain.com
+certbot --nginx -d naxatranewshindi.com -d www.naxatranewshindi.com
 # live
 certbot --nginx -d nbharat24.com -d www.nbharat24.com
 
