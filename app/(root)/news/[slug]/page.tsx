@@ -139,8 +139,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       images: [{ url: fullImageUrl, width: 1200, height: 630, alt: title }],
       type: "article",
       url: canonicalUrl,
-      publishedTime: news.publishedAt ? new Date(news.publishedAt).toISOString() : undefined,
-      modifiedTime: news.updatedAt ? new Date(news.updatedAt).toISOString() : undefined,
+      publishedTime: news.publishedAt?.toISOString(),
+      modifiedTime: news.updatedAt?.toISOString(),
       section: categoryName,
       authors: news.author ? [news.author.username] : ["Naxatra News Team"],
       tags: keywords,
@@ -195,8 +195,8 @@ export default async function Page({ params, searchParams }: PageProps) {
     coverImage: newsItem.coverImage,
   });
   const fullImageUrl = imageUrl.startsWith("http") ? imageUrl : `${baseUrl}${imageUrl}`;
-  const datePublished = newsItem.publishedAt ? new Date(newsItem.publishedAt).toISOString() : new Date().toISOString();
-  const dateModified = newsItem.updatedAt ? new Date(newsItem.updatedAt).toISOString() : datePublished;
+  const datePublished = newsItem.publishedAt?.toISOString() || new Date().toISOString();
+  const dateModified = newsItem.updatedAt?.toISOString() || datePublished;
 
   // Author Data for Schema
   const authorName = newsItem.author ? (newsItem.author.firstName ? `${newsItem.author.firstName} ${newsItem.author.lastName || ''}`.trim() : newsItem.author.username) : "Naxatra News Team";
