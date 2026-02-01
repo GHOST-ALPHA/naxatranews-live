@@ -1,6 +1,5 @@
 # Stage 1: Dependencies
-FROM node:20-alpine AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+FROM node:20-alpine3.19 AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
@@ -9,16 +8,15 @@ COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts
 
 # Stage 2: Builder
-FROM node:20-alpine AS builder
+FROM node:20-alpine3.19 AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Generate Prisma Client
+# Generate Prisma Client with specific binary target
 RUN npx prisma generate
 
-# Build Next.js application with standalone output
-# These MUST be available at build time for client-side injection
+# Build Next.js application
 ARG NEXT_PUBLIC_LIVE_TV_URL
 ARG NEXT_PUBLIC_LIVE_TV_ENABLED
 ARG NEXT_PUBLIC_BASE_URL
@@ -42,13 +40,16 @@ ENV NEXT_TELEMETRY_DISABLED=1 \
 RUN npm run build
 
 # Stage 3: Runner
-FROM node:20-alpine AS runner
+FROM node:20-alpine3.19 AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=4141
 ENV HOSTNAME="0.0.0.0"
+
+# Fix for Prisma: install openssl 1.1 compatibility and libc fallback
+RUN apk add --no-cache openssl1.1-compat gcompat
 
 # Create non-root user
 RUN addgroup --system --gid 1001 nodejs && \
