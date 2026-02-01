@@ -22,7 +22,7 @@ RUN npx prisma generate
 # real secrets are provided at runtime via docker-compose.
 ENV NEXT_TELEMETRY_DISABLED=1 \
     NODE_ENV=production \
-    DATABASE_URL="postgresql://user:password@localhost:5433/db?schema=public" \
+    DATABASE_URL="postgresql://user:password@localhost:5432/db?schema=public" \
     JWT_SECRET="dummy_jwt_secret_at_least_32_chars_long__"
 
 RUN npm run build

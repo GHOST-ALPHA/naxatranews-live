@@ -1,27 +1,4 @@
 services:
-  # PostgreSQL Database
-  postgres:
-    image: postgres:16-alpine
-    container_name: naxatra_postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-TaklaMakan171055}
-      POSTGRES_DB: ${POSTGRES_DB:-naxatra_db_prod}
-      PGDATA: /var/lib/postgresql/data/pgdata
-    volumes:
-      # Persistent database storage - survives container restarts
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5434:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - naxatra_network
-
   # Next.js Application
   app:
     build:
@@ -34,24 +11,19 @@ services:
     env_file:
       - .env
     environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-TaklaMakan171055}@postgres:5434/${POSTGRES_DB:-naxatra_db_prod}?schema=public
+      # Connecting to existing container 'nbharat24_postgres' on the same network
+      - DATABASE_URL=postgresql://postgres:TaklaMakan171055@nbharat24_postgres:5432/naxatra_db_prod?schema=public
       - NODE_ENV=production
     volumes:
-      # Persistent media storage - survives container restarts and rebuilds
+      # Persistent media storage
       - media_storage:/app/public/storage/media
       - thumbnails_storage:/app/public/storage/thumbnails
-    depends_on:
-      postgres:
-        condition: service_healthy
     networks:
-      - naxatra_network
-    # Start the Next.js server (run migrations manually when needed)
+      - default
+    # Start the Next.js server
     command: ["node", "server.js"]
 
 volumes:
-  # Database persistence
-  postgres_data:
-    driver: local
   # Media storage persistence
   media_storage:
     driver: local
@@ -59,5 +31,6 @@ volumes:
     driver: local
 
 networks:
-  naxatra_network:
-    driver: bridge
+  default:
+    external: true
+    name: nbharat24_nbharat24_network
