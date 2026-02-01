@@ -69,7 +69,7 @@ docker compose restart app
 
 ```bash
 # Clone your repository
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git .
+git clone https://github.com/GHOST-ALPHA/naxatranews-live.git .
 
 # Or if using private repo with SSH
 git clone git@github.com:YOUR_USERNAME/YOUR_REPO.git .
