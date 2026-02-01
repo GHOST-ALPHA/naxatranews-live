@@ -59,7 +59,7 @@ export function ContentSidebarSection({
 
   return (
     <div className="w-full border-t-2 border-black mb-6 feature-section-font">
-      <div className="container mx-auto px-4 py-8 lg:py-12">
+      <div className="container mx-auto px-0 py-8 lg:py-12">
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
           {/* Main Content Area - 75% on desktop */}
           <div className="w-full lg:w-[calc(75%-2.5rem)] space-y-10 ">
@@ -67,7 +67,7 @@ export function ContentSidebarSection({
             {featuredArticle && (
               <div className="pb-8 border-b border-border/50">
                 {/* Category Badge */}
-                <SectionHeader title="झारखंड" href="/category/jharkhand" />
+                <SectionHeader title="झारखंड" href="/jharkhand" />
 
                 <article>
                   {/* Featured Content Grid */}
@@ -165,7 +165,7 @@ export function ContentSidebarSection({
             {/* Politics and More News - Two Column Layout */}
             {(biharPrimary.length > 0 || biharSecondary.length > 0) && (
               <section className="space-y-6">
-                <SectionHeader title="बिहार" href="/category/bihar" />
+                <SectionHeader title="बिहार" href="/bihar" />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                   {biharPrimary.length > 0 && (
                     <div className="space-y-5">

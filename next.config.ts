@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Enable standalone output for Docker optimization
   output: "standalone",
+  // Disable source maps in production to prevent code leakage
+  productionBrowserSourceMaps: false,
 
   // Optimize images
   images: {

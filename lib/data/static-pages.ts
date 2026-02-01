@@ -103,12 +103,12 @@ export const staticPagesData: any = {
       {
         type: "content",
         title: "Information We Collect",
-        content: "We collect personal information (name, email) you provide voluntarily (e.g., contact forms or subscriptions), and non-personal information (browser type, IP address, device info) via cookies and analytics tools to improve our services."
+        content: "We collect personal information (name, email) you provide voluntarily (e.g., contact forms or subscriptions). We also automatically collect non-personal data through Google Analytics 4 (traffic analysis, user behavior) and Google AdSense (ad personalization, impressions). This may include IP addresses, browser types, and device information."
       },
       {
         type: "content",
         title: "How We Use Your Information",
-        content: "We use your data to provide news updates, improve website performance, respond to queries, send newsletters (with consent), and ensure website security and prevent misuse."
+        content: "We use your data to provide news updates, improve website performance, respond to queries, send newsletters (with consent), display personalized advertisements via Google AdSense, and ensure website security and prevent misuse."
       },
       {
         type: "features",

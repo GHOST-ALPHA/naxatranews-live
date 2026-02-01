@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, memo } from "react"
+import { sendGAEvent } from '@next/third-parties/google'
 
 interface TrackViewProps {
   newsId: string
@@ -25,22 +26,29 @@ function TrackViewComponent({ newsId }: TrackViewProps) {
     // Track view after a short delay to ensure page is fully loaded
     const trackView = async () => {
       try {
-        const response = await fetch(`/api/news/${newsId}/view`, {
+        // Track database view
+        fetch(`/api/news/${newsId}/view`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           signal: abortControllerRef.current?.signal,
-          // Production: Use keepalive for better reliability
           keepalive: true,
-        })
+        }).catch((err) => {
+          if (process.env.NODE_ENV === 'development') console.error("DB View Track Error:", err)
+        });
 
-        if (response.ok) {
-          hasTracked.current = true
+        // Track Google Analytics Event
+        if (typeof window !== 'undefined' && (window as any).gtag) {
+          (window as any).gtag('event', 'view_item', {
+            event_category: 'engagement',
+            event_label: newsId,
+            value: 1
+          });
         }
+
+        hasTracked.current = true
       } catch (error) {
-        // Silently fail - don't affect user experience
-        // Only log in development
         if (process.env.NODE_ENV === 'development') {
           console.error("Failed to track view:", error)
         }
@@ -48,7 +56,7 @@ function TrackViewComponent({ newsId }: TrackViewProps) {
     }
 
     // Small delay to ensure page is loaded (reduced for faster tracking)
-    const timeoutId = setTimeout(trackView, 500)
+    const timeoutId = setTimeout(trackView, 1000)
 
     return () => {
       clearTimeout(timeoutId)

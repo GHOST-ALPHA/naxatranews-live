@@ -41,21 +41,21 @@ export function CategoryNewsSection({
   sidebarBottom,
 }: CategoryNewsSectionProps) {
   return (
-    <section className="container mx-auto px-4 py-8 feature-section-font">
+    <section className="container mx-auto px-0 py-8 feature-section-font">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Left Content Column (75% on desktop) */}
         <div className="lg:col-span-9 space-y-16">
           {/* politics*/}
-          <CategoryBlockTypeA data={politics} imagePosition="left" categoryHref="/category/rajneeti" />
+          <CategoryBlockTypeA data={politics} imagePosition="left" categoryHref="/rajneeti" />
 
           {/* Sports Section */}
-          <CategoryBlockTypeA data={sports} imagePosition="right" categoryHref="/category/khel" />
+          <CategoryBlockTypeA data={sports} imagePosition="right" categoryHref="/khel" />
 
           {/* entertainment Section */}
-          <CategoryBlockTypeB data={entertainment} categoryHref="/category/manoranjan" />
+          <CategoryBlockTypeB data={entertainment} categoryHref="/manoranjan" />
 
           {/* Crime Section */}
-          <CategoryBlockTypeA data={crime} imagePosition="left" categoryHref="/category/apradh" />
+          <CategoryBlockTypeA data={crime} imagePosition="left" categoryHref="/apradh" />
         </div>
 
         {/* Right Sidebar Column (25% on desktop) */}

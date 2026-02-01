@@ -18,7 +18,7 @@ interface NewsImageData {
  */
 export function getBestOGImage(
   news: NewsImageData,
-  defaultImage: string = "https://naxatranewshindi.com/og-default.jpg"
+  defaultImage: string = "/assets/og-default.webp"
 ): string {
   // 1. Use ogImage if available
   if (news.ogImage) {

@@ -57,6 +57,11 @@ export function lexicalToHTML(lexicalState: SerializedEditorState | string): str
 
     return htmlParts.join("");
   } catch (error) {
+    // If parsing fails, it might be legacy HTML or plain text
+    // Return untampered string if it's not JSON
+    if (typeof lexicalState === "string") {
+      return lexicalState;
+    }
     console.error("Error converting Lexical to HTML:", error);
     return "";
   }
@@ -73,6 +78,11 @@ export function lexicalToText(lexicalState: SerializedEditorState | string): str
 
     return processNodeToText(state.root);
   } catch (error) {
+    // Fallback for legacy content
+    if (typeof lexicalState === "string") {
+      // Remove HTML tags if it's legacy HTML
+      return lexicalState.replace(/<[^>]*>?/gm, '');
+    }
     console.error("Error converting Lexical to text:", error);
     return "";
   }

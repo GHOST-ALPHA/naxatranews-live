@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { fontVariables } from '@/lib/font';
 import ThemeProvider from '@/components/layout/ThemeToggle/theme-provider';
 import { cn } from '@/lib/utils';
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import type { Metadata, Viewport } from 'next';
 import { cookies } from 'next/headers';
 import NextTopLoader from 'nextjs-toploader';
@@ -76,7 +77,10 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const activeThemeValue = cookieStore.get('active_theme')?.value;
   const isScaled = activeThemeValue?.endsWith('-scaled');
+
   const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+  const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+  const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 
   return (
     <html lang='hi' suppressHydrationWarning>
@@ -92,24 +96,6 @@ export default async function RootLayout({
             `
           }}
         />
-        {GA_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-              strategy='afterInteractive'
-            />
-            <Script
-              id='google-analytics'
-              strategy='afterInteractive'
-            >{`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_ID}');
-            `}
-            </Script>
-          </>
-        )}
       </head>
       <body
         className={cn(
@@ -134,6 +120,22 @@ export default async function RootLayout({
             </Providers>
           </ThemeProvider>
         </NuqsAdapter>
+
+        {/* Google Analytics */}
+        {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
+
+        {/* Google Tag Manager - if used concurrently with GA4, or as standalone */}
+        {GTM_ID && <GoogleTagManager gtmId={GTM_ID} />}
+
+        {/* Google AdSense - Manual Script for Stability */}
+        {ADSENSE_ID && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
       </body>
     </html>
   );

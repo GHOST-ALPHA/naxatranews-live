@@ -46,7 +46,7 @@ export function OneSection({
     const categoryHref = `/${categoryName.toLowerCase()}`;
 
     return (
-        <section className="container mx-auto px-4 py-10 feature-section-font">
+        <section className=" px-0 py-10 feature-section-font">
             <SectionHeader title={categoryName} href={categoryHref} />
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
