@@ -4,6 +4,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_LIVE_TV_URL=${NEXT_PUBLIC_LIVE_TV_URL}
+        - NEXT_PUBLIC_LIVE_TV_ENABLED=${NEXT_PUBLIC_LIVE_TV_ENABLED}
+        - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+        - NEXT_PUBLIC_GA_MEASUREMENT_ID=${NEXT_PUBLIC_GA_MEASUREMENT_ID}
+        - NEXT_PUBLIC_GA4_ID=${NEXT_PUBLIC_GA4_ID}
+        - NEXT_PUBLIC_GTM_ID=${NEXT_PUBLIC_GTM_ID}
+        - NEXT_PUBLIC_ADSENSE_CLIENT=${NEXT_PUBLIC_ADSENSE_CLIENT}
     container_name: naxatra_app
     restart: unless-stopped
     ports:

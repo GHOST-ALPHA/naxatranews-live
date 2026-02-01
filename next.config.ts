@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
     qualities: [70, 75, 80, 85, 90, 100],
     remotePatterns: [
       {
-        protocol: "http",
+        protocol: "https",
         hostname: "**",
       },
       {
@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
         hostname: "img.youtube.com",
       },
     ],
-    // unoptimized: true,
+    unoptimized: true,
   },
 
   // Security headers
