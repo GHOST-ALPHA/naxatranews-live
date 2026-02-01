@@ -39,6 +39,8 @@ COPY package.json package-lock.json ./
 RUN npm ci --only=production --ignore-scripts && \
     npm install prisma --save-dev --ignore-scripts
 
+
+
 # Create non-root user for security
 RUN groupadd -r nodejs && useradd -r -g nodejs nextjs
 
