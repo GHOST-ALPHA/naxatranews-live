@@ -52,7 +52,7 @@ export function OneSection({
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
                 {/* 1. Left: Main Featured Article (6 units) - Overlay Style */}
                 <div className="lg:col-span-6 group relative overflow-hidden rounded-xl">
-                    <Link href={`/news/${featuredArticle.id}`} className="block w-full h-full relative">
+                    <Link href={`/news/${featuredArticle.id}`} prefetch={false} className="block w-full h-full relative">
                         <div className="w-full h-full aspect-video lg:aspect-[16/10]">
                             <OptimizedArticleImage
                                 src={featuredArticle.image || "/assets/newsplaceholder.webp"}
@@ -91,7 +91,7 @@ export function OneSection({
                 <div className="lg:col-span-3">
                     {sideArticles.length > 0 && (
                         <article className="group flex flex-col gap-3 h-full">
-                            <Link href={`/news/${sideArticles[0].id}`} className="flex flex-col gap-3 h-full">
+                            <Link href={`/news/${sideArticles[0].id}`} prefetch={false} className="flex flex-col gap-3 h-full">
                                 <div className="relative aspect-video w-full overflow-hidden rounded-lg shadow-sm">
                                     <OptimizedArticleImage
                                         src={sideArticles[0].image || "/assets/newsplaceholder.webp"}
@@ -133,7 +133,7 @@ export function OneSection({
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-8 border-t border-border/40">
                 {rightArticles.slice(0, 4).map((article) => (
                     <article key={article.id} className="group border-b lg:border-b-0 border-border/50 pb-6 lg:pb-0">
-                        <Link href={`/news/${article.id}`} className="flex flex-col gap-4">
+                        <Link href={`/news/${article.id}`} prefetch={false} className="flex flex-col gap-4">
                             <div className="relative aspect-[16/9] w-full overflow-hidden rounded-sm shadow-sm group-hover:shadow-md transition-all">
                                 <OptimizedArticleImage
                                     src={article.image || "/assets/newsplaceholder.webp"}

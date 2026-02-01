@@ -16,7 +16,7 @@ import {
   PaginationEllipsis,
 } from "@/components/ui/pagination"
 import type { Article } from "@/constants/news-data"
-import { lexicalToHTML } from "@/lib/utils/lexical-to-html"
+import { lexicalToHTML, lexicalToText } from "@/lib/utils/lexical-to-html"
 import { mapToArticle } from "@/lib/utils/news-mapper-unified"
 import type { NewsResponse } from "@/lib/services/news-api.service"
 import { cn } from "@/lib/utils"
@@ -77,10 +77,13 @@ function mapNewsToArticle(news: NewsResponse): Article {
     const htmlContent = lexicalToHTML(news.content);
     article.content = htmlContent;
     article.fullContent = htmlContent;
-    // Update excerpt if not already set
-    if (!article.excerpt && htmlContent) {
-      article.excerpt = htmlContent.substring(0, 200) + "...";
+
+    // SAFE EXCERPT: Use plain text conversion to avoid broken HTML tags
+    if (!article.excerpt) {
+      const plainText = lexicalToText(news.content);
+      article.excerpt = plainText.substring(0, 200).trim() + (plainText.length > 200 ? "..." : "");
     }
+
     // Recalculate read time based on actual content
     article.readTime = `${Math.ceil((htmlContent.length || 1000) / 500)} Mins Read`;
   }

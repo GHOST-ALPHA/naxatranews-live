@@ -1,8 +1,7 @@
 import type React from "react"
 import { NewsSidebar } from "@/components/news/sidebar"
-import { AdLeaderboard } from "@/components/ads/ad-leaderboard"
 import { AdFooter } from "@/components/ads/ad-footer"
-import { AdPopup } from "@/components/ads/ad-popup"
+import { AdHeader } from "@/components/ads/ad-header"
 
 // High-performance layout with stable design
 export default function CategoryLayout({
@@ -13,10 +12,11 @@ export default function CategoryLayout({
   return (
     <div className="">
       {/* Top Banner Ad - Zone: header, Position: 0 */}
-      <AdLeaderboard
-        className="w-full "
+      <AdHeader
+        className="w-full"
         showDefault={true}
       />
+
 
       <main className="max-w-[90rem] justify-center mx-auto px-2 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">

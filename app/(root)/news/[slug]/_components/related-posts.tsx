@@ -16,7 +16,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {posts.map((post) => (
-          <Link href={`/news/${post.slug}`} key={post.id} className="group block h-full">
+          <Link href={`/news/${post.slug}`} key={post.id} prefetch={false} className="group block h-full">
             <div className="flex flex-col h-full">
               <div className="relative aspect-[16/10] w-full overflow-hidden rounded-lg mb-3">
                 <Image

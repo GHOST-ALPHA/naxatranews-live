@@ -210,6 +210,8 @@ export const getCategorySectionData = cache(async () => {
         title: entertainmentTitle,
         featured: {
           title: "",
+          author: "",
+          date: "",
           excerpt: "",
           image: "/assets/newsplaceholder.webp",
         },
@@ -278,6 +280,8 @@ export const getCategorySectionData = cache(async () => {
         title: "मनोरंजन",
         featured: {
           title: "",
+          author: "",
+          date: "",
           excerpt: "",
           image: "/assets/newsplaceholder.webp",
         },

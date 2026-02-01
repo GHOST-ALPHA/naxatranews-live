@@ -1,18 +1,15 @@
 import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
-import { ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import type { Article } from "@/constants/news-data"
 import { OptimizedArticleImage } from "@/components/news/optimized-article-image"
 import dynamic from "next/dynamic";
 import { env } from "@/lib/config/env";
 import { AdLeaderboard } from "@/components/ads/ad-leaderboard"
-import SectionHeader from "../SectionHeader"
 
 const LiveTvPlayer = dynamic(() => import("@/components/widgets/live-tv-player"), {
   loading: () => (
     <div className="w-full aspect-video bg-black/10 animate-pulse rounded-lg flex items-center justify-center">
-      <span className="text-muted-foreground text-sm">Loading Player...</span>
+      <span className="text-muted-foreground text-sm">...</span>
     </div>
   ),
 });
@@ -28,7 +25,6 @@ interface FeaturedSectionProps {
 export function FeaturedSection({
   mainFeatured,
   middleFeatured,
-  rightTopFeatured,
   rightListMostViewed,
   breakingNews,
 }: FeaturedSectionProps) {
@@ -47,7 +43,7 @@ export function FeaturedSection({
                   {mainFeatured?.date || ""}
                 </time>
               </div> */}
-              <Link href={`/news/${mainFeatured?.slug || "#"}`} className="block transition-colors hover:text-red-600">
+              <Link href={`/news/${mainFeatured?.slug || "#"}`} prefetch={false} className="block transition-colors hover:text-red-600">
                 <h1 className="leading-tight transition-colors hindi-clamp hindi-clamp-4" title={mainFeatured?.title}>
                   {mainFeatured?.title || ""}
                 </h1>
@@ -59,7 +55,7 @@ export function FeaturedSection({
               )}
             </div>
 
-            <Link href={`/news/${mainFeatured?.slug || "#"}`} className="block overflow-hidden rounded-sm ">
+            <Link href={`/news/${mainFeatured?.slug || "#"}`} prefetch={false} className="block overflow-hidden rounded-sm ">
               <div className="relative aspect-[16/9] w-full">
                 <OptimizedArticleImage
                   src={mainFeatured?.image || "/assets/newsplaceholder.webp"}
@@ -86,7 +82,7 @@ export function FeaturedSection({
                         index !== 1 && "border-b border-border/50"
                       )}
                     >
-                      <Link href={`/news/${item.slug}`} className="flex gap-3">
+                      <Link href={`/news/${item.slug}`} prefetch={false} className="flex gap-3">
                         <div className="relative h-16 w-28 md:h-20 md:w-36 shrink-0 overflow-hidden rounded-sm">
                           <OptimizedArticleImage
                             src={item.image || "/assets/newsplaceholder.webp"}
@@ -123,7 +119,7 @@ export function FeaturedSection({
                   index !== 5 && "border-b border-border/50"
                 )}
               >
-                <Link href={`/news/${article.slug}`} className="flex gap-3">
+                <Link href={`/news/${article.slug}`} prefetch={false} className="flex gap-3">
                   <div className="relative h-16 w-28 md:h-20 md:w-36 shrink-0 overflow-hidden rounded-sm">
                     <OptimizedArticleImage
                       src={article.image || "/assets/newsplaceholder.webp"}
@@ -158,8 +154,8 @@ export function FeaturedSection({
 
             {/* Ads section */}
             <div className="space-y-3">
-              <AdLeaderboard position={0} showDefault={true} />
-              <AdLeaderboard position={1} showDefault={true} />
+              <AdLeaderboard position={0} showDefault={true} size="leaderboard" />
+              <AdLeaderboard position={1} showDefault={true} size="leaderboard" />
             </div>
           </div>
         </div>
@@ -170,7 +166,7 @@ export function FeaturedSection({
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-5">
           {rightListMostViewed.slice(0, 5).map((item) => (
             <article key={item.id} className="group flex flex-col gap-4">
-              <Link href={`/news/${item.slug}`} className="block overflow-hidden rounded-sm">
+              <Link href={`/news/${item.slug}`} prefetch={false} className="block overflow-hidden rounded-sm">
                 <div className="relative aspect-[16/9] w-full">
                   <OptimizedArticleImage
                     src={item.image || "/assets/newsplaceholder.webp"}
@@ -183,7 +179,7 @@ export function FeaturedSection({
                   />
                 </div>
               </Link>
-              <Link href={`/news/${item.slug}`} className="transition-colors hover:text-red-600">
+              <Link href={`/news/${item.slug}`} prefetch={false} className="transition-colors hover:text-red-600">
                 <h3 className="headlines-title hindi-clamp hindi-clamp-3" title={item.title}>
                   {item.title}
                 </h3>

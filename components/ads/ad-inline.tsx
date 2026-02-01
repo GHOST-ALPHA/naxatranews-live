@@ -10,14 +10,15 @@ import { Suspense } from "react";
 interface AdInlineProps {
   className?: string;
   showDefault?: boolean;
+  position?: number;
 }
 
-async function AdInlineContent({ showDefault = true }: { showDefault: boolean }) {
+async function AdInlineContent({ showDefault = true, position = 0 }: { showDefault: boolean; position: number }) {
   let ad: AdDisplay | null = null;
 
   try {
-    const ads = await getActiveAdsByZone("inline", 1);
-    ad = ads[0] || null;
+    const ads = await getActiveAdsByZone("inline", 5);
+    ad = ads[position] || null;
   } catch (error) {
     console.error("Error loading inline ad:", error);
   }
@@ -34,7 +35,7 @@ async function AdInlineContent({ showDefault = true }: { showDefault: boolean })
   return <AdBanner ad={ad} size="medium" />;
 }
 
-export function AdInline({ className, showDefault = true }: AdInlineProps) {
+export function AdInline({ className, showDefault = true, position = 0 }: AdInlineProps) {
   return (
     <div className={className}>
       <Suspense
@@ -42,7 +43,7 @@ export function AdInline({ className, showDefault = true }: AdInlineProps) {
           <div className="w-full h-48 bg-muted animate-pulse border border-border" />
         }
       >
-        <AdInlineContent showDefault={showDefault} />
+        <AdInlineContent showDefault={showDefault} position={position} />
       </Suspense>
     </div>
   );

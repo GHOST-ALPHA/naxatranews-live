@@ -74,7 +74,7 @@ export function ContentSidebarSection({
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
                     {/* Left: Title and Text */}
                     <div className="lg:col-span-4 space-y-5">
-                      <Link href={`/news/${featuredArticle.id}`} className="group transition-colors hover:text-red-500">
+                      <Link href={`/news/${featuredArticle.id}`} prefetch={false} className="group transition-colors hover:text-red-500">
                         <h2 className="leading-tight transition-colors group-hover:text-red-600 hindi-clamp hindi-clamp-4" title={featuredArticle.title}>
                           {featuredArticle.title}
                         </h2>
@@ -100,7 +100,7 @@ export function ContentSidebarSection({
 
                     {/* Right: Video/Image */}
                     <div className="lg:col-span-8">
-                      <Link href={`/news/${featuredArticle.id}`} className="group block overflow-hidden rounded-sm hover:shadow-lg transition-all">
+                      <Link href={`/news/${featuredArticle.id}`} prefetch={false} className="group block overflow-hidden rounded-sm hover:shadow-lg transition-all">
                         <OptimizedArticleImage
                           src={featuredArticle.image || "/assets/newsplaceholder.webp"}
                           alt={featuredArticle.title}
@@ -121,7 +121,7 @@ export function ContentSidebarSection({
                   <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-8 border-t border-border/50">
                     {jharkhandSupporting.map((article) => (
                       <article key={article.id} className="group">
-                        <Link href={`/news/${article.id}`} className="block transition-colors hover:text-red-600">
+                        <Link href={`/news/${article.id}`} prefetch={false} className="block transition-colors hover:text-red-600">
                           <h3 className="headlines-title hindi-clamp hindi-clamp-3 transition-colors group-hover:text-red-600">
                             {article.title}
                           </h3>
@@ -137,7 +137,7 @@ export function ContentSidebarSection({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {jharkhandBottom.map((article) => (
                         <article key={article.id} className="group flex gap-4">
-                          <Link href={`/news/${article.id}`} className="relative w-28 h-20 flex-shrink-0 overflow-hidden rounded-sm bg-muted shadow-sm group-hover:shadow-md transition-all">
+                          <Link href={`/news/${article.id}`} prefetch={false} className="relative w-28 h-20 flex-shrink-0 overflow-hidden rounded-sm bg-muted shadow-sm group-hover:shadow-md transition-all">
                             <OptimizedArticleImage
                               src={article.image || "/assets/newsplaceholder.webp"}
                               alt={article.title}
@@ -148,7 +148,7 @@ export function ContentSidebarSection({
                               imageClassName="transition-transform duration-500 group-hover:scale-110" />
                           </Link>
                           <div className="flex flex-col justify-center">
-                            <Link href={`/news/${article.id}`} className="transition-colors hover:text-red-600">
+                            <Link href={`/news/${article.id}`} prefetch={false} className="transition-colors hover:text-red-600">
                               <h3 className="headlines-title hindi-clamp hindi-clamp-3 group-hover:text-red-600" title={article.title}>
                                 {article.title}
                               </h3>
@@ -171,7 +171,7 @@ export function ContentSidebarSection({
                     <div className="space-y-5">
                       {biharPrimary.map((article) => (
                         <article key={article.id} className="group flex gap-4 py-1">
-                          <Link href={`/news/${article.id}`} className="flex-shrink-0 w-28 h-20 overflow-hidden rounded-sm bg-muted shadow-sm group-hover:shadow-md transition-all">
+                          <Link href={`/news/${article.id}`} prefetch={false} className="flex-shrink-0 w-28 h-20 overflow-hidden rounded-sm bg-muted shadow-sm group-hover:shadow-md transition-all">
                             <OptimizedArticleImage
                               src={article.image || "/assets/newsplaceholder.webp"}
                               alt={article.title}
@@ -181,7 +181,7 @@ export function ContentSidebarSection({
                               imageClassName="transition-transform duration-500 group-hover:scale-110"
                             />
                           </Link>
-                          <Link href={`/news/${article.id}`} className="flex-1 transition-colors hover:text-red-600">
+                          <Link href={`/news/${article.id}`} prefetch={false} className="flex-1 transition-colors hover:text-red-600">
                             <h3 className="content-title hindi-clamp hindi-clamp-3 group-hover:text-red-600" title={article.title}>
                               {article.title}
                             </h3>
@@ -197,12 +197,12 @@ export function ContentSidebarSection({
                         <article key={article.id} className="group pb-6 last:pb-0 border-b border-border/30 last:border-0">
                           {index === 0 && article.image ? (
                             <div className="space-y-5">
-                              <Link href={`/news/${article.id}`} className="block transition-colors hover:text-red-600">
+                              <Link href={`/news/${article.id}`} prefetch={false} className="block transition-colors hover:text-red-600">
                                 <h1 className="leading-tight group-hover:text-red-600 hindi-clamp hindi-clamp-4" title={article.title}>
                                   {article.title}
                                 </h1>
                               </Link>
-                              <Link href={`/news/${article.id}`} className="block overflow-hidden rounded-sm shadow-md group-hover:shadow-lg transition-all">
+                              <Link href={`/news/${article.id}`} prefetch={false} className="block overflow-hidden rounded-sm shadow-md group-hover:shadow-lg transition-all">
                                 <OptimizedArticleImage
                                   src={article.image || "/assets/newsplaceholder.webp"}
                                   alt={article.title}
@@ -217,7 +217,7 @@ export function ContentSidebarSection({
                               )}
                             </div>
                           ) : (
-                            <Link href={`/news/${article.id}`} className="block transition-colors hover:text-red-600">
+                            <Link href={`/news/${article.id}`} prefetch={false} className="block transition-colors hover:text-red-600">
                               <h3 className="content-title hindi-clamp hindi-clamp-3 transition-colors group-hover:text-red-600" title={article.title}>
                                 {article.title}
                               </h3>
@@ -240,7 +240,7 @@ export function ContentSidebarSection({
             {sidebarTopArticle && (
               <div className="pb-8 border-b border-border/50">
                 <article className="space-y-4">
-                  <Link href={`/news/${sidebarTopArticle.id}`} className="group block overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-all">
+                  <Link href={`/news/${sidebarTopArticle.id}`} prefetch={false} className="group block overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-all">
                     <OptimizedArticleImage
                       src={sidebarTopArticle.image || "/assets/newsplaceholder.webp"}
                       alt={sidebarTopArticle.title}
@@ -251,7 +251,7 @@ export function ContentSidebarSection({
                     />
                   </Link>
                   <div className="text-left">
-                    <Link href={`/news/${sidebarTopArticle.id}`} className="group block transition-colors hover:text-red-600">
+                    <Link href={`/news/${sidebarTopArticle.id}`} prefetch={false} className="group block transition-colors hover:text-red-600">
                       <span className="content-title leading-snug transition-colors group-hover:text-red-600 hindi-clamp hindi-clamp-4" title={sidebarTopArticle.title}>
                         {sidebarTopArticle.title}
                       </span>
@@ -276,7 +276,7 @@ export function ContentSidebarSection({
                   {sidebarColumns.slice(0, 5).map((item) => (
                     <article key={item.id} className="group flex gap-3 items-start">
                       <div className="flex-1 min-w-0">
-                        <Link href={`/news/${item.id}`} className="block transition-colors hover:text-red-600">
+                        <Link href={`/news/${item.id}`} prefetch={false} className="block transition-colors hover:text-red-600">
                           <span className="headlines-title hindi-clamp hindi-clamp-3 transition-colors group-hover:text-red-600" title={item.title}>
                             {item.title}
                           </span>
@@ -288,7 +288,7 @@ export function ContentSidebarSection({
                           </p>
                         )}
                       </div>
-                      <Link href={`/news/${item.id}`} className="flex-shrink-0 w-20 h-20 overflow-hidden rounded-sm shadow-sm group-hover:shadow-md transition-all">
+                      <Link href={`/news/${item.id}`} prefetch={false} className="flex-shrink-0 w-20 h-20 overflow-hidden rounded-sm shadow-sm group-hover:shadow-md transition-all">
                         <OptimizedArticleImage
                           src={item.image || "/assets/newsplaceholder.webp"}
                           alt={item.title}
@@ -312,7 +312,7 @@ export function ContentSidebarSection({
                   <div className="space-y-6">
                     {sidebarOpinion.left.map((article) => (
                       <article key={article.id} className="group">
-                        <Link href={`/news/${article.id}`} className="block transition-colors hover:text-red-600">
+                        <Link href={`/news/${article.id}`} prefetch={false} className="block transition-colors hover:text-red-600">
                           <span className="hindi-clamp hindi-clamp-3 text-sm transition-colors group-hover:text-red-600" title={article.title}>
                             {article.title}
                           </span>
@@ -324,7 +324,7 @@ export function ContentSidebarSection({
                   <div className="space-y-6">
                     {sidebarOpinion.right.map((article) => (
                       <article key={article.id} className="group">
-                        <Link href={`/news/${article.id}`} className="block transition-colors hover:text-red-600">
+                        <Link href={`/news/${article.id}`} prefetch={false} className="block transition-colors hover:text-red-600">
                           <span className="hindi-clamp hindi-clamp-3 text-sm transition-colors group-hover:text-red-600" title={article.title}>
                             {article.title}
                           </span>

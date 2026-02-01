@@ -9,9 +9,26 @@ import {
 } from "@/components/ui/empty";
 import { Compass, Home } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function NotFound() {
-  const router = useRouter();
+	const router = useRouter();
+	const [countdown, setCountdown] = useState(5);
+
+	useEffect(() => {
+		const timer = setInterval(() => {
+			setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+		}, 1000);
+
+		return () => clearInterval(timer);
+	}, []);
+
+	useEffect(() => {
+		if (countdown === 0) {
+			router.push("/");
+		}
+	}, [countdown, router]);
+
 	return (
 		<div className="flex w-full items-center justify-center">
 			<div className="flex h-screen items-center border-x">
@@ -25,6 +42,9 @@ export default function NotFound() {
 							<EmptyDescription className="text-nowrap">
 								The page you're looking for might have been <br />
 								moved or doesn't exist.
+								<div className="mt-4 text-primary font-medium animate-pulse">
+									Redirecting to home in {countdown} seconds...
+								</div>
 							</EmptyDescription>
 						</EmptyHeader>
 						<EmptyContent>

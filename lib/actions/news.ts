@@ -4,7 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth/jwt-server";
 import { hasPermission } from "@/lib/auth/permissions";
 import { createAuditLog } from "@/lib/audit-log";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { cache } from "react";
 import { z } from "zod";
 import { generateSlug as generateSlugUtil } from "@/lib/utils/slug";
 
@@ -644,9 +645,9 @@ export async function getNewsById(newsId: string) {
 
 /**
  * Get news by slug (public API - no auth required)
- * Used for public news pages
+ * Memoized with React cache for performance
  */
-export async function getNewsBySlug(slug: string) {
+export const getNewsBySlug = cache(async (slug: string) => {
   try {
     const news = await prisma.news.findUnique({
       where: { slug },
@@ -706,12 +707,13 @@ export async function getNewsBySlug(slug: string) {
     console.error("Get news by slug error:", error);
     return { success: false, error: "Failed to fetch news post" };
   }
-}
+});
 
 /**
  * Get related news articles (public API - no auth required)
+ * Memoized with React cache for performance
  */
-export async function getRelatedNews(currentSlug: string, categoryIds: string[] = [], limit: number = 3) {
+export const getRelatedNews = cache(async (currentSlug: string, categoryIds: string[] = [], limit: number = 3) => {
   try {
     const related = await prisma.news.findMany({
       where: {
@@ -755,7 +757,7 @@ export async function getRelatedNews(currentSlug: string, categoryIds: string[] 
     console.error("Get related news error:", error);
     return { success: false, error: "Failed to fetch related news", news: [] };
   }
-}
+});
 
 /**
  * Track news view (public API - no auth required)

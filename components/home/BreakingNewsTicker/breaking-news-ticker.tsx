@@ -57,6 +57,7 @@ export function BreakingNewsTicker({ news, onClose, className }: BreakingNewsTic
                 <ChevronRight className="h-4 w-4 text-[#102039] mr-2" />
                 <Link
                   href={`/news/${item.slug}`}
+                  prefetch={false}
                   className="hover:text-[#102039] transition-colors text-sm md:text-base"
                 >
                   {item.title}

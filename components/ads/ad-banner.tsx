@@ -23,7 +23,7 @@ const sizeClasses = {
   small: "w-full h-16",
   medium: "w-full h-28",
   large: "w-full md:h-36 h-28",
-  leaderboard: "w-full max-w-[1400px] h-[180px]",
+  leaderboard: "w-full max-w-[1400px] lg:h-[180px] md:h-[120px] h-[100px]",
   sidebar: "w-full aspect-[3/4] max-w-[350px]",
 };
 
@@ -38,7 +38,11 @@ export function AdBanner({
   useEffect(() => {
     if (ad.id && !ad.id.startsWith("default-")) {
       // Track impression in background (non-blocking)
-      fetch(`/api/ads/impression/${ad.id}`, { method: "POST" }).catch(() => {
+      // Use keepalive: true to ensure the request completes even if the page is navigating away
+      fetch(`/api/ads/impression/${ad.id}`, {
+        method: "POST",
+        keepalive: true
+      }).catch(() => {
         // Silently fail - don't break the page
       });
     }
@@ -50,7 +54,10 @@ export function AdBanner({
   const handleClick = () => {
     if (ad.id && !ad.id.startsWith("default-") && clickUrl) {
       // Track click in background (non-blocking)
-      fetch(`/api/ads/click/${ad.id}`, { method: "POST" }).catch(() => {
+      fetch(`/api/ads/click/${ad.id}`, {
+        method: "POST",
+        keepalive: true
+      }).catch(() => {
         // Silently fail - don't break the page
       });
     }

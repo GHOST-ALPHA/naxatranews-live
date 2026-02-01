@@ -2,13 +2,10 @@ import { FeaturedSection } from "./featured-section"
 import { ContentSidebarSection } from "./content-sidebar-section"
 import { getCombinedHomeData } from "@/lib/actions/home-data"
 import { BreakingNewsTicker } from "@/components/home/BreakingNewsTicker/breaking-news-ticker"
-import { ChevronRight, Link } from "lucide-react"
 import dynamic from "next/dynamic"
+import { AdLeaderboard } from "@/components/ads/ad-leaderboard"
+import { AdInline } from "@/components/ads/ad-inline"
 
-// Dynamic imports for performance (Below the fold content)
-const Ads = dynamic(() => import("@/components/ads/page"), {
-  loading: () => <div className="w-full h-32 bg-muted/10 animate-pulse my-8" />
-})
 
 const CategoryNewsSection = dynamic(() => import("./category-news-section").then(mod => mod.CategoryNewsSection), {
   loading: () => <div className="w-full h-[800px] bg-muted/5 animate-pulse my-8" />
@@ -19,9 +16,6 @@ const OneSection = dynamic(() => import("./section-one").then(mod => mod.OneSect
 })
 
 export default async function Home() {
-  // Fetch all data server-side in parallel
-  // getCombinedHomeData fetches ALL data including featured, sidebar, technology AND category sections
-  // with global deduplication logic
   const combinedData = await getCombinedHomeData();
 
   const { featuredData, contentSidebarData, technologyData, categorySectionData } = combinedData;
@@ -70,6 +64,9 @@ export default async function Home() {
         </div>
       </div> */}
 
+      {/* Inline AD - Proper Practice 0 */}
+      <AdInline position={0} showDefault={true} />
+
       {/* STATE SECTION - Static (Important Content) */}
       <ContentSidebarSection
         topHeadlines={contentSidebarData.topHeadlines}
@@ -82,8 +79,8 @@ export default async function Home() {
         sidebarOpinion={contentSidebarData.sidebarOpinion}
       />
 
-      {/* Middle ADS - Dynamic */}
-      <Ads />
+      {/* Middle Inline ADS - Dynamic 1*/}
+      <AdInline showDefault={true} position={1} />
 
       {/* CATEGORY SECTIONS - Dynamic (Heavy Listing) */}
       <CategoryNewsSection
@@ -95,6 +92,7 @@ export default async function Home() {
         exclusiveNews={categorySectionData.exclusiveNews}
         sidebarBottom={categorySectionData.sidebarBottom}
       />
+      <AdInline showDefault={true} position={2} />
 
       {/* TECHNOLOGY SECTION - Dynamic */}
       <OneSection

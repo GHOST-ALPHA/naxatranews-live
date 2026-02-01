@@ -27,7 +27,28 @@ const AdInline = dynamic(() => import("@/components/ads/ad-inline").then(mod => 
   loading: () => <div className="w-full h-32 bg-muted/5 animate-pulse my-12" />
 })
 
-export const revalidate = 60
+export const revalidate = 60; // ISR: Revalidate every 60 seconds
+export const dynamicParams = true; // Allow rendering of slugs not pre-generated
+
+// Generate static params for the top 100 latest news for pre-rendering
+export async function generateStaticParams() {
+  try {
+    const { prisma } = await import("@/lib/prisma");
+    const latestNews = await prisma.news.findMany({
+      where: { isPublished: true, isActive: true },
+      select: { slug: true },
+      orderBy: { publishedAt: 'desc' },
+      take: 100,
+    });
+
+    return latestNews.map((news) => ({
+      slug: news.slug,
+    }));
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    return [];
+  }
+}
 
 interface PageProps {
   params: Promise<{

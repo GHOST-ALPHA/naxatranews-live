@@ -101,7 +101,7 @@ function CategoryBlockTypeA({
 
       {/* Featured Article */}
       <article>
-        <Link href={`/news/${featuredSlug}`} className="flex flex-col md:flex-row gap-8 mb-10 group cursor-pointer items-start">
+        <Link href={`/news/${featuredSlug}`} prefetch={false} className="flex flex-col md:flex-row gap-8 mb-10 group cursor-pointer items-start">
           <div
             className={cn(
               "w-full md:w-[60%] overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-all",
@@ -139,6 +139,7 @@ function CategoryBlockTypeA({
             <article key={idx} className="group">
               <Link
                 href={`/news/${article.slug || "#"}`}
+                prefetch={false}
                 className="block transition-colors hover:text-red-600"
               >
                 <h3 className="headlines-title transition-colors group-hover:text-red-600 hindi-clamp hindi-clamp-3" title={article.title}>
@@ -169,7 +170,7 @@ function CategoryBlockTypeB({
 
       {/* Top Featured */}
       <article>
-        <Link href={`/news/${featuredSlug}`} className="flex flex-col md:flex-row gap-8 mb-10 group cursor-pointer items-start">
+        <Link href={`/news/${featuredSlug}`} prefetch={false} className="flex flex-col md:flex-row gap-8 mb-10 group cursor-pointer items-start">
           <div className="w-full md:w-[60%] flex flex-col justify-center">
             <h1 className="leading-tight mb-4 transition-colors group-hover:text-red-600 hindi-clamp hindi-clamp-4" title={data.featured.title}>
               {data.featured.title}
@@ -201,6 +202,7 @@ function CategoryBlockTypeB({
             <article key={idx} className="group flex gap-4 items-center">
               <Link
                 href={`/news/${article.slug || "#"}`}
+                prefetch={false}
                 className="flex-shrink-0 w-28 h-20 overflow-hidden rounded-sm bg-muted shadow-sm hover:shadow-md transition-all"
               >
                 <OptimizedArticleImage
@@ -215,6 +217,7 @@ function CategoryBlockTypeB({
               </Link>
               <Link
                 href={`/news/${article.slug || "#"}`}
+                prefetch={false}
                 className="flex-1 transition-colors hover:text-red-600"
               >
                 <h3 className="content-title hindi-clamp hindi-clamp-3 transition-colors" title={article.title}>
@@ -233,6 +236,7 @@ function CategoryBlockTypeB({
             <article key={idx} className="group">
               <Link
                 href={`/news/${article.slug || "#"}`}
+                prefetch={false}
                 className="block transition-colors hover:text-red-600"
               >
                 <h3 className="headlines-title transition-colors group-hover:text-red-600">
@@ -258,6 +262,7 @@ function SidebarTopTrending({ data }: { data: TopTrendingItem[] }) {
           <article key={item.id} className="group">
             <Link
               href={`/news/${item.slug}`}
+              prefetch={false}
               className="block mb-4 overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-all"
             >
               <OptimizedArticleImage
@@ -274,7 +279,7 @@ function SidebarTopTrending({ data }: { data: TopTrendingItem[] }) {
               <span className="text-3xl font-black text-red-600 leading-none opacity-20 group-hover:opacity-100 transition-opacity duration-500">
                 {item.id}
               </span>
-              <Link href={`/news/${item.slug}`} className="transition-colors hover:text-red-600">
+              <Link href={`/news/${item.slug}`} prefetch={false} className="transition-colors hover:text-red-600">
                 <h3 className="content-title leading-snug transition-colors group-hover:text-red-600 hindi-clamp hindi-clamp-3" title={item.title}>
                   {item.title}
                 </h3>
@@ -298,6 +303,7 @@ function SidebarExclusiveNews({ data }: { data: ExclusiveNewsItem[] }) {
           <article key={idx} className="group">
             <Link
               href={`/news/${item.slug}`}
+              prefetch={false}
               className="block mb-2 overflow-hidden rounded-sm shadow-sm hover:shadow-md transition-all"
             >
               <OptimizedArticleImage
@@ -310,7 +316,7 @@ function SidebarExclusiveNews({ data }: { data: ExclusiveNewsItem[] }) {
                 imageClassName="transition-transform duration-500 group-hover:scale-110"
               />
             </Link>
-            <Link href={`/news/${item.slug}`} className="transition-colors hover:text-red-600">
+            <Link href={`/news/${item.slug}`} prefetch={false} className="transition-colors hover:text-red-600">
               <h3 className="headlines-title transition-colors hindi-clamp hindi-clamp-3" title={item.title}>
                 {item.title}
               </h3>
@@ -331,6 +337,7 @@ function SidebarSmallList({ data }: { data: SidebarSmallListItem[] }) {
         <article key={idx} className="group flex gap-3 items-center">
           <Link
             href={`/news/${item.slug}`}
+            prefetch={false}
             className="flex-shrink-0 w-24 h-16 overflow-hidden rounded-sm bg-muted shadow-sm hover:shadow-md transition-all"
           >
             <OptimizedArticleImage
@@ -345,6 +352,7 @@ function SidebarSmallList({ data }: { data: SidebarSmallListItem[] }) {
           </Link>
           <Link
             href={`/news/${item.slug}`}
+            prefetch={false}
             className="flex-1 transition-colors hover:text-red-600"
           >
             <h4 className="headlines-title transition-colors hindi-clamp hindi-clamp-3" title={item.title}>

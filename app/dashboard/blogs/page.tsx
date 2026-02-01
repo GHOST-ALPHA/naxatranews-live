@@ -44,30 +44,30 @@ export default async function BlogsPage({
   return (
     <PageContainer >
       <div className='flex flex-1 flex-col space-y-2'>
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">My Blogs</h1>
-          <p className="text-muted-foreground mt-2">
-            Manage your blog posts
-          </p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">My Blogs</h1>
+            <p className="text-muted-foreground mt-2">
+              Manage your blog posts
+            </p>
+          </div>
+          <Link href="/dashboard/blogs/new">
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              Create Blog
+            </Button>
+          </Link>
         </div>
-        <Link href="/dashboard/blogs/new">
-          <Button>
-            <Plus className="h-4 w-4 mr-2" />
-            Create Blog
-          </Button>
-        </Link>
-      </div>
 
-      <BlogsTable
-        blogs={result.blogs}
-        total={result.total}
-        page={result.page}
-        totalPages={result.totalPages}
-        search={search}
-      />
-    </div>
-  </PageContainer>
+        <BlogsTable
+          blogs={result.blogs}
+          total={result.total}
+          page={result.page}
+          totalPages={result.totalPages}
+          search={search}
+        />
+      </div>
+    </PageContainer>
   );
 }
 

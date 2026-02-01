@@ -164,7 +164,7 @@ export function SearchBar({ variant = "desktop", onClose }: SearchBarProps) {
       className={cn(
         "relative w-full",
         isMobile &&
-          "fixed inset-x-0 top-0 z-50 bg-card text-white px-3 py-2 border-b"
+        "fixed inset-x-0 top-0 z-50 bg-card text-white px-3 py-2 border-b"
       )}
     >
       {/* Top row: search input + mobile close button */}
@@ -235,6 +235,7 @@ export function SearchBar({ variant = "desktop", onClose }: SearchBarProps) {
             <Link
               key={suggestion.id}
               href={`/news/${suggestion.slug}`}
+              prefetch={false}
               onClick={() => {
                 setShowSuggestions(false);
                 onClose?.();

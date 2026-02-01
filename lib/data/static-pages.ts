@@ -301,6 +301,58 @@ export const staticPagesData: any = {
       }
     ],
     lastUpdated: "30 Jan 2026"
+  },
+  ads: {
+    title: "Advertising",
+    description: "Learn about advertising opportunities with Naxatra News Hindi.",
+    sections: [
+      {
+        type: "hero",
+        title: "Advertise with Us",
+        content: "Naxatra News Hindi offers a variety of advertising options to reach our diverse and engaged audience. Whether you're looking for display ads, sponsored content, or custom partnerships, we have the right solution for your brand."
+      },
+      {
+        type: "features",
+        title: "Why Advertise with Naxatra?",
+        items: [
+          {
+            title: "Wide Reach",
+            description: "Reach millions of readers across various demographics and interests."
+          },
+          {
+            title: "Engaged Audience",
+            description: "Target a highly engaged audience that values quality news and information."
+          },
+          {
+            title: "Multiple Formats",
+            description: "Choose from display ads, video ads, sponsored articles, and more."
+          },
+          {
+            title: "Custom Solutions",
+            description: "Work with our team to create bespoke advertising campaigns tailored to your needs."
+          }
+        ]
+      },
+      {
+        type: "features",
+        title: "Our Audience",
+        items: [
+          {
+            title: "Demographics",
+            description: "Our audience consists of decision-makers, professionals, and general news consumers."
+          },
+          {
+            title: "Geographic Reach",
+            description: "Strong presence in Jharkhand, Bihar, and across the Hindi-speaking belt of India."
+          }
+        ]
+      },
+      {
+        type: "content",
+        title: "Contact Our Ad Team",
+        content: "For more information on advertising rates, demographics, and available formats, please contact our advertising team at media@naxatraindia.com."
+      }
+    ]
   }
 }
 

@@ -18,7 +18,7 @@ async function AdSidebarContent({ showDefault = true, position = 0 }: { showDefa
   let ad: AdDisplay | null = null;
 
   try {
-    const ads = await getActiveAdsByZone("sidebar", 5); // Fetch up to 5 ads
+    const ads = await getActiveAdsByZone("sidebar", 5);
     ad = ads[position] || null;
   } catch (error) {
     console.error("Error loading sidebar ad:", error);

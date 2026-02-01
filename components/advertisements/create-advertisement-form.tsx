@@ -93,6 +93,7 @@ const AD_ZONES = [
   { value: "footer", label: "Footer" },
   { value: "inline", label: "Inline" },
   { value: "popup", label: "Popup" },
+  { value: "leaderboard", label: "Leaderboard" },
 ];
 
 export function CreateAdvertisementForm() {
@@ -150,7 +151,7 @@ export function CreateAdvertisementForm() {
         endDate: datetimeLocalToISO(data.endDate),
         imageUrl: data.imageUrl ?? "",
       };
-      
+
       const result = await createAdvertisement(transformedData);
 
       if (result.success) {
@@ -414,8 +415,8 @@ export function CreateAdvertisementForm() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       disabled={loading || !isValid}
                       className="w-full h-11 text-base font-semibold"
                       size="lg"
@@ -446,14 +447,12 @@ export function CreateAdvertisementForm() {
 
                 {/* Additional Settings Card */}
                 <Card className="shadow-sm border">
-                  <CardHeader className="pb-4">
-                    <CardTitle className="text-lg">Additional Settings</CardTitle>
-                  </CardHeader>
+
                   <CardContent className="space-y-4">
                     <div className="space-y-3">
-                      <Label htmlFor="newsId" className="text-base font-medium">Link to News Post</Label>
+                      <Label htmlFor="newsId" className="text-base font-bold">Link to News Post</Label>
                       <Select onValueChange={(value) => setValue("newsId", value === "none" ? undefined : value)}>
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select a news post" />
                         </SelectTrigger>
                         <SelectContent>
@@ -468,6 +467,68 @@ export function CreateAdvertisementForm() {
                     </div>
                   </CardContent>
                 </Card>
+
+                {/* Zone & Position Guide Card */}
+                <Card className="shadow-sm border-2 border-primary/10 overflow-hidden">
+
+                  <CardContent className="p-0">
+                    <CardTitle className="px-3 text-base font-bold flex items-center gap-2">
+                      <Settings className="h-4 w-4 text-primary" />
+                      Zone & Position Guide
+                    </CardTitle>
+                    <div className="divide-y divide-border">
+                      <div className="p-4 space-y-3">
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="space-y-1">
+                            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Standard Sizes</Label>
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="font-medium">Header</span>
+                                <span className="text-primary font-mono bg-primary/5 px-1.5 py-0.5 rounded">1400×140</span>
+                              </div>
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="font-medium">Sidebar</span>
+                                <span className="text-primary font-mono bg-primary/5 px-1.5 py-0.5 rounded">350×460</span>
+                              </div>
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="font-medium">Leaderboard</span>
+                                <span className="text-primary font-mono bg-primary/5 px-1.5 py-0.5 rounded">600×400</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold invisible">.</Label>
+                            <div className="space-y-2">
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="font-medium">Inline</span>
+                                <span className="text-primary font-mono bg-primary/5 px-1.5 py-0.5 rounded">728×90</span>
+                              </div>
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="font-medium">Footer</span>
+                                <span className="text-primary font-mono bg-primary/5 px-1.5 py-0.5 rounded">1200×140</span>
+                              </div>
+                              <div className="flex items-center justify-between text-xs">
+                                <span className="font-medium">Popup</span>
+                                <span className="text-primary font-mono bg-primary/5 px-1.5 py-0.5 rounded">600×400</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="px-6 py-4 bg-muted/20">
+                        <p className="text-[11px] leading-relaxed text-muted-foreground">
+                          <li><strong className="text-foreground">Header [Position: 0]</strong> Homepage, Category, Article.</li>
+                          <li><strong className="text-foreground">Sidebar [Position: 0,1,2]</strong> Homepage(0,2), Category(0,1), Article(0,1).</li>
+                          <li><strong className="text-foreground">Leaderboard [Position: 0,1]</strong> Homepage</li>
+                          <li><strong className="text-foreground">Inline [Position: 0,1]</strong> Homepage(0,1).</li>
+                          <li><strong className="text-foreground">Footer [Position: 0]</strong> All Footer.</li>
+                          <li><strong className="text-foreground">Popup [Position: 0]</strong> Article Page.</li>
+                        </p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
               </div>
             </div>
           </div>

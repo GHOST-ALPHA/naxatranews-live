@@ -83,7 +83,7 @@ export const SectionHeader = memo(({
 
   if (href) {
     return (
-      <Link href={href} className="block w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2 rounded-sm mb-2">
+      <Link href={href} prefetch={false} className="block w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2 rounded-sm mb-2">
         {content}
       </Link>
     );

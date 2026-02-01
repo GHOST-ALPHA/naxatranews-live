@@ -34,12 +34,12 @@ function AdPopupContent({ ad, onClose }: AdPopupProps) {
   };
 
   const content = (
-    <div className="relative w-full max-w-[400px] aspect-[4/3] bg-muted rounded-lg border border-border overflow-hidden shadow-2xl">
+    <div className="relative w-full aspect-[4/3] min-h-[280px] sm:min-h-[300px] bg-muted rounded-lg border border-border overflow-hidden shadow-2xl flex items-center justify-center">
       {/* Close Button */}
       <Button
         variant="ghost"
         size="icon"
-        className="absolute top-2 right-2 z-20 h-8 w-8 rounded-full bg-black/60 hover:bg-black/80 text-white"
+        className="absolute top-2 right-2 z-30 h-8 w-8 rounded-full bg-black/60 hover:bg-black/80 text-white shadow-sm transition-colors"
         onClick={onClose}
         aria-label="Close advertisement"
       >
@@ -53,7 +53,7 @@ function AdPopupContent({ ad, onClose }: AdPopupProps) {
 
       {/* Ad Image */}
       <Image
-        src={ad.imageUrl || "https://via.placeholder.com/400x300/1e293b/94a3b8?text=Advertisement"}
+        src={ad.imageUrl || "/ad-card.jpg"}
         alt={ad.title}
         fill
         className="object-cover"
@@ -130,60 +130,72 @@ export function AdPopup({
 
     // Don't show if already shown recently
     if (checkCookie()) {
+      console.log("AdPopup: Ad hidden due to frequency limit (cookie found)");
       setIsLoading(false);
       return;
     }
 
     // Fetch popup ad
-    const fetchPopupAd = async () => {
+    const fetchPopupAd = async (): Promise<AdDisplay | null> => {
       try {
-        const response = await fetch("/api/ads/popup", { cache: "no-store" });
+        console.log("AdPopup: Fetching ad...");
+        const response = await fetch("/api/ads/popup", {
+          cache: "no-store",
+          keepalive: true
+        });
+
         if (response.ok) {
           const data = await response.json();
-          if (data.ad) {
+          if (data && data.ad) {
+            console.log("AdPopup: Ad found", data.ad.id);
             setAd(data.ad);
-            return true;
-          } else if (showDefault) {
-            // Use default popup ad
-            setAd({
-              id: "default-popup",
-              title: "Advertisement",
-              description: "Popup advertisement space available",
-              imageUrl: "https://www.naxatranewshindi.com/storage/media/uploads/placeholder-1764866027363-00de23ee72a4108a.jpg",
-              linkUrl: null,
-              zone: "popup",
-              position: 0,
-              newsId: null,
-            });
-            return true;
+            return data.ad;
           }
         }
-      } catch (error) {
-        console.error("Error loading popup ad:", error);
+
+        // Fallback to default if no ad in response or response not ok
         if (showDefault) {
-          setAd({
+          console.log("AdPopup: No ad found, using default");
+          const defaultAd = {
             id: "default-popup",
             title: "Advertisement",
             description: "Popup advertisement space available",
-            imageUrl: "https://www.naxatranewshindi.com/storage/media/uploads/placeholder-1764866027363-00de23ee72a4108a.jpg",
+            imageUrl: "/ad-card.jpg",
             linkUrl: null,
             zone: "popup",
             position: 0,
             newsId: null,
-          });
-          return true;
+          };
+          setAd(defaultAd);
+          return defaultAd;
+        }
+      } catch (error) {
+        console.error("Error loading popup ad:", error);
+        if (showDefault) {
+          const defaultAd = {
+            id: "default-popup",
+            title: "Advertisement",
+            description: "Popup advertisement space available",
+            imageUrl: "/ad-card.jpg",
+            linkUrl: null,
+            zone: "popup",
+            position: 0,
+            newsId: null,
+          };
+          setAd(defaultAd);
+          return defaultAd;
         }
       } finally {
         setIsLoading(false);
       }
-      return false;
+      return null;
     };
 
     // Fetch and show popup after delay
     const timer = setTimeout(async () => {
-      const hasAd = await fetchPopupAd();
-      // Check if we have an ad to show
-      if (hasAd) {
+      const fetchedAd = await fetchPopupAd();
+      // Only show if we have an ad and it has a valid image
+      if (fetchedAd && fetchedAd.imageUrl) {
         setIsVisible(true);
         setCookie();
       }
@@ -199,7 +211,10 @@ export function AdPopup({
   // Track impression when popup becomes visible
   useEffect(() => {
     if (isVisible && ad && !ad.id.startsWith("default-")) {
-      fetch(`/api/ads/impression/${ad.id}`, { method: "POST" }).catch(() => {
+      fetch(`/api/ads/impression/${ad.id}`, {
+        method: "POST",
+        keepalive: true
+      }).catch(() => {
         // Silently fail
       });
     }
@@ -222,7 +237,7 @@ export function AdPopup({
       aria-label="Advertisement"
     >
       <div
-        className="relative"
+        className="relative w-full max-w-[400px] mx-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <AdPopupContent ad={ad} onClose={handleClose} />

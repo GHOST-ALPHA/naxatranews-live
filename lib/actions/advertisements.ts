@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getCurrentUser } from "@/lib/auth/jwt-server";
 import { hasPermission } from "@/lib/auth/permissions";
 import { createAuditLog } from "@/lib/audit-log";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
 /**
@@ -126,7 +126,8 @@ export async function createAdvertisement(data: z.infer<typeof createAdvertiseme
       description: `User ${currentUser.email} created advertisement: ${advertisement.title}`,
     });
 
-    revalidatePath("/dashboard/advertisements");
+    revalidatePath("/dashboard/advertisements", "page");
+    revalidatePath("/", "layout");
 
     return { success: true, advertisement };
   } catch (error) {
@@ -237,7 +238,8 @@ export async function updateAdvertisement(data: z.infer<typeof updateAdvertiseme
       description: `User ${currentUser.email} updated advertisement: ${advertisement.title}`,
     });
 
-    revalidatePath("/dashboard/advertisements");
+    revalidatePath("/dashboard/advertisements", "page");
+    revalidatePath("/", "layout");
 
     return { success: true, advertisement };
   } catch (error) {
@@ -289,7 +291,8 @@ export async function deleteAdvertisement(adId: string) {
       description: `User ${currentUser.email} deleted advertisement: ${ad.title}`,
     });
 
-    revalidatePath("/dashboard/advertisements");
+    revalidatePath("/dashboard/advertisements", "page");
+    revalidatePath("/", "layout");
 
     return { success: true };
   } catch (error) {

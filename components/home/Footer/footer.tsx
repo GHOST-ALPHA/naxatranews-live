@@ -62,6 +62,7 @@ export function Footer() {
                                     <li key={link.href}>
                                         <Link
                                             href={link.href}
+                                            prefetch={false}
                                             className="text-gray-400 hover:text-white transition-colors text-xs md:text-sm flex items-center group"
                                         >
                                             <ChevronRight className="h-3 w-3 mr-1.5 md:mr-2 text-red-600 opacity-100 md:opacity-0 md:-ml-5 md:group-hover:opacity-100 md:group-hover:ml-0 transition-all duration-300" />
@@ -80,6 +81,7 @@ export function Footer() {
                                     <li key={cat.href}>
                                         <Link
                                             href={cat.href}
+                                            prefetch={false}
                                             className="text-gray-400 hover:text-white transition-colors text-xs md:text-sm flex items-center group"
                                         >
                                             <ChevronRight className="h-3 w-3 mr-1.5 md:mr-2 text-red-600 opacity-100 md:opacity-0 md:-ml-5 md:group-hover:opacity-100 md:group-hover:ml-0 transition-all duration-300" />

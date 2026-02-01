@@ -27,11 +27,11 @@ export function ArticleHeader({ article }: ArticleHeaderProps) {
 
         {/* Breadcrumb */}
         <div className="flex items-center text-xs sm:text-sm text-muted-foreground  overflow-x-auto whitespace-nowrap">
-          <Link href="/" className="hover:text-foreground transition-colors">
+          <Link href="/" prefetch={false} className="hover:text-foreground transition-colors">
             Home
           </Link>
           <span className="mx-2">»</span>
-          <Link href={`/news/${article.category}`} className="hover:text-foreground capitalize transition-colors">
+          <Link href={`/news/${article.category}`} prefetch={false} className="hover:text-foreground capitalize transition-colors">
             {article.category}
           </Link>
           <span className="mx-2">»</span>

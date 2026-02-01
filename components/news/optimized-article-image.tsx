@@ -33,11 +33,17 @@ export function OptimizedArticleImage({
   objectFit = "cover",
   onError,
 }: OptimizedArticleImageProps) {
+  // Handle src changes from parent
   const [imageError, setImageError] = useState(false)
-  const [imageSrc, setImageSrc] = useState(src)
+  const [currentSrc, setCurrentSrc] = useState(src)
+
+  // Reset error and update src when prop changes
+  if (src !== currentSrc && !imageError) {
+    setCurrentSrc(src);
+  }
 
   // Detect if image is a video thumbnail
-  const isVideoThumbnail = imageSrc.includes("img.youtube.com") || imageSrc.includes("i.vimeocdn.com")
+  const isVideoThumbnail = currentSrc.includes("img.youtube.com") || currentSrc.includes("i.vimeocdn.com")
   const hasVideo = videoUrl && showPlayButton
 
   // Determine aspect ratio class
@@ -48,13 +54,13 @@ export function OptimizedArticleImage({
     "4/3": "aspect-[4/3]",
     square: "aspect-square",
     video: "aspect-video",
-  }[aspectRatio] : ""
+  }[aspectRatio as string] : ""
 
   const handleError = () => {
     if (!imageError) {
       setImageError(true)
       // Fallback to placeholder
-      setImageSrc("/assets/newsplaceholder.webp")
+      setCurrentSrc("/assets/newsplaceholder.webp")
       onError?.()
     }
   }
@@ -64,10 +70,10 @@ export function OptimizedArticleImage({
 
   return (
     <div className={cn("relative w-full overflow-hidden bg-muted/30", aspectRatioClass, className)}>
-      {!imageError && imageSrc ? (
+      {!imageError && currentSrc ? (
         <>
           <Image
-            src={imageSrc}
+            src={currentSrc}
             alt={alt}
             fill
             className={cn(
@@ -80,7 +86,7 @@ export function OptimizedArticleImage({
             loading={priority ? undefined : "lazy"}
             quality={85}
             onError={handleError}
-            unoptimized={imageSrc.includes("img.youtube.com") || imageSrc.includes("i.vimeocdn.com")}
+            unoptimized={currentSrc.includes("img.youtube.com") || currentSrc.includes("i.vimeocdn.com")}
           />
 
           {/* Play Button Overlay for Videos */}
@@ -100,12 +106,11 @@ export function OptimizedArticleImage({
             alt="Placeholder"
             fill
             className={cn(
-              objectFit === "cover",
+              objectFit === "cover" ? "object-cover" : "object-contain",
             )}
             priority
           />
         </div>
-
       )}
     </div>
   )

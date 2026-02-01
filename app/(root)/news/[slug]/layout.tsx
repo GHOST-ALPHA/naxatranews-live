@@ -52,7 +52,7 @@ export default function ArticleLayout({
       />
 
       {/* Popup Ad - Zone: popup, Position: 0 (Client-side, shows after delay) */}
-      {/* <AdPopup showDefault={true} delay={3000} frequency={1} /> */}
+      <AdPopup showDefault={false} delay={3000} frequency={1} />
     </div>
   )
 }

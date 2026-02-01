@@ -15,6 +15,7 @@ import {
 import { FloatingPaths } from "./floating-paths";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
 
 export function SignInViewPage() {
   const router = useRouter();
@@ -114,23 +115,31 @@ export function SignInViewPage() {
 
   return (
     <main className="relative md:h-screen md:overflow-hidden lg:grid lg:grid-cols-2">
-      <div className="relative hidden h-full flex-col border-r bg-secondary p-10 lg:flex dark:bg-secondary/20">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+      <div
+        className={cn(
+          "relative hidden lg:flex flex-col justify-between p-10 overflow-hidden",
+          "bg-accent text-white",
+        )}
+      >
 
-        <div className="z-10 mt-auto">
-          <blockquote className="space-y-2">
-            <p className="text-xl">
-              &ldquo;Truth is our mission, speed is our strength — Naxatra News brings the world to you as it happens.&rdquo;
-            </p>
-            <footer className="font-mono font-semibold text-sm">
-              ~ Naxatra News Network
-            </footer>
-          </blockquote>
+        <img
+          src='/feature.webp'
+          alt="img"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 object-cover h-full"
+        ></img>
 
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="relative z-10 flex items-center gap-2">
+          {/* ss */}
+          {/* <span className="text-lg font-semibold">sss</span> */}
         </div>
-        <div className="absolute inset-0">
-          <FloatingPaths position={1} />
-          <FloatingPaths position={-1} />
+        <div className="relative z-10 max-w-md">
+          <p className="text-sm text-muted mb-2 dark:text-muted-foreground">
+            {/* ss */}
+          </p>
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight leading-tight">
+
+          </h2>
         </div>
       </div>
 
@@ -158,7 +167,7 @@ export function SignInViewPage() {
             </h1>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          {/* <div className="grid grid-cols-2 gap-4">
             <Button className="w-full" size="lg" type="button" variant="outline">
               <GoogleIcon className="h-4 w-4 mr-2" />
               Google
@@ -168,7 +177,7 @@ export function SignInViewPage() {
               <GithubIcon className="h-4 w-4 mr-2" />
               Meta
             </Button>
-          </div>
+          </div> */}
 
           <div className="flex w-full items-center justify-center">
             <div className="h-px w-full bg-border" />

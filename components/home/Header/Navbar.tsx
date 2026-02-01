@@ -218,7 +218,7 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
                       <Image src="/logo/logo.png" alt="Naxatra_News" width={40} height={40} />
                       {/* Compact Text */}
                       <div className="flex flex-col items-start">
-                        <span className="font-bold text-base leading-none bg-gradient-to-r from-[#FF9933] to-[#138808] bg-clip-text text-transparent">
+                        <span className="font-black text-xl leading-none  tracking-tighter uppercase drop-shadow-[0_2px_10px_rgba(255,255,255,0.2)]">
                           Naxatra News
                         </span>
                         <span className="text-[10px] mt-0.5 font-medium text-muted-foreground">
@@ -240,7 +240,7 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
                         onClick={() => handleMobileNavigation("/")}
                         className="w-full justify-start gap-2 px-2 py-2 h-9 text-sm font-bold"
                       >
-                        <span className="text-xs">HOME</span>
+                        <span className="text-xs">होम</span>
                       </Button>
 
                       {/* Compact Menu Items */}
@@ -323,10 +323,13 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
 
 
             </div>    {/* main logo for desktop */}
-            <div className="hidden lg:block">
-              <span className="text-7xl font-extrabold pl-2">
-                NAXATRA NEWS
-              </span>
+            <div className="hidden lg:flex items-center select-none group cursor-pointer transition-all duration-500 hover:scale-[1.01]" onClick={() => router.push("/")}>
+              <div className="flex items-baseline py-1">
+                <span className="text-5xl xl:text-7xl font-black tracking-tighter text-white drop-shadow-[0_2px_15px_rgba(255,255,255,0.2)] uppercase">
+                  NAXATRA NEWS
+                </span>
+
+              </div>
             </div>
 
 
@@ -423,7 +426,7 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
                           router.push("/");
                         }}
                       >
-                        HOME
+                        होम
                       </a>
                     </MenubarTrigger>
                   </MenubarMenu>
@@ -510,7 +513,7 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
                       router.push("/")
                     }}
                   >
-                    HOME
+                    होम
                   </a>
 
                   {/* Menu Items */}
