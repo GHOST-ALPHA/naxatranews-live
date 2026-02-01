@@ -9,7 +9,7 @@ import { applySecurityHeaders } from "@/lib/security/headers";
  */
 
 // Public routes that don't require authentication
-const publicRoutes = ["/login", "/api/auth"];
+const publicRoutes = ["/auth/sign-in", "/auth/sign-up", "/auth/forgot-password", "/api/auth"];
 
 // Routes that require authentication but not specific permissions
 const authRoutes = ["/dashboard"];
@@ -18,7 +18,7 @@ const authRoutes = ["/dashboard"];
  * Check if route is public
  */
 function isPublicRoute(pathname: string): boolean {
-  return publicRoutes.some((route) => pathname.startsWith(route));
+  return publicRoutes.some((route) => pathname === route || pathname.startsWith(route));
 }
 
 /**
@@ -51,7 +51,7 @@ export async function middleware(request: NextRequest) {
 
     if (!token) {
       // Redirect to login if not authenticated
-      const loginUrl = new URL("/login", request.url);
+      const loginUrl = new URL("/auth/sign-in", request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }
@@ -60,7 +60,7 @@ export async function middleware(request: NextRequest) {
     const payload = await verifyToken(token);
     if (!payload) {
       // Invalid token, redirect to login
-      const loginUrl = new URL("/login", request.url);
+      const loginUrl = new URL("/auth/sign-in", request.url);
       loginUrl.searchParams.set("error", "invalid_token");
       const response = NextResponse.redirect(loginUrl);
       response.cookies.delete("auth-token");
