@@ -62,14 +62,14 @@ RUN mkdir -p public/storage/media/uploads && \
 USER nextjs
 
 # Expose port
-EXPOSE 3333
+EXPOSE 4141
 
-ENV PORT=3333
+ENV PORT=4141
 ENV HOSTNAME="0.0.0.0"
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3333/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+  CMD node -e "require('http').get('http://localhost:4141/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
 # Start the application
 CMD ["node", "server.js"]
