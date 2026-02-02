@@ -6,9 +6,15 @@ import { generateToken, verifyToken, JWTPayload } from "./jwt-core";
 
 export async function setAuthCookie(token: string) {
   const cookieStore = await cookies();
+
+  // Allow disabling secure cookies for testing via IP (HTTP)
+  // Default to secure in production unless explicitly disabled
+  const isSecure = process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_DISABLE_SECURE_COOKIE !== "true";
+
   cookieStore.set("auth-token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    // secure: process.env.NODE_ENV === "production",
+    secure: isSecure,
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * 7,
     path: "/",
