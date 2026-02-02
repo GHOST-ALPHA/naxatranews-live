@@ -67,7 +67,10 @@ const updateNewsSchema = z.object({
   content: z.string().min(1, "Content is required"),
   excerpt: z.string().max(300, "Excerpt must be less than 300 characters").optional(),
   coverImage: urlOrEmpty,
-  coverVideo: urlOrEmpty,
+  coverVideo: urlOrEmpty.refine((val) => {
+    if (!val) return true;
+    return validateVideoUrl(val).isValid;
+  }, "Must be a valid YouTube, Vimeo, or direct video URL"),
   categoryIds: z.array(z.string()).min(1, "At least one category is required"),
   isPublished: z.boolean().default(false),
   isActive: z.boolean().default(true),
@@ -294,18 +297,10 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
   }, [setValue]);
 
   const handleVideoChange = useCallback((url: string) => {
-    const validation = validateVideoUrl(url);
-    if (!validation.isValid && url.trim()) {
-      toast({
-        title: "Invalid Video URL",
-        description: validation.error || "Please provide a valid YouTube, Vimeo, or direct video URL.",
-        variant: "destructive",
-      });
-      return;
-    }
     setValue("coverVideo", url || "", { shouldValidate: true, shouldDirty: true });
-    trigger("coverVideo");
-  }, [setValue, trigger, toast]);
+    // We don't block the input anymore, but we can trigger validation
+    // The error message will be shown below the input
+  }, [setValue]);
 
   const handleVideoRemove = useCallback(() => {
     setValue("coverVideo", "", { shouldValidate: true });
@@ -543,9 +538,12 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
                           placeholder="https://youtube.com/watch?v=..."
                           value={coverVideo || ""}
                           onChange={(e) => handleVideoChange(e.target.value)}
-                          className="font-mono text-sm"
+                          className={cn("font-mono text-sm", errors.coverVideo && "border-destructive focus-visible:ring-destructive")}
                         />
-                        {coverVideo && (
+                        {errors.coverVideo && (
+                          <p className="text-xs text-destructive font-medium mt-1">{errors.coverVideo.message as string}</p>
+                        )}
+                        {coverVideo && !errors.coverVideo && (
                           <div className="rounded-md overflow-hidden border">
                             <VideoPreview videoUrl={coverVideo} onRemove={handleVideoRemove} showRemove={true} />
                           </div>

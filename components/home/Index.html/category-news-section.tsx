@@ -41,7 +41,7 @@ export function CategoryNewsSection({
   sidebarBottom,
 }: CategoryNewsSectionProps) {
   return (
-    <section className="container mx-auto px-0 py-8 feature-section-font">
+    <section className="container mx-auto px-3 lg:px-0 py-8 feature-section-font">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
         {/* Left Content Column (75% on desktop) */}
         <div className="lg:col-span-9 space-y-16">

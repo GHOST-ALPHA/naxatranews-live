@@ -29,7 +29,7 @@ export function FeaturedSection({
   breakingNews,
 }: FeaturedSectionProps) {
   return (
-    <section className="container mx-auto px-4 lg:px-0 feature-section-font">
+    <section className="container mx-auto px-3 lg:px-0 feature-section-font">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         {/* Left Column: Main Feature */}
         <div className="lg:col-span-5">

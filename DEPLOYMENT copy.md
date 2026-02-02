@@ -182,115 +182,29 @@ http://YOUR_SERVER_IP:8000/api/health
 docker compose exec postgres psql -U postgres -d n24_db_prod -c "SELECT version();"
 ```
 
-## Step 8: Setup Nginx
+## Step 8: Setup Nginx (If not using docker-compose.prod.yml)
 
-### Option A: Fresh Install (If this is the only app)
-If this is the only application on the server and Nginx is not installed:
+### Install Nginx
 ```bash
 apt install nginx -y
 ```
 
-### Option B: Multi-Site Setup (If Nginx is ALREADY running)
-If you are already hosting another site, **do not** use the docker-compose `nginx` service. Instead, configure your host's Nginx to proxy this new app.
+### Create Nginx configuration
+```bash
+nano /etc/nginx/sites-available/naxatra-production
+```
 
-1.  **Stop any conflicting containers** (only if you ran Option B in Step 6):
-    ```bash
-    docker compose stop nginx
-    # Ensure only your app is running on port 4141
-    docker compose up -d app postgres
-    ```
+Paste the configuration from `nginx.conf` and update:
+- Replace `server_name _;` with your domain name
+- Update upstream server if needed
 
-2.  **Create a new Nginx config file**:
-    ```bash
-    nano /etc/nginx/sites-available/naxatra-production
-    ```
-
-3.  **Paste this configuration**:
-    ```nginx
-    server {
-        listen 80;
-        server_name YOUR_DOMAIN_NAME;  # e.g., naxatra.com
-
-        # Client body size limit (for file uploads)
-        client_max_body_size 50M;
-
-        location / {
-            # Proxy to the Docker container (running on port 4141)
-            proxy_pass http://localhost:4141;
-            
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection 'upgrade';
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_cache_bypass $http_upgrade;
-        }
-    }
-    ```
-
-4.  **Enable and Restart**:
-    ```bash
-    ln -s /etc/nginx/sites-available/naxatra-production /etc/nginx/sites-enabled/
-    nginx -t
-    systemctl reload nginx
-    ```
-
-### Option C: Migrating Existing Domain (Replacing Old Site)
-**Use this if `naxatranewshindi.com` is ALREADY running on this server** (e.g. PHP/WordPress) and you want to switch it to this new App. This will **not** affect other websites on the server.
-
-1.  **Find your existing config**:
-    ```bash
-    # Look for a file named after your domain
-    ls /etc/nginx/sites-enabled/
-    ```
-
-2.  **Backup Existing Config** (Safety First):
-    ```bash
-    cp /etc/nginx/sites-available/naxatranewshindi.com /root/naxatra_nginx_backup
-    ```
-
-3.  **Edit the Config**:
-    ```bash
-    nano /etc/nginx/sites-available/naxatranewshindi.com
-    # (Or whatever your file is named)
-    ```
-
-4.  **Modify ONLY the `location /` block**:
-    Keep all your `server_name`, `ssl_certificate`, and `listen 443` lines exactly as they are.
-    
-    **Find this part (example):**
-    ```nginx
-    location / {
-        try_files $uri $uri/ /index.php?$args;  # (Old PHP logic)
-    }
-    ```
-    
-    **Replace it with this:**
-    ```nginx
-    location / {
-        # Proxy to new Next.js App (Port 4141)
-        proxy_pass http://localhost:4141;
-        
-        # Required Headers
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
-    }
-    ```
-
-5.  **Test and Reload**:
-    ```bash
-    nginx -t
-    systemctl reload nginx
-    ```
-    *Your domain now points to the new app!*
+### Enable site
+```bash
+ln -s /etc/nginx/sites-available/naxatra-production /etc/nginx/sites-enabled/
+rm /etc/nginx/sites-enabled/default
+nginx -t  # Test configuration
+systemctl restart nginx
+```
 
 ## Step 9: Setup Firewall
 
@@ -454,10 +368,10 @@ scp your_username@YOUR_SERVER_IP:/var/www/nbharat24/backups/media_backup_2025122
 **Upload backup to server** (run from your local machine, if you have a backup locally):
 ```bash
 # Upload a backup file to the server
-scp ./media_backup_20251224_164900.tar.gz root@YOUR_SERVER_IP:/var/www/naxatra-production/backups/
+scp ./media_backup_20251224_164900.tar.gz root@YOUR_SERVER_IP:/var/www/nbharat24/backups/
 
 # Example with actual IP
-# scp ./media_backup_20251224_164900.tar.gz root@159.89.170.164:/var/www/naxatra-production/backups/
+# scp ./media_backup_20251224_164900.tar.gz root@159.89.170.164:/var/www/nbharat24/backups/
 ```
 
 **Restore media files** (use with caution - stops app temporarily):

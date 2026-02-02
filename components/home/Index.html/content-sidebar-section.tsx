@@ -58,7 +58,7 @@ export function ContentSidebarSection({
   }
 
   return (
-    <div className="w-full border-t-2 border-black mb-6 feature-section-font">
+    <div className="w-full border-t-2 px-3 lg:px-0 border-black mb-6 feature-section-font">
       <div className="container mx-auto px-0 py-8 lg:py-12">
         <div className="flex flex-col lg:flex-row gap-6 lg:gap-10">
           {/* Main Content Area - 75% on desktop */}
