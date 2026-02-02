@@ -54,9 +54,6 @@ interface PageProps {
   params: Promise<{
     slug: string
   }>
-  searchParams: Promise<{
-    page?: string
-  }>
 }
 
 // Helper to sanitize text for JSON-LD
@@ -174,7 +171,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-export default async function Page({ params, searchParams }: PageProps) {
+export default async function Page({ params }: PageProps) {
   const { slug } = await params
 
   // Fetch news from database

@@ -7,11 +7,6 @@ import { AdFooter } from "@/components/ads/ad-footer"
 import { AdPopup } from "@/components/ads/ad-popup"
 import { AdHeader } from "@/components/ads/ad-header"
 
-export const metadata: Metadata = {
-  title: "News Article | Modern News Platform",
-  description: "Latest news updates and detailed analysis",
-}
-
 // This layout handles the 2-column structure (75% Content / 25% Sidebar)
 // It provides a stable structure for all news details
 export default function ArticleLayout({
