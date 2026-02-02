@@ -12,6 +12,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Install OpenSSL for Prisma generation
+RUN apt-get update -y && apt-get install -y openssl
+
 # Generate Prisma Client
 RUN npx prisma generate
 
