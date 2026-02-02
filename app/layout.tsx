@@ -5,7 +5,7 @@ import ThemeProvider from '@/components/layout/ThemeToggle/theme-provider';
 import { cn } from '@/lib/utils';
 import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import type { Metadata, Viewport } from 'next';
-import { cookies } from 'next/headers';
+
 import NextTopLoader from 'nextjs-toploader';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import Script from 'next/script';
@@ -69,14 +69,14 @@ export const viewport: Viewport = {
   themeColor: META_THEME_COLORS.light
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const activeThemeValue = cookieStore.get('active_theme')?.value;
-  const isScaled = activeThemeValue?.endsWith('-scaled');
+  // Static build compatible: No server-side cookies
+  const activeThemeValue = 'system';
+  const isScaled = false;
 
   const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
@@ -100,8 +100,6 @@ export default async function RootLayout({
       <body
         className={cn(
           'bg-background font-sans antialiased',
-          activeThemeValue ? `theme-${activeThemeValue}` : '',
-          isScaled ? 'theme-scaled' : '',
           fontVariables
         )}
       >
@@ -114,7 +112,7 @@ export default async function RootLayout({
             disableTransitionOnChange
             enableColorScheme
           >
-            <Providers activeThemeValue={activeThemeValue as string}>
+            <Providers activeThemeValue={activeThemeValue}>
               <Toaster />
               {children}
             </Providers>
