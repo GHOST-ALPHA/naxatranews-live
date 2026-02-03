@@ -65,6 +65,7 @@ const HOME_DATA_CONFIG = {
     politics: 30,
     categoryGeneric: 40,
     entertainment: 25,
+    business: 25,
   },
   // Category Slugs
   slugs: {
@@ -76,6 +77,7 @@ const HOME_DATA_CONFIG = {
     sports: "khel",
     entertainment: "manoranjan",
     crime: "apradh",
+    business: "vyapar",
   },
   // Fallback Titles
   titles: {
@@ -84,6 +86,7 @@ const HOME_DATA_CONFIG = {
     sports: "खेल",
     entertainment: "मनोरंजन",
     crime: "क्राइम",
+    business: "व्यापार",
   }
 } as const;
 
@@ -394,6 +397,7 @@ function processCategorySections(
   sportsRaw: NewsResponse[],
   entertainmentRaw: NewsResponse[],
   crimeRaw: NewsResponse[],
+  businessRaw: NewsResponse[],
   topTrendingRaw: NewsResponse[],
   featuredRaw: NewsResponse[], // For Exclusive/Sidebar Bottom
   deduplicator: NewsDeduplicator
@@ -409,6 +413,9 @@ function processCategorySections(
 
   // Crime (Block A)
   const crime = processCategoryBlockA(crimeRaw, 5, HOME_DATA_CONFIG.titles.crime, deduplicator);
+
+  // Business (Block B)
+  const business = processCategoryBlockB(businessRaw, 9, HOME_DATA_CONFIG.titles.business, deduplicator);
 
   // Top Trending
   const trendingUnique = deduplicator.getUniqueRaw(topTrendingRaw, 5);
@@ -427,6 +434,7 @@ function processCategorySections(
     sports,
     entertainment,
     crime,
+    business,
     topTrending,
     exclusiveNews,
     sidebarBottom
@@ -468,6 +476,7 @@ export const getCombinedHomeData = cache(async () => {
       sportsRaw,
       entertainmentRaw,
       crimeRaw,
+      businessRaw,
       topTrendingRaw
     ] = await Promise.all([
       // 1. Featured & Generic Pools
@@ -490,6 +499,7 @@ export const getCombinedHomeData = cache(async () => {
       fetchCat(HOME_DATA_CONFIG.slugs.sports, HOME_DATA_CONFIG.limits.categoryGeneric),
       fetchCat(HOME_DATA_CONFIG.slugs.entertainment, HOME_DATA_CONFIG.limits.entertainment),
       fetchCat(HOME_DATA_CONFIG.slugs.crime, HOME_DATA_CONFIG.limits.categoryGeneric),
+      fetchCat(HOME_DATA_CONFIG.slugs.business, HOME_DATA_CONFIG.limits.business),
 
       // 5. Trending
       getCachedMostViewedNews({ limit: HOME_DATA_CONFIG.limits.categoryGeneric, days: 7, includeAuthor: true, includeCategories: true, includeContent: false }),
@@ -511,6 +521,7 @@ export const getCombinedHomeData = cache(async () => {
     const sportsNorm = getSafeArray(sportsRaw);
     const entertainmentNorm = getSafeArray(entertainmentRaw);
     const crimeNorm = getSafeArray(crimeRaw);
+    const businessNorm = getSafeArray(businessRaw);
     const topTrendingNorm = getSafeArray(topTrendingRaw);
 
     // ----------------------------------------
@@ -532,6 +543,7 @@ export const getCombinedHomeData = cache(async () => {
       sportsNorm,
       entertainmentNorm,
       crimeNorm,
+      businessNorm,
       topTrendingNorm,
       featuredNorm,
       deduplicator
@@ -559,6 +571,7 @@ export const getCombinedHomeData = cache(async () => {
         sports: emptyCatA,
         entertainment: emptyCatB,
         crime: emptyCatA,
+        business: emptyCatB,
         topTrending: [],
         exclusiveNews: [],
         sidebarBottom: []

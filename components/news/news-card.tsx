@@ -23,7 +23,7 @@ export function NewsCard({ article }: NewsCardProps) {
         />
       </Link>
 
-      <div className="flex-1 flex flex-col justify-between min-h-[160px]">
+      <div className="flex-1 flex flex-col justify-between min-h-[160px] md:py-0 pt-3">
         <div>
           <Link
             href={`/news/${article.slug}`}

@@ -88,6 +88,7 @@ export default async function Home() {
         sports={categorySectionData.sports}
         entertainment={categorySectionData.entertainment}
         crime={categorySectionData.crime}
+        business={categorySectionData.business}
         topTrending={categorySectionData.topTrending}
         exclusiveNews={categorySectionData.exclusiveNews}
         sidebarBottom={categorySectionData.sidebarBottom}

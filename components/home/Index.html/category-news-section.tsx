@@ -26,6 +26,7 @@ interface CategoryNewsSectionProps {
   sports: CategoryBlockTypeAData
   entertainment: CategoryBlockTypeBData
   crime: CategoryBlockTypeAData
+  business: CategoryBlockTypeBData
   topTrending: TopTrendingItem[]
   exclusiveNews: ExclusiveNewsItem[]
   sidebarBottom: SidebarSmallListItem[]
@@ -36,6 +37,7 @@ export function CategoryNewsSection({
   sports,
   entertainment,
   crime,
+  business,
   topTrending,
   exclusiveNews,
   sidebarBottom,
@@ -56,6 +58,9 @@ export function CategoryNewsSection({
 
           {/* Crime Section */}
           <CategoryBlockTypeA data={crime} imagePosition="left" categoryHref="/apradh" />
+
+          {/* Business Section */}
+          <CategoryBlockTypeB data={business} categoryHref="/vyapar" />
         </div>
 
         {/* Right Sidebar Column (25% on desktop) */}

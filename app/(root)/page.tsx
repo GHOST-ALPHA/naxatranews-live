@@ -5,7 +5,7 @@ import { AdFooter } from '@/components/ads/ad-footer';
 
 
 // Revalidate every 60 seconds for fresh content
-export const revalidate = 1;
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: "Naxatra News Hindi - Latest Hindi News | Breaking News in Hindi",

@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/lib/actions/auth";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { AtSignIcon, ChevronLeftIcon, EyeIcon, EyeOffIcon, Loader2, LockIcon } from "lucide-react";
 import type React from "react";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,6 @@ import { cn } from "@/lib/utils";
 
 export function SignInViewPage() {
   const router = useRouter();
-  const { toast } = useToast();
   const [loginLoading, setLoginLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -63,10 +62,8 @@ export function SignInViewPage() {
 
     // Validate form
     if (!validateForm()) {
-      toast({
-        title: "Validation Error",
+      toast.error("Validation Error", {
         description: "Please fix the errors in the form",
-        variant: "destructive",
       });
       return;
     }
@@ -80,25 +77,20 @@ export function SignInViewPage() {
       });
 
       if (result.success) {
-        toast({
-          title: "Welcome back!",
+        toast.success("Welcome back!", {
           description: "You have been successfully logged in.",
         });
         router.push("/dashboard");
         router.refresh();
       } else {
-        toast({
-          title: "Login failed",
+        toast.error("Login failed", {
           description: result.error || "Invalid credentials",
-          variant: "destructive",
         });
       }
     } catch (error) {
       console.error("Login error:", error);
-      toast({
-        title: "Error",
+      toast.error("Error", {
         description: "An error occurred during login",
-        variant: "destructive",
       });
     } finally {
       setLoginLoading(false);

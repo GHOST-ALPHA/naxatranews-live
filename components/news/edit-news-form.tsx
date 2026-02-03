@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import {
   Loader2,
   Image as ImageIcon,
@@ -127,7 +127,6 @@ interface EditNewsFormProps {
 
 export function EditNewsForm({ news, canPublish = false, canSubmit = false }: EditNewsFormProps) {
   const router = useRouter();
-  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [autoSlug, setAutoSlug] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -314,19 +313,15 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
 
   const onSubmit = async (data: UpdateNewsFormData) => {
     if (!editorContent) {
-      toast({
-        title: "Error",
+      toast.error("Error", {
         description: "Please add content to your news post",
-        variant: "destructive",
       });
       return;
     }
 
     if (selectedCategories.length === 0) {
-      toast({
-        title: "Error",
+      toast.error("Error", {
         description: "Please select at least one category",
-        variant: "destructive",
       });
       return;
     }
@@ -340,24 +335,19 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
       });
 
       if (result.success) {
-        toast({
-          title: "Success",
+        toast.success("Success", {
           description: data.isPublished ? "News post published!" : "News post updated.",
         });
         router.refresh();
         router.push("/dashboard/news");
       } else {
-        toast({
-          title: "Error",
+        toast.error("Error", {
           description: result.error || "Failed to update news post",
-          variant: "destructive",
         });
       }
     } catch (error) {
-      toast({
-        title: "Error",
+      toast.error("Error", {
         description: "An unexpected error occurred",
-        variant: "destructive",
       });
     } finally {
       setLoading(false);

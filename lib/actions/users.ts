@@ -339,6 +339,7 @@ export async function getUsers(page: number = 1, limit: number = 10, search?: st
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
+        avatar: user.avatar,
         isActive: user.isActive,
         roles: user.roles.map((ur: any) => ({
           id: ur.role.id,
@@ -398,6 +399,7 @@ export async function getUserById(userId: string) {
         username: user.username,
         firstName: user.firstName,
         lastName: user.lastName,
+        avatar: user.avatar,
         isActive: user.isActive,
         roles: user.roles.map((ur: any) => ({
           id: ur.role.id,

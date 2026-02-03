@@ -136,8 +136,17 @@ export function FileUploader(props: FileUploaderProps) {
       setFiles(updatedFiles);
 
       if (rejectedFiles.length > 0) {
-        rejectedFiles.forEach(({ file }) => {
-          toast.error(`File ${file.name} was rejected`);
+        rejectedFiles.forEach(({ file, errors }) => {
+          const error = errors[0];
+          if (error?.code === 'file-too-large') {
+            toast.error(
+              `File ${file.name} is too large. Max size is ${formatBytes(maxSize)}`
+            );
+          } else if (error?.code === 'file-invalid-type') {
+            toast.error(`File ${file.name} has an invalid type`);
+          } else {
+            toast.error(`File ${file.name} was rejected: ${error?.message}`);
+          }
         });
       }
 

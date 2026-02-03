@@ -201,6 +201,7 @@ export async function createNews(data: z.infer<typeof createNewsSchema>) {
             email: true,
             firstName: true,
             lastName: true,
+            avatar: true,
           },
         },
       },
@@ -353,6 +354,7 @@ export async function updateNews(data: z.infer<typeof updateNewsSchema>) {
             email: true,
             firstName: true,
             lastName: true,
+            avatar: true,
           },
         },
         editor: {
@@ -362,6 +364,7 @@ export async function updateNews(data: z.infer<typeof updateNewsSchema>) {
             email: true,
             firstName: true,
             lastName: true,
+            avatar: true,
           },
         },
       },
@@ -539,6 +542,7 @@ export async function getUserNews(
               email: true,
               firstName: true,
               lastName: true,
+              avatar: true,
             },
           },
           editor: {
@@ -548,6 +552,7 @@ export async function getUserNews(
               email: true,
               firstName: true,
               lastName: true,
+              avatar: true,
             },
           },
           categories: {
@@ -599,6 +604,7 @@ export async function getNewsById(newsId: string) {
             email: true,
             firstName: true,
             lastName: true,
+            avatar: true,
           },
         },
         editor: {
@@ -608,6 +614,7 @@ export async function getNewsById(newsId: string) {
             email: true,
             firstName: true,
             lastName: true,
+            avatar: true,
           },
         },
         categories: {
@@ -659,6 +666,7 @@ export const getNewsBySlug = cache(async (slug: string) => {
             email: true,
             firstName: true,
             lastName: true,
+            avatar: true,
           },
         },
         editor: {
@@ -668,6 +676,7 @@ export const getNewsBySlug = cache(async (slug: string) => {
             email: true,
             firstName: true,
             lastName: true,
+            avatar: true,
           },
         },
         categories: {
@@ -739,6 +748,7 @@ export const getRelatedNews = cache(async (currentSlug: string, categoryIds: str
             username: true,
             firstName: true,
             lastName: true,
+            avatar: true,
           },
         },
         categories: {

@@ -13,13 +13,12 @@ import { FloatingPaths } from "./floating-paths";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
 export function SignUpViewPage() {
   const router = useRouter();
-  const { toast } = useToast();
   const [registerLoading, setRegisterLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -103,10 +102,8 @@ export function SignUpViewPage() {
 
     // Validate form
     if (!validateForm()) {
-      toast({
-        title: "Validation Error",
+      toast.error("Validation Error", {
         description: "Please fix the errors in the form",
-        variant: "destructive",
       });
       return;
     }
@@ -123,25 +120,20 @@ export function SignUpViewPage() {
       });
 
       if (result.success) {
-        toast({
-          title: "Registration successful!",
+        toast.success("Registration successful!", {
           description: "Your account has been created. Welcome!",
         });
         router.push("/dashboard");
         router.refresh();
       } else {
-        toast({
-          title: "Registration failed",
+        toast.error("Registration failed", {
           description: result.error || "Failed to create account",
-          variant: "destructive",
         });
       }
     } catch (error) {
       console.error("Registration error:", error);
-      toast({
-        title: "Error",
+      toast.error("Error", {
         description: "An error occurred during registration",
-        variant: "destructive",
       });
     } finally {
       setRegisterLoading(false);
