@@ -90,6 +90,14 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  // Increase body size limit for Server Actions to handle larger news content
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "10mb",
+    },
+  },
+
+
 
 
 };

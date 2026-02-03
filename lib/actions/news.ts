@@ -67,8 +67,9 @@ const updateNewsSchema = z.object({
  * Handles English, Hindi, and other Unicode characters
  */
 function generateSlug(title: string): string {
-  return generateSlugUtil(title, { maxLength: 200 });
+  return generateSlugUtil(title, { maxLength: 150 });
 }
+
 
 /**
  * Create a new news post
@@ -107,10 +108,14 @@ export async function createNews(data: z.infer<typeof createNewsSchema>) {
     // Generate slug if not provided (handles Hindi and other languages)
     let slug = validated.slug || generateSlug(validated.title);
 
+    // Enforce 150 character limit and sanitize even if provided manually
+    slug = slug.substring(0, 150).replace(/-+$/g, '');
+
     // Ensure slug is not empty
     if (!slug || slug.trim().length === 0) {
       slug = generateSlug(validated.title);
     }
+
 
     // Check if slug already exists and generate unique one if needed
     let finalSlug = slug;
@@ -266,6 +271,9 @@ export async function updateNews(data: z.infer<typeof updateNewsSchema>) {
 
     // Check slug uniqueness if changing
     if (validated.slug && validated.slug !== existingNews.slug) {
+      // Enforce 150 character limit and sanitize
+      validated.slug = validated.slug.substring(0, 150).replace(/-+$/g, '');
+
       const slugExists = await prisma.news.findUnique({
         where: { slug: validated.slug },
       });
@@ -273,6 +281,7 @@ export async function updateNews(data: z.infer<typeof updateNewsSchema>) {
         return { success: false, error: "A news post with this slug already exists" };
       }
     }
+
 
     // Verify categories if updating
     if (validated.categoryIds && validated.categoryIds.length > 0) {

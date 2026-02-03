@@ -4,9 +4,11 @@ import { getCachedPublicMenusTree } from '@/services/menu.service';
 
 import { ScrollToTop } from '@/components/ui/scroll-to-top';
 
+import Script from 'next/script';
 import React, { Suspense } from 'react';
 
 export default async function HomeLayout({
+
   children
 }: {
   children: React.ReactNode;
@@ -16,14 +18,23 @@ export default async function HomeLayout({
 
   return (
     <>
+      {process.env.NEXT_PUBLIC_ADSENSE_CLIENT && (
+        <Script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT}`}
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      )}
       <Navbar menus={menus} />
-      
-    
+
+
+
       <Suspense fallback={<div>Loading...</div>}>
         {children}
       </Suspense>
 
-    
+
 
       <Footer />
 

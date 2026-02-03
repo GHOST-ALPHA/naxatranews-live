@@ -80,7 +80,7 @@ export default function RootLayout({
 
   const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
   const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
-  const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+  // const ADSENSE_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
 
   return (
     <html lang='hi' suppressHydrationWarning>
@@ -126,14 +126,14 @@ export default function RootLayout({
         {GTM_ID && <GoogleTagManager gtmId={GTM_ID} />}
 
         {/* Google AdSense - Manual Script for Stability */}
-        {ADSENSE_ID && (
+        {/* {ADSENSE_ID && (
           <Script
             async
             src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_ID}`}
             crossOrigin="anonymous"
             strategy="afterInteractive"
           />
-        )}
+        )} */}
       </body>
     </html>
   );

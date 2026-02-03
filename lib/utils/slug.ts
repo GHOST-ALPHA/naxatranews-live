@@ -11,7 +11,7 @@ const HINDI_TO_ENGLISH: Record<string, string> = {
   // Vowels
   'अ': 'a', 'आ': 'aa', 'इ': 'i', 'ई': 'ee', 'उ': 'u', 'ऊ': 'oo',
   'ए': 'e', 'ऐ': 'ai', 'ओ': 'o', 'औ': 'au', 'अं': 'an', 'अः': 'ah',
-  
+
   // Consonants
   'क': 'k', 'ख': 'kh', 'ग': 'g', 'घ': 'gh', 'ङ': 'ng',
   'च': 'ch', 'छ': 'chh', 'ज': 'j', 'झ': 'jh', 'ञ': 'ny',
@@ -20,16 +20,16 @@ const HINDI_TO_ENGLISH: Record<string, string> = {
   'प': 'p', 'फ': 'ph', 'ब': 'b', 'भ': 'bh', 'म': 'm',
   'य': 'y', 'र': 'r', 'ल': 'l', 'व': 'v', 'श': 'sh',
   'ष': 'sh', 'स': 's', 'ह': 'h', 'क्ष': 'ksh', 'त्र': 'tr', 'ज्ञ': 'gy',
-  
+
   // Matras (vowel signs)
   'ा': 'aa', 'ि': 'i', 'ी': 'ee', 'ु': 'u', 'ू': 'oo',
   'े': 'e', 'ै': 'ai', 'ो': 'o', 'ौ': 'au', 'ं': 'n', 'ः': 'h',
   '्': '', // Halant (removes inherent vowel)
-  
+
   // Numbers
   '०': '0', '१': '1', '२': '2', '३': '3', '४': '4',
   '५': '5', '६': '6', '७': '7', '८': '8', '९': '9',
-  
+
   // Common Hindi words (for better SEO)
   'समाचार': 'samachar', 'खबर': 'khabar', 'न्यूज़': 'news',
   'देश': 'desh', 'राज्य': 'rajya', 'शहर': 'shahar',
@@ -57,19 +57,19 @@ function containsNonLatin(text: string): boolean {
  */
 function transliterateHindi(text: string): string {
   let result = '';
-  
+
   // First, try to match common phrases
   for (const [hindi, english] of Object.entries(HINDI_PHRASES)) {
     if (text.includes(hindi)) {
       text = text.replace(new RegExp(hindi, 'g'), english);
     }
   }
-  
+
   // Then transliterate character by character
   for (let i = 0; i < text.length; i++) {
     const char = text[i];
     const nextChar = text[i + 1];
-    
+
     // Check for combined characters (consonant + matra)
     if (i < text.length - 1) {
       const combined = char + nextChar;
@@ -79,7 +79,7 @@ function transliterateHindi(text: string): string {
         continue;
       }
     }
-    
+
     // Single character transliteration
     if (HINDI_TO_ENGLISH[char]) {
       result += HINDI_TO_ENGLISH[char];
@@ -102,7 +102,7 @@ function transliterateHindi(text: string): string {
       result += char;
     }
   }
-  
+
   return result;
 }
 
@@ -117,7 +117,7 @@ function generateHashSlug(text: string, maxLength: number = 50): string {
     hash = ((hash << 5) - hash) + char;
     hash = hash & hash; // Convert to 32-bit integer
   }
-  
+
   // Convert to base36 and take first maxLength characters
   const hashStr = Math.abs(hash).toString(36);
   return hashStr.substring(0, maxLength);
@@ -137,8 +137,10 @@ function cleanSlug(slug: string): string {
     // Remove leading/trailing hyphens
     .replace(/^-+|-+$/g, '')
     // Limit length
-    .substring(0, 200);
+    // Limit length to prevent ENAMETOOLONG errors in Next.js filesystem cache
+    .substring(0, 150);
 }
+
 
 /**
  * Generate SEO-friendly slug from text
@@ -155,15 +157,16 @@ export function generateSlug(
     fallbackToHash?: boolean;
   } = {}
 ): string {
-  const { maxLength = 200, fallbackToHash = true } = options;
-  
+  const { maxLength = 150, fallbackToHash = true } = options;
+
+
   if (!text || typeof text !== 'string') {
     return '';
   }
-  
+
   // Trim and normalize whitespace
   let processed = text.trim().replace(/\s+/g, ' ');
-  
+
   // Check if text contains non-Latin characters
   if (containsNonLatin(processed)) {
     // Try transliteration for Hindi/Devanagari
@@ -185,22 +188,18 @@ export function generateSlug(
       }
     }
   }
-  
+
   // Clean the slug
   let slug = cleanSlug(processed);
-  
+
   // If slug is empty or too short after processing, use hash fallback
   if (slug.length < 3 && fallbackToHash) {
     slug = generateHashSlug(text, maxLength);
   }
-  
-  // Ensure minimum length
-  if (slug.length === 0) {
-    slug = 'news-' + Date.now().toString(36);
-  }
-  
+
   return slug.substring(0, maxLength);
 }
+
 
 /**
  * Generate unique slug by appending number if duplicate exists
@@ -212,18 +211,18 @@ export function generateUniqueSlug(
 ): string {
   let slug = baseSlug;
   let counter = 1;
-  
+
   while (existingSlugs.includes(slug)) {
     slug = `${baseSlug}-${counter}`;
     counter++;
-    
+
     // Prevent infinite loop
     if (counter > 1000) {
       slug = `${baseSlug}-${Date.now()}`;
       break;
     }
   }
-  
+
   return slug;
 }
 
