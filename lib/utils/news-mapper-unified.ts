@@ -199,6 +199,9 @@ export function mapToFeaturedArticle(news: NewsResponse): Article {
     image: getBestImageUrl(news), // Uses coverImage or video thumbnail
     video: news.coverVideo || undefined, // YouTube, Vimeo, or direct video URL
     author: authorName,
+    authorId: news.author?.id,
+    authorUsername: news.author?.username,
+    authorAvatar: news.author?.avatar || undefined,
     source: authorName,
     date: publishedDate,
     slug: news.slug,
@@ -302,6 +305,9 @@ export function mapToArticle(news: NewsResponse): Article {
     image: getBestImageUrl(news), // Uses coverImage or video thumbnail
     video: news.coverVideo || undefined, // YouTube, Vimeo, or direct video URL
     author: authorName,
+    authorId: news.author?.id,
+    authorUsername: news.author?.username,
+    authorAvatar: news.author?.avatar || undefined,
     source: authorName,
     date: publishedDate,
     slug: news.slug,
@@ -374,4 +380,3 @@ export type {
   SectionOneArticle,
   SectionOneSmallArticle,
 };
-

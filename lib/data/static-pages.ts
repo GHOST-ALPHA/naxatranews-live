@@ -62,19 +62,19 @@ export const staticPagesData: any = {
           {
             title: "Editorial & General",
             description: "For story submissions, press releases, and general inquiries",
-            value: "media@naxatraindia.com",
+            value: "info@naxatraindia.com",
             icon: "mail"
           },
           {
             title: "Advertising",
             description: "For advertising opportunities and partnership programs",
-            value: "media@naxatraindia.com",
+            value: "info@naxatraindia.com",
             icon: "megaphone"
           },
           {
             title: "Legal & Compliance",
             description: "For legal matters and copyright concerns",
-            value: "media@naxatraindia.com",
+            value: "info@naxatraindia.com",
             icon: "edit"
           }
         ]
@@ -135,7 +135,7 @@ export const staticPagesData: any = {
       {
         type: "content",
         title: "Your Rights",
-        content: "Depending on applicable laws, you may have the right to access, correct, or delete your personal information, opt-out of newsletters, or request limitation of data processing. Contact us at media@naxatraindia.com to exercise these rights."
+        content: "Depending on applicable laws, you may have the right to access, correct, or delete your personal information, opt-out of newsletters, or request limitation of data processing. Contact us at info@naxatraindia.com to exercise these rights."
       }
     ],
     lastUpdated: "17 Sep 2025"
@@ -157,7 +157,7 @@ export const staticPagesData: any = {
       {
         type: "content",
         title: "Copyright Agent",
-        content: "Send all DMCA notices and counter-notices to media@naxatraindia.com. We strive to acknowledge receipt within 24-48 hours and remove infringing content within 3-5 business days."
+        content: "Send all DMCA notices and counter-notices to info@naxatraindia.com. We strive to acknowledge receipt within 24-48 hours and remove infringing content within 3-5 business days."
       },
       {
         type: "content",
@@ -297,7 +297,7 @@ export const staticPagesData: any = {
         title: "Don't see a perfect fit?",
         content: "We're always looking for talented individuals to join our team. Send us your resume and we'll keep you in mind for future opportunities.",
         buttonText: "Send Resume",
-        buttonLink: "mailto:media@naxatraindia.com"
+        buttonLink: "mailto:info@naxatraindia.com"
       }
     ],
     lastUpdated: "30 Jan 2026"
@@ -350,7 +350,7 @@ export const staticPagesData: any = {
       {
         type: "content",
         title: "Contact Our Ad Team",
-        content: "For more information on advertising rates, demographics, and available formats, please contact our advertising team at media@naxatraindia.com."
+        content: "For more information on advertising rates, demographics, and available formats, please contact our advertising team at info@naxatraindia.com."
       }
     ]
   }

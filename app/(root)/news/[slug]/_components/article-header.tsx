@@ -69,12 +69,17 @@ export function ArticleHeader({ article }: ArticleHeaderProps) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between border-t border-b border-border py-4 sm:py-5 mb-6 sm:mb-8 gap-4">
         <div className="flex items-center gap-3">
           <div className="relative h-10 w-10 rounded-full overflow-hidden bg-muted">
-            <Image src="/assets/logo.png" alt={article.author} fill className="object-cover" />
+            <Image src={article.authorAvatar || "/assets/logo.png"} alt={article.author} fill className="object-cover" />
           </div>
           <div className="flex flex-col text-sm">
             <div className="flex items-center gap-2">
               <span className="text-muted-foreground uppercase text-xs font-bold">BY</span>
-              <span className="font-bold text-foreground uppercase">{article.author}</span>
+              <Link
+                href={article.authorUsername ? `/author/${article.authorUsername}` : "#"}
+                className="font-bold text-foreground uppercase hover:text-red-500 transition-colors"
+              >
+                {article.author}
+              </Link>
             </div>
             <div className="flex items-center gap-2 text-muted-foreground text-xs">
               <span>{article.date}</span>
@@ -84,10 +89,10 @@ export function ArticleHeader({ article }: ArticleHeaderProps) {
         </div>
 
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          {/* <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1">
             <MessageCircle className="h-4 w-4" />
             <span>{article.comments} Comments</span>
-          </div> */}
+          </div>
 
           <div className="flex items-center gap-1">
             <Clock className="h-4 w-4" />

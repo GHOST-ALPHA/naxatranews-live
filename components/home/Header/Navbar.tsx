@@ -399,16 +399,18 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
             {/* Desktop Layout */}
             <div className="hidden md:flex h-12 items-center justify-between">
               {/* Mini Logo - Only shows when Top Bar is hidden */}
-              <div
-                className={cn(
-                  "flex items-center justify-center group relative absolute top-14 left-8 z-50",
-                  !visible ? "w-auto opacity-100 mr-4" : "w-0 opacity-0",
-                )}
-              >
-                <Image src="/logo/logo.png" alt="Naxatra_News" width={80} height={80} />
+              <a href="/">
 
-              </div>
+                <div
+                  className={cn(
+                    "flex items-center justify-center group relative absolute top-14 left-8 z-50",
+                    !visible ? "w-auto opacity-100 mr-4" : "w-0 opacity-0",
+                  )}
+                >
+                  <Image src="/logo/logo.png" alt="Naxatra_News" width={80} height={80} />
 
+                </div>
+              </a>
               {/* Desktop Navigation Links */}
               <div className="flex-1 overflow-x-auto scrollbar-hide">
                 <Menubar className="h-12 border-0 bg-transparent p-0 min-w-max">
@@ -575,7 +577,7 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
               size="icon"
               aria-label="Search"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="ml-1 h-8 w-8 cursor-pointer  absolute right-0 z-50"
+              className="ml-1 h-8 w-8 cursor-pointer bg-card rounded-md  overflow-hidden transition-all duration-300 ease-in-out absolute right-0 z-50"
             >
               {isSearchOpen ? <X className="h-4 w-4 " /> : <Search className="h-4 w-4" />}
             </Button>

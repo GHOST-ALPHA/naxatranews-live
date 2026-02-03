@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Disable X-Powered-By header for security
+  poweredByHeader: false,
   // Enable standalone output for Docker optimization
   output: "standalone",
   // Disable source maps in production to prevent code leakage

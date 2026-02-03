@@ -1,13 +1,13 @@
 export const socialLinks = [
   {
     name: "Facebook",
-    href: "https://www.facebook.com/share/1JuuH9fmvp/?mibextid=wwXIfr",
+    href: "https://www.facebook.com/naxatraindia",
     brandColor: "#1877F2",
     logo: "/logo/facebook-new.png",
   },
   {
     name: "Twitter / X",
-    href: "https://x.com/naxatra_newss",
+    href: "https://x.com/naxatraindia",
     brandColor: "#000000",
     logo: "/logo/twitter-x.png",
   },
@@ -19,13 +19,13 @@ export const socialLinks = [
   },
   {
     name: "Instagram",
-    href: "https://www.instagram.com/naxatra_newshindi",
+    href: "https://www.instagram.com/naxatraindia",
     brandColor: "#E4405F",
     logo: "/logo/instagram-new.png",
   },
   {
     name: "WhatsApp",
-    href: "https://whatsapp.com/channel",
+    href: "https://whatsapp.com/channel/0029VbB2WFD7DAX12aHtvB1m",
     brandColor: "#25D366",
     logo: "/logo/whatsapp.png",
   },

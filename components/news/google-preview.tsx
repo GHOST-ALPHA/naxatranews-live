@@ -32,7 +32,7 @@ export function GooglePreview({
 
     return (
         <div className={`space-y-2 ${minHeight ? 'min-h-[140px]' : ''}`}>
-            <div className="font-sans max-w-[600px] break-words bg-card rounded-lg p-4 border border-border/50 bg-muted/20">
+            <div className="font-sans max-w-none break-words bg-card rounded-lg p-4 border border-border/50 bg-muted/20">
                 {/* Mobile/Modern View Header */}
                 <div className="flex items-center gap-3 mb-2 group cursor-pointer">
                     <div className="bg-muted rounded-full w-7 h-7 flex items-center justify-center border border-border/50">

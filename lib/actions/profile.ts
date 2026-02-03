@@ -18,6 +18,7 @@ const updateProfileSchema = z.object({
   username: z.string().min(3).optional(),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
+  avatar: z.string().optional().nullable(),
 });
 
 const changePasswordSchema = z.object({
@@ -75,6 +76,7 @@ export async function updateProfile(data: z.infer<typeof updateProfileSchema>) {
 
     if (validated.firstName !== undefined) updateData.firstName = validated.firstName;
     if (validated.lastName !== undefined) updateData.lastName = validated.lastName;
+    if (validated.avatar !== undefined) updateData.avatar = validated.avatar;
 
     // Update user
     const updatedUser = await prisma.user.update({
@@ -99,6 +101,7 @@ export async function updateProfile(data: z.infer<typeof updateProfileSchema>) {
         username: updatedUser.username,
         firstName: updatedUser.firstName,
         lastName: updatedUser.lastName,
+        avatar: updatedUser.avatar,
       },
     };
   } catch (error) {

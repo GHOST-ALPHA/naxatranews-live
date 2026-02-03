@@ -284,7 +284,7 @@ export default async function Page({ params }: PageProps) {
         <div className="hidden lg:block shrink-0 w-12" aria-hidden="true" />
 
         <div className="flex-1 min-w-0">
-          <AuthorBio author={article.author} />
+          <AuthorBio name={article.author} username={article.authorUsername} avatar={article.authorAvatar} />
 
           <RelatedPosts posts={relatedPosts} />
 

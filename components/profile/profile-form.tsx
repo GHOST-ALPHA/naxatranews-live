@@ -5,22 +5,25 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { updateProfile, changePassword } from "@/lib/actions/profile";
+import { uploadMedia } from "@/lib/actions/media";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, User, Shield, Lock, LayoutDashboard, Mail, Calendar } from "lucide-react";
+import { Loader2, User, Shield, Lock, LayoutDashboard, Mail, Calendar, Camera } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { useRef } from "react";
 
 const updateProfileSchema = z.object({
   email: z.string().email().optional(),
   username: z.string().min(3).optional(),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
+  avatar: z.string().optional().nullable(),
 });
 
 const changePasswordSchema = z.object({
@@ -52,13 +55,16 @@ interface ProfileFormProps {
 
 export function ProfileForm({ user }: ProfileFormProps) {
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [profileLoading, setProfileLoading] = useState(false);
   const [passwordLoading, setPasswordLoading] = useState(false);
+  const [avatarLoading, setAvatarLoading] = useState(false);
 
   const {
     register: registerProfile,
     handleSubmit: handleProfileSubmit,
     formState: { errors: profileErrors },
+    setValue: setProfileValue,
   } = useForm<UpdateProfileFormData>({
     resolver: zodResolver(updateProfileSchema),
     defaultValues: {
@@ -66,6 +72,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
       username: user.username,
       firstName: user.firstName || "",
       lastName: user.lastName || "",
+      avatar: user.avatar,
     },
   });
 
@@ -140,6 +147,56 @@ export function ProfileForm({ user }: ProfileFormProps) {
     }
   };
 
+  const onAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setAvatarLoading(true);
+    try {
+      const result = await uploadMedia(file, "avatars");
+
+      if (result.success && result.media) {
+        // Automatically save the profile with the new avatar URL
+        const profileResult = await updateProfile({
+          avatar: result.media.url,
+        });
+
+        if (profileResult.success) {
+          toast({
+            title: "Avatar updated",
+            description: "Your profile picture has been updated.",
+          });
+          // Update the UI immediately
+          window.location.reload();
+        } else {
+          toast({
+            title: "Error",
+            description: profileResult.error || "Failed to update profile",
+            variant: "destructive",
+          });
+        }
+      } else {
+        toast({
+          title: "Error",
+          description: result.error || "Failed to upload avatar",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred during upload",
+        variant: "destructive",
+      });
+    } finally {
+      setAvatarLoading(false);
+    }
+  };
+
   const initials = `${user.firstName?.[0] || ""}${user.lastName?.[0] || ""}` || user.username.substring(0, 2).toUpperCase();
 
   return (
@@ -149,10 +206,32 @@ export function ProfileForm({ user }: ProfileFormProps) {
         <div className="relative flex flex-col md:flex-row gap-8 items-center md:items-start z-10">
           <div className="relative">
             <div className="absolute -inset-1 bg-gradient-to-r from-primary to-purple-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-            <Avatar className="h-28 w-28 border-4 border-background shadow-xl">
-              <AvatarImage src={user.avatar || ""} alt={user.username} className="object-cover" />
-              <AvatarFallback className="text-2xl font-bold bg-primary/10 text-primary">{initials}</AvatarFallback>
-            </Avatar>
+            <div
+              className="relative cursor-pointer group/avatar"
+              onClick={onAvatarClick}
+            >
+              <Avatar className="h-28 w-28 border-4 border-background shadow-xl transition-all duration-300 group-hover/avatar:opacity-80">
+                <AvatarImage src={user.avatar || ""} alt={user.username} className="object-cover" />
+                <AvatarFallback className="text-2xl font-bold bg-primary/10 text-primary">{initials}</AvatarFallback>
+              </Avatar>
+
+              <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-full opacity-0 group-hover/avatar:opacity-100 transition-opacity duration-300">
+                {avatarLoading ? (
+                  <Loader2 className="h-8 w-8 text-white animate-spin" />
+                ) : (
+                  <Camera className="h-8 w-8 text-white" />
+                )}
+              </div>
+
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                accept="image/*"
+                onChange={handleAvatarUpload}
+                disabled={avatarLoading}
+              />
+            </div>
           </div>
 
           <div className="space-y-3 text-center md:text-left flex-1">

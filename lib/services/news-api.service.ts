@@ -87,6 +87,7 @@ export interface NewsResponse {
     firstName: string | null;
     lastName: string | null;
     email: string;
+    avatar: string | null;
   };
   categories?: Array<{
     id: string;
@@ -135,7 +136,7 @@ async function getCategoryIds(filter: CategoryFilter): Promise<string[]> {
       where: { slug: filter.parentSlug },
       include: { children: { where: { isPublic: true, isActive: true } } },
     });
-    
+
     // Filter by isPublic and isActive after query (slug is unique, so this is safe)
     if (parent && (!parent.isPublic || !parent.isActive)) {
       return [];
@@ -158,7 +159,7 @@ async function getCategoryIds(filter: CategoryFilter): Promise<string[]> {
           : false,
       },
     });
-    
+
     // Filter by isPublic and isActive after query (slug is unique, so this is safe)
     if (category && (!category.isPublic || !category.isActive)) {
       return [];
@@ -241,36 +242,37 @@ function buildNewsQuery(options: NewsQueryOptions = {}) {
       updatedAt: true,
       author: includeAuthor
         ? {
-            select: {
-              id: true,
-              username: true,
-              firstName: true,
-              lastName: true,
-              email: true,
-            },
-          }
+          select: {
+            id: true,
+            username: true,
+            firstName: true,
+            lastName: true,
+            email: true,
+            avatar: true,
+          },
+        }
         : false,
       categories: includeCategories
         ? {
-            select: {
-              id: true,
-              menu: {
-                select: {
-                  id: true,
-                  name: true,
-                  slug: true,
-                  parentId: true,
-                  parent: {
-                    select: {
-                      id: true,
-                      name: true,
-                      slug: true,
-                    },
+          select: {
+            id: true,
+            menu: {
+              select: {
+                id: true,
+                name: true,
+                slug: true,
+                parentId: true,
+                parent: {
+                  select: {
+                    id: true,
+                    name: true,
+                    slug: true,
                   },
                 },
               },
             },
-          }
+          },
+        }
         : false,
     },
   };

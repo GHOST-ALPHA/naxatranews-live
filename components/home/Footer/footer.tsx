@@ -107,13 +107,13 @@ export function Footer() {
                                 <div className="p-1.5 md:p-2 rounded-full bg-white/5 group-hover:bg-red-600/10 transition-colors shrink-0">
                                     <Mail className="h-3.5 w-3.5 md:h-5 md:w-5 text-red-500" />
                                 </div>
-                                <a href="mailto:contact@naxatranews.com" className="hover:text-white transition-colors">contact@naxatranews.com</a>
+                                <a href="mailto:info@naxatraindia.com" className="hover:text-white transition-colors">info@naxatraindia.com</a>
                             </li>
                             <li className="flex items-center gap-3 text-xs md:text-sm text-gray-400 group">
                                 <div className="p-1.5 md:p-2 rounded-full bg-white/5 group-hover:bg-red-600/10 transition-colors shrink-0">
                                     <Phone className="h-3.5 w-3.5 md:h-5 md:w-5 text-red-500" />
                                 </div>
-                                <a href="tel:+911234567890" className="hover:text-white transition-colors">+91 1234 567 890</a>
+                                <a href="tel:+918102088661" className="hover:text-white transition-colors">+91 81020 88661</a>
                             </li>
                         </ul>
                     </div>

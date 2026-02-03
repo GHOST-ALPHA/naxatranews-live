@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { updateNews } from "@/lib/actions/news";
+import { createNews } from "@/lib/actions/news";
 import { getPublicMenus } from "@/lib/actions/menus";
 import { useSlugTranslation } from "@/hooks/use-slug-translation";
 import { Button } from "@/components/ui/button";
@@ -26,9 +26,9 @@ import {
   X,
   ArrowLeft,
   LayoutTemplate,
+  Calendar,
   Clock,
-  Eye,
-  EyeOff,
+  ChevronRight,
   Languages,
   Wand2
 } from "lucide-react";
@@ -51,7 +51,6 @@ import { Switch } from "@/components/ui/switch";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { generateSlug } from "@/lib/utils/slug";
 import { GooglePreview } from "@/components/news/google-preview";
-import { CharacterCounter } from "@/components/news/character-counter";
 import { cn } from "@/lib/utils";
 
 // Custom URL validation
@@ -64,8 +63,7 @@ const urlOrEmpty = z.preprocess(
   ])
 ).optional();
 
-const updateNewsSchema = z.object({
-  id: z.string(),
+const createNewsSchema = z.object({
   title: z.string().min(1, "Title is required").max(200, "Title must be less than 200 characters"),
   slug: z.string().min(1, "Slug is required").max(200, "Slug must be less than 200 characters").optional(),
   content: z.string().min(1, "Content is required"),
@@ -77,7 +75,6 @@ const updateNewsSchema = z.object({
   }, "Must be a valid YouTube, Vimeo, or direct video URL"),
   categoryIds: z.array(z.string()).min(1, "At least one category is required"),
   isPublished: z.boolean().default(false),
-  isActive: z.boolean().default(true),
   isBreaking: z.boolean().default(false),
   isFeatured: z.boolean().default(false),
   metaTitle: z.string().max(160, "Meta title should be under 160 characters").optional(),
@@ -85,9 +82,10 @@ const updateNewsSchema = z.object({
   metaKeywords: z.string().optional(),
   ogImage: urlOrEmpty,
   scheduledAt: z.string().datetime().optional(),
+  isScheduled: z.boolean().default(false),
 });
 
-type UpdateNewsFormData = z.infer<typeof updateNewsSchema>;
+type CreateNewsFormData = z.infer<typeof createNewsSchema>;
 
 interface Category {
   id: string;
@@ -95,55 +93,20 @@ interface Category {
   slug: string;
 }
 
-interface EditNewsFormProps {
-  news: {
-    id: string;
-    title: string;
-    slug: string;
-    content: string;
-    excerpt: string | null;
-    coverImage: string | null;
-    coverVideo: string | null;
-    isPublished: boolean;
-    isActive: boolean;
-    isBreaking: boolean;
-    isFeatured: boolean;
-    metaTitle: string | null;
-    metaDescription: string | null;
-    metaKeywords: string | null;
-    ogImage: string | null;
-    scheduledAt: Date | null;
-    categories: Array<{
-      menu: {
-        id: string;
-        name: string;
-        slug: string;
-      };
-    }>;
-  };
+interface CreateNewsFormProps {
   canPublish?: boolean;
   canSubmit?: boolean;
 }
 
-export function EditNewsForm({ news, canPublish = false, canSubmit = false }: EditNewsFormProps) {
+export function CreateNewsForm({ canPublish = false, canSubmit = false }: CreateNewsFormProps) {
   const router = useRouter();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [autoSlug, setAutoSlug] = useState(false);
+  const [autoSlug, setAutoSlug] = useState(true);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(
-    news.categories.map((c) => c.menu.id)
-  );
-
-  const [editorContent, setEditorContent] = useState<SerializedEditorState | null>(() => {
-    try {
-      return JSON.parse(news.content);
-    } catch {
-      return null;
-    }
-  });
-
-  const [isScheduled, setIsScheduled] = useState(!!news.scheduledAt);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [editorContent, setEditorContent] = useState<SerializedEditorState | null>(null);
+  const [isScheduled, setIsScheduled] = useState(false);
 
   // Load categories
   useEffect(() => {
@@ -171,26 +134,14 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
     watch,
     setValue,
     trigger,
-  } = useForm<UpdateNewsFormData>({
-    resolver: zodResolver(updateNewsSchema),
+  } = useForm<CreateNewsFormData>({
+    resolver: zodResolver(createNewsSchema),
     defaultValues: {
-      id: news.id,
-      title: news.title,
-      slug: news.slug,
-      content: news.content,
-      excerpt: news.excerpt || "",
-      coverImage: news.coverImage || "",
-      coverVideo: news.coverVideo || "",
-      isPublished: news.isPublished,
-      isActive: news.isActive,
-      isBreaking: news.isBreaking,
-      isFeatured: news.isFeatured,
-      metaTitle: news.metaTitle || "",
-      metaDescription: news.metaDescription || "",
-      metaKeywords: news.metaKeywords || "",
-      ogImage: news.ogImage || "",
-      categoryIds: news.categories.map((c) => c.menu.id),
-      scheduledAt: news.scheduledAt ? new Date(news.scheduledAt).toISOString().slice(0, 16) : undefined,
+      isPublished: false,
+      isBreaking: false,
+      isFeatured: false,
+      isScheduled: false,
+      categoryIds: [],
     },
     mode: "onChange",
   });
@@ -234,10 +185,9 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
       const contentText = editorContent ? JSON.stringify(editorContent).toLowerCase() : "";
       const descriptionContext = `${metaDescription || ""} ${excerpt || ""} ${contentText}`.toLowerCase();
 
-      // Scoring: Give points if present in EITHER Headline OR Content context
+      // Scoring
       if (keywords.some(k => headlineContext.includes(k.toLowerCase()))) score += 10;
       if (keywords.some(k => descriptionContext.includes(k.toLowerCase()))) score += 10;
-
     } else {
       suggestions.push("Add meta keywords to target search terms.");
     }
@@ -246,7 +196,7 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
     else suggestions.push("Add a cover image or video.");
 
     return { score: Math.min(score, 100), suggestions };
-  }, [title, slug, metaDescription, metaKeywords, coverImage, coverVideo, metaTitle, excerpt, editorContent]);
+  }, [title, slug, metaDescription, metaKeywords, coverImage, coverVideo, metaTitle]);
 
 
   // Hook for English slug translation (Smart Auto-Translation)
@@ -304,15 +254,13 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
 
   const handleScheduleToggle = useCallback((checked: boolean) => {
     setIsScheduled(checked);
-    if (checked) {
-      // If enabling schedule and no date set, don't set a default date yet to avoid validation errors if untouched
-      // User must pick a date
-    } else {
-      setValue("scheduledAt", undefined, { shouldValidate: true });
+    setValue("isScheduled", checked, { shouldValidate: true });
+    if (!checked) {
+      setValue("scheduledAt", "", { shouldValidate: true });
     }
   }, [setValue]);
 
-  const onSubmit = async (data: UpdateNewsFormData) => {
+  const onSubmit = async (data: CreateNewsFormData) => {
     if (!editorContent) {
       toast({
         title: "Error",
@@ -333,7 +281,7 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
 
     setLoading(true);
     try {
-      const result = await updateNews({
+      const result = await createNews({
         ...data,
         content: JSON.stringify(editorContent),
         categoryIds: selectedCategories,
@@ -342,14 +290,13 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
       if (result.success) {
         toast({
           title: "Success",
-          description: data.isPublished ? "News post published!" : "News post updated.",
+          description: data.isPublished ? "Your news post has been published!" : "Your news post has been saved has a draft.",
         });
-        router.refresh();
         router.push("/dashboard/news");
       } else {
         toast({
           title: "Error",
-          description: result.error || "Failed to update news post",
+          description: result.error || "Failed to create news post",
           variant: "destructive",
         });
       }
@@ -364,6 +311,14 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
     }
   };
 
+  const CharacterCounter = ({ current, max }: { current: number; max: number }) => (
+    <span className={cn("text-xs transition-colors font-medium",
+      current > max ? "text-destructive" : "text-muted-foreground/60"
+    )}>
+      {current}/{max}
+    </span>
+  );
+
   return (
     <TooltipProvider>
       <div className="bg-background min-h-screen pb-20">
@@ -377,7 +332,7 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
                   <ArrowLeft className="h-5 w-5" />
                 </Button>
                 <div className="flex flex-col">
-                  <h1 className="text-lg font-semibold leading-none tracking-tight">Edit News Post</h1>
+                  <h1 className="text-lg font-semibold leading-none tracking-tight">Create News Post</h1>
                   <div className="flex items-center gap-2 mt-1">
                     <span className="text-xs text-muted-foreground flex items-center gap-1">
                       {isDirty ? <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> : <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/30" />}
@@ -403,7 +358,7 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
                 >
                   {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> :
                     watch("isPublished") ? <Share2 className="h-4 w-4 mr-2" /> : <Save className="h-4 w-4 mr-2" />}
-                  {watch("isPublished") ? "Update & Publish" : "Save Changes"}
+                  {watch("isPublished") ? "Publish" : "Save Draft"}
                 </Button>
               </div>
             </div>
@@ -411,8 +366,8 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
 
           <div className="max-w-[1600px] mx-auto pt-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
 
-            {/* PRIMARY COLUMN - CONTENT (9 cols) */}
-            <div className="lg:col-span-9 space-y-4">
+            {/* PRIMARY COLUMN - CONTENT (8 cols) */}
+            <div className="lg:col-span-9 space-y-8">
 
               {/* Title & Slug */}
               <div className="space-y-4">
@@ -476,116 +431,6 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
                   <CharacterCounter current={excerpt?.length || 0} max={300} />
                 </div>
               </div>
-
-              <div className="group">
-                {/* grid two cols */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label className="text-xs uppercase font-bold text-muted-foreground tracking-wider">Primary Categories</Label>
-                    <Select onValueChange={handleCategorySelect}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select Topic..." />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {categories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label className="text-xs uppercase font-bold text-muted-foreground tracking-wider">Selected Categories</Label>
-                    <div className="flex flex-wrap gap-2 p-3 bg-muted/20 rounded-md border border-dashed min-h-[20px] content-start">
-                      {selectedCategories.length === 0 && (
-                        <p className="text-xs text-muted-foreground w-full text-center py-4">No categories selected.</p>
-                      )}
-                      {selectedCategories.map(catId => {
-                        const cat = categories.find(c => c.id === catId);
-                        return cat ? (
-                          <Badge key={catId} variant="secondary" className="pl-2 pr-1 py-1 gap-1 border-muted-foreground/30">
-                            {cat.name}
-                            <Button type="button" variant="ghost" size="icon" className="h-4 w-4 hover:bg-destructive/10 hover:text-destructive rounded-full" onClick={() => handleCategoryRemove(catId)}>
-                              <X className="h-3 w-3" />
-                            </Button>
-                          </Badge>
-                        ) : null;
-                      })}
-                    </div>
-                    {errors.categoryIds && <p className="text-xs text-destructive font-medium">{errors.categoryIds.message}</p>}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* SECONDARY COLUMN - SETTINGS (3 cols) */}
-            <div className="lg:col-span-3 space-y-6">
-
-              {/* Publication Status Card */}
-              <Card className="shadow-sm border-t-4 border-t-primary">
-                <CardHeader className="pb-3 border-b bg-muted/10">
-                  <CardTitle className="text-base font-semibold flex items-center gap-2">
-                    <LayoutTemplate className="h-4 w-4" /> Publication Details
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-4 space-y-5">
-
-                  {/* Publish Toggle */}
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label className="text-sm">Publish to Site</Label>
-                      <p className="text-xs text-muted-foreground">Make article visible</p>
-                    </div>
-                    <Switch
-                      checked={watch("isPublished")}
-                      onCheckedChange={(c) => setValue("isPublished", c, { shouldValidate: true })}
-                      disabled={!canPublish}
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label className="text-sm">Active</Label>
-                      <p className="text-xs text-muted-foreground">Enable/Disable post</p>
-                    </div>
-                    <Switch
-                      checked={watch("isActive")}
-                      onCheckedChange={(c) => setValue("isActive", c, { shouldValidate: true })}
-                    />
-                  </div>
-
-                  <Separator />
-
-                  {/* Toggles */}
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <Label className="text-sm font-normal">Breaking News Ticker</Label>
-                      <Switch checked={watch("isBreaking")} onCheckedChange={(c) => setValue("isBreaking", c)} />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <Label className="text-sm font-normal">Featured Carousel</Label>
-                      <Switch checked={watch("isFeatured")} onCheckedChange={(c) => setValue("isFeatured", c)} />
-                    </div>
-                  </div>
-
-                  <Separator />
-
-                  {/* Scheduling */}
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <Label className="text-sm flex items-center gap-2"><Clock className="h-3.5 w-3.5" /> Schedule</Label>
-                      <Switch checked={isScheduled} onCheckedChange={handleScheduleToggle} disabled={watch("isPublished")} />
-                    </div>
-                    {isScheduled && (
-                      <div className="pt-1">
-                        <Input type="datetime-local" {...register("scheduledAt")} className="text-sm font-mono" />
-                      </div>
-                    )}
-                  </div>
-
-                </CardContent>
-              </Card>
-            </div>
-
-            <div className="lg:col-span-12 space-y-8">
 
               {/* Editor */}
               <div className="border rounded-lg shadow-sm bg-card overflow-hidden ring-1 ring-border/50 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
@@ -663,87 +508,177 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
                 </div>
               </div>
 
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* SEO Control Panel */}
-                  <Card className="shadow-sm">
-                    <CardHeader className="pb-3 border-b bg-muted/10">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-base font-semibold flex items-center gap-2">
-                          <Globe className="h-4 w-4" /> SEO Settings
-                        </CardTitle>
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pt-4 space-y-4">
-                      <div className="space-y-3">
-                        <div className="space-y-1">
-                          <div className="flex justify-between">
-                            <Label className="text-xs">Meta Title</Label>
-                            <CharacterCounter current={metaTitle?.length || 0} max={160} />
-                          </div>
-                          <Input {...register("metaTitle")} placeholder={title || ""} className="h-8 text-sm" />
-                        </div>
-                        <div className="space-y-1">
-                          <div className="flex justify-between">
-                            <Label className="text-xs">Meta Description</Label>
-                            <CharacterCounter current={metaDescription?.length || 0} max={240} />
-                          </div>
-                          <Textarea {...register("metaDescription")} rows={3} className="resize-none text-sm min-h-[80px]" />
-                        </div>
-                        <div className="space-y-1">
-                          <Label className="text-xs">Keywords</Label>
-                          <Input {...register("metaKeywords")} placeholder="news, tags..." className="h-8 text-sm" />
-                        </div>
-                        <div className="space-y-1">
-                          <Label className="text-xs">OG Image</Label>
-                          <MediaPicker
-                            value={ogImage || ""}
-                            onSelect={(url) => handleImageSelect("ogImage", url)}
-                            type="image"
-                            label="Select Social Image"
-                          />
-                          {ogImage && <p className="text-xs text-green-600 mt-1 flex items-center gap-1"><CheckCircle2 className="h-3 w-3" /> Image selected</p>}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+            </div>
 
-                  <Card className="shadow-sm">
-                    <CardHeader className="pb-3 border-b bg-muted/10">
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-base font-semibold flex items-center gap-2">
-                          <Globe className="h-4 w-4" /> Search Link Preview
-                        </CardTitle>
-                        <Badge variant={seoAnalysis.score >= 80 ? "default" : seoAnalysis.score >= 50 ? "secondary" : "destructive"} className="font-mono">
-                          Score: {seoAnalysis.score}
+            {/* SECONDARY COLUMN - SETTINGS (4 cols) */}
+            <div className="lg:col-span-3 space-y-6">
+
+              {/* Publication Status Card */}
+              <Card className="shadow-sm border-t-4 border-t-primary">
+                <CardHeader className="pb-3 border-b bg-muted/10">
+                  <CardTitle className="text-base font-semibold flex items-center gap-2">
+                    <LayoutTemplate className="h-4 w-4" /> Publication Details
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-4 space-y-5">
+
+                  {/* Publish Toggle */}
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-0.5">
+                      <Label className="text-sm">Publish to Site</Label>
+                      <p className="text-xs text-muted-foreground">Make article visible properly</p>
+                    </div>
+                    <Switch
+                      checked={watch("isPublished")}
+                      onCheckedChange={(c) => setValue("isPublished", c, { shouldValidate: true })}
+                      disabled={!canPublish}
+                    />
+                  </div>
+
+                  <Separator />
+
+                  {/* Toggles */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-normal">Breaking News</Label>
+                      <Switch checked={watch("isBreaking")} onCheckedChange={(c) => setValue("isBreaking", c)} />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-normal">Featured News</Label>
+                      <Switch checked={watch("isFeatured")} onCheckedChange={(c) => setValue("isFeatured", c)} />
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  {/* Scheduling */}
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm flex items-center gap-2"><Clock className="h-3.5 w-3.5" /> Schedule</Label>
+                      <Switch checked={isScheduled} onCheckedChange={handleScheduleToggle} disabled={watch("isPublished")} />
+                    </div>
+                    {isScheduled && (
+                      <div className="pt-1">
+                        <Input type="datetime-local" {...register("scheduledAt")} className="text-sm font-mono" />
+                      </div>
+                    )}
+                  </div>
+
+                </CardContent>
+              </Card>
+
+              {/* Taxonomy / Categories */}
+              <Card className="shadow-sm">
+                <CardHeader className="pb-3 border-b bg-muted/10">
+                  <CardTitle className="text-base font-semibold flex items-center gap-2">
+                    <Tag className="h-4 w-4" /> Categorization
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-4 space-y-4">
+                  <div className="space-y-2">
+                    <Label className="text-xs uppercase font-bold text-muted-foreground tracking-wider">Primary Categories</Label>
+                    <Select onValueChange={handleCategorySelect}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Topic..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map(c => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 p-3 bg-muted/20 rounded-md border border-dashed min-h-[80px] content-start">
+                    {selectedCategories.length === 0 && (
+                      <p className="text-xs text-muted-foreground w-full text-center py-4">No categories selected.</p>
+                    )}
+                    {selectedCategories.map(catId => {
+                      const cat = categories.find(c => c.id === catId);
+                      return cat ? (
+                        <Badge key={catId} variant="secondary" className="pl-2 pr-1 py-1 gap-1 border-muted-foreground/30">
+                          {cat.name}
+                          <Button type="button" variant="ghost" size="icon" className="h-4 w-4 hover:bg-destructive/10 hover:text-destructive rounded-full" onClick={() => handleCategoryRemove(catId)}>
+                            <X className="h-3 w-3" />
+                          </Button>
                         </Badge>
+                      ) : null;
+                    })}
+                  </div>
+                  {errors.categoryIds && <p className="text-xs text-destructive font-medium">{errors.categoryIds.message}</p>}
+                </CardContent>
+              </Card>
+
+              {/* SEO Control Panel */}
+              <Card className="shadow-sm">
+                <CardHeader className="pb-3 border-b bg-muted/10">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-base font-semibold flex items-center gap-2">
+                      <Globe className="h-4 w-4" /> SEO Settings
+                    </CardTitle>
+                    <Badge variant={seoAnalysis.score >= 80 ? "default" : seoAnalysis.score >= 50 ? "secondary" : "destructive"} className="font-mono">
+                      Score: {seoAnalysis.score}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-4 space-y-4">
+
+                  {/* SEO Score Feedback - Compact */}
+                  {seoAnalysis.suggestions.length > 0 && (
+                    <div className="text-xs text-amber-700 bg-amber-50 dark:bg-amber-950/30 dark:text-amber-400 p-2 rounded-md border border-amber-200 dark:border-amber-800">
+                      <p className="font-semibold mb-1 flex items-center gap-1"><AlertCircle className="h-3 w-3" /> Improvements:</p>
+                      <ul className="list-disc list-inside space-y-0.5 pl-1 opacity-90">
+                        {seoAnalysis.suggestions.slice(0, 3).map((s, i) => <li key={i}>{s}</li>)}
+                        {seoAnalysis.suggestions.length > 3 && <li>+ {seoAnalysis.suggestions.length - 3} more...</li>}
+                      </ul>
+                    </div>
+                  )}
+
+                  <div className="space-y-3">
+                    <div className="space-y-1">
+                      <div className="flex justify-between">
+                        <Label className="text-xs">Meta Title</Label>
+                        <CharacterCounter current={metaTitle?.length || 0} max={160} />
                       </div>
-                    </CardHeader>
-                    <CardContent className="pt-0 space-y-4">
-                      {/* SEO Score Feedback - Compact */}
-                      {seoAnalysis.suggestions.length > 0 && (
-                        <div className="text-xs text-amber-700 bg-amber-50 dark:bg-amber-950/30 dark:text-amber-400 p-2 rounded-md border border-amber-200 dark:border-amber-800">
-                          <p className="font-semibold mb-1 flex items-center gap-1"><AlertCircle className="h-3 w-3" /> Improvements:</p>
-                          <ul className="list-disc list-inside space-y-0.5 pl-1 opacity-90">
-                            {seoAnalysis.suggestions.slice(0, 3).map((s, i) => <li key={i}>{s}</li>)}
-                            {seoAnalysis.suggestions.length > 3 && <li>+ {seoAnalysis.suggestions.length - 3} more...</li>}
-                          </ul>
-                        </div>
-                      )}
-                      <div>
-                        <div className="scale-100 origin-top-left w-full">
-                          <GooglePreview
-                            title={metaTitle || title || ""}
-                            description={metaDescription || excerpt || ""}
-                            slug={slug || ""}
-                            minHeight={true}
-                          />
-                        </div>
+                      <Input {...register("metaTitle")} placeholder={title || ""} className="h-8 text-sm" />
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex justify-between">
+                        <Label className="text-xs">Meta Description</Label>
+                        <CharacterCounter current={metaDescription?.length || 0} max={240} />
                       </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
+                      <Textarea {...register("metaDescription")} rows={3} className="resize-none text-sm min-h-[80px]" />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">Keywords</Label>
+                      <Input {...register("metaKeywords")} placeholder="news, tags..." className="h-8 text-sm" />
+                    </div>
+                    <div className="space-y-1">
+                      <Label className="text-xs">OG Image</Label>
+                      <MediaPicker
+                        value={ogImage || ""}
+                        onSelect={(url) => handleImageSelect("ogImage", url)}
+                        type="image"
+                        label="Select Social Image"
+                      />
+                      {ogImage && <p className="text-xs text-green-600 mt-1 flex items-center gap-1"><CheckCircle2 className="h-3 w-3" /> Image selected</p>}
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  <div>
+                    <Label className="text-xs mb-2 block uppercase text-muted-foreground font-bold tracking-wider">Search Link Preview</Label>
+                    <div className="scale-90 origin-top-left w-[110%]">
+                      <GooglePreview
+                        title={metaTitle || title || ""}
+                        description={metaDescription || excerpt || ""}
+                        slug={slug || ""}
+                        minHeight={true}
+                      />
+                    </div>
+                  </div>
+
+                </CardContent>
+              </Card>
 
             </div>
 
