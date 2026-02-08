@@ -60,13 +60,13 @@ export function ArticleHeader({ article }: ArticleHeaderProps) {
       </Badge> */}
 
       {/* Title */}
-      <h1 className="text-2xl sm:text-3xl md:text-2xl lg:text-3xl xl:text-4xl font-bold leading-[1.2] mb-4 sm:mb-6 text-foreground tracking-tight font-hindi">{article.title}</h1>
+      <h1 className="text-2xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-3xl font-bold leading-[1.2] mb-3 sm:mb-4 text-foreground tracking-tight font-hindi">{article.title}</h1>
 
       {/* Excerpt */}
-      <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-8 leading-[1.7] font-hindi">{article.excerpt}</p>
+      <p className="text-base sm:text-base md:text-lg text-muted-foreground mb-4 sm:mb-6 leading-[1.6] font-hindi">{article.excerpt}</p>
 
       {/* Meta Data Row */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-t border-b border-border py-4 sm:py-5 mb-6 sm:mb-8 gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-t border-b border-border py-3 sm:py-4 mb-4 sm:mb-6 gap-4">
         <div className="flex items-center gap-3">
           <div className="relative h-10 w-10 rounded-full overflow-hidden bg-muted">
             <Image src={article.authorAvatar || "/assets/logo.png"} alt={article.author} fill className="object-cover" />

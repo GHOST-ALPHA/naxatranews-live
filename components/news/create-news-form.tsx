@@ -8,6 +8,7 @@ import { z } from "zod";
 import { createNews } from "@/lib/actions/news";
 import { getPublicMenus } from "@/lib/actions/menus";
 import { useSlugTranslation } from "@/hooks/use-slug-translation";
+import { useAutoSave } from "@/hooks/use-auto-save";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -200,12 +201,24 @@ export function CreateNewsForm({ canPublish = false, canSubmit = false }: Create
 
 
   // Hook for English slug translation (Smart Auto-Translation)
-  const { translating, handleTranslate: handleTranslateSlug } = useSlugTranslation({
+  const { handleTranslate: handleTranslateSlug, translating } = useSlugTranslation({
+    title: watch("title"),
     setValue,
     setAutoSlug,
-    title: title || "",
-    autoMode: autoSlug
+    autoMode: autoSlug,
   });
+
+  // Exit Guard: Prevent accidental navigation with unsaved changes
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isDirty]);
 
   // Auto-generate slug (Only handles title field update, slug logic is in the hook)
   const handleTitleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -287,6 +300,7 @@ export function CreateNewsForm({ canPublish = false, canSubmit = false }: Create
         toast.success("Success", {
           description: data.isPublished ? "Your news post has been published!" : "Your news post has been saved as a draft.",
         });
+        clearDraft(); // Success! Clear the local backup
         router.push("/dashboard/news");
       } else {
         toast.error("Error", {
@@ -301,6 +315,43 @@ export function CreateNewsForm({ canPublish = false, canSubmit = false }: Create
       setLoading(false);
     }
   };
+
+  // Auto-Save Implementation (Production Ready)
+  const { clearDraft, lastSaved, isLoading } = useAutoSave({
+    key: "create-news-draft",
+    data: {
+      formData: watch(),
+      editorContent,
+      selectedCategories
+    },
+    isDirty, // SAFETY: Pass dirty state to prevent overwriting manual entries
+    validator: (parsed: any): parsed is { formData: any; editorContent: any; selectedCategories: any } =>
+      !!parsed && !!parsed.formData && !!parsed.editorContent,
+    onLoad: (data: any) => {
+      // Restoration Logic
+      if (data.formData) {
+        Object.entries(data.formData).forEach(([key, value]) => {
+          setValue(key as any, value);
+        });
+      }
+      if (data.editorContent) setEditorContent(data.editorContent);
+      if (data.selectedCategories) {
+        setSelectedCategories(data.selectedCategories);
+        setValue("categoryIds", data.selectedCategories);
+      }
+    },
+    shouldSave: (data: any) => {
+      // Only save if there is actually something worth keeping
+      const title = data.formData?.title?.trim() || "";
+      const hasTitle = title.length > 5;
+      // Default Lexical JSON is ~150-180 chars. 300+ implies real content.
+      const contentStr = data.editorContent ? JSON.stringify(data.editorContent) : "";
+      const hasContent = contentStr.length > 300;
+      const hasCategories = data.selectedCategories?.length > 0;
+
+      return hasTitle || hasContent || hasCategories;
+    }
+  });
 
   return (
     <TooltipProvider>
@@ -321,6 +372,11 @@ export function CreateNewsForm({ canPublish = false, canSubmit = false }: Create
                       {isDirty ? <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> : <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/30" />}
                       {isDirty ? "Unsaved changes" : "All changes saved"}
                     </span>
+                    {lastSaved && (
+                      <span className="text-[10px] text-zinc-500 font-mono ml-2 border-l pl-2 hidden sm:inline-block">
+                        Auto-saved: {lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -528,10 +584,19 @@ export function CreateNewsForm({ canPublish = false, canSubmit = false }: Create
               <div className="border rounded-lg shadow-sm bg-card overflow-hidden ring-1 ring-border/50 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
                 {/* Editor Toolbar is handled inside the component */}
                 <div className="min-h-[600px] p-1">
-                  <Editor
-                    editorSerializedState={editorContent || undefined}
-                    onSerializedChange={handleEditorChange}
-                  />
+                  {!isLoading ? (
+                    <Editor
+                      editorSerializedState={editorContent || undefined}
+                      onSerializedChange={handleEditorChange}
+                    />
+                  ) : (
+                    <div className="h-[600px] w-full flex items-center justify-center bg-muted/5 animate-pulse">
+                      <div className="flex flex-col items-center gap-2">
+                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground/40" />
+                        <span className="text-xs text-muted-foreground/40 font-medium">Loading editor...</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               {errors.content && (

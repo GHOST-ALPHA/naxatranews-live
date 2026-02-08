@@ -101,7 +101,7 @@ export function Footer() {
                                 <div className="p-1.5 md:p-2 rounded-full bg-white/5 group-hover:bg-red-600/10 transition-colors shrink-0 mt-0.5 md:mt-0">
                                     <MapPin className="h-3.5 w-3.5 md:h-5 md:w-5 text-red-500" />
                                 </div>
-                                <span className="leading-relaxed">Main Road, Ranchi,<br />Jharkhand - 834001</span>
+                                <span className="leading-relaxed">2nd floor, Maa Lakshmi Plaza, Harmu Rd,<br />near Sahjanand Chowk, Ranchi, Jharkhand 834002</span>
                             </li>
                             <li className="flex items-center gap-3 text-xs md:text-sm text-gray-400 group">
                                 <div className="p-1.5 md:p-2 rounded-full bg-white/5 group-hover:bg-red-600/10 transition-colors shrink-0">

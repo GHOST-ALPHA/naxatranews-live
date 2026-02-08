@@ -21,6 +21,9 @@ import { mapToArticle } from "@/lib/utils/news-mapper-unified"
 import type { NewsResponse } from "@/lib/services/news-api.service"
 import { cn } from "@/lib/utils"
 
+// Categories that will display a home-page style featured section at the top
+const FEATURED_LAYOUT_CATEGORIES = ["jharkhand", "bihar", "ranchi", "jamshedpur", "delhi", "uttarakhand", "uttar-pradesh", "madhya-pradesh", "chhattisgarh"];
+
 // Enterprise cache configuration
 export const revalidate = 60 // Revalidate every 60 seconds
 
@@ -28,6 +31,9 @@ interface PageProps {
   params: Promise<{ category: string }>
   searchParams: Promise<{ page?: string }>
 }
+
+import { StateFeaturedSection } from "@/components/news/state-featured-section"
+import { NewsSidebar } from "@/components/news/sidebar"
 
 /**
  * Generate metadata for category page
@@ -117,6 +123,10 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
   }
 
   // Fetch news from this category
+  // If featured layout is used, fetch more to fill the section
+  const isFeaturedLayout = FEATURED_LAYOUT_CATEGORIES.includes(categorySlug);
+  const fetchLimit = isFeaturedLayout ? 65 : 50;
+
   const result = await getNewsByCategory(
     {
       slug: categorySlug,
@@ -124,55 +134,84 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
     },
     {
       page,
-      limit: 50,
+      limit: fetchLimit,
       includeContent: false,
       includeAuthor: true,
       includeCategories: true,
     }
   );
 
-  // Map news to Article format for NewsCard using unified mapper
-  const articles: Article[] = result.data.map(mapNewsToArticle)
+  // Map all raw news to Article format
+  const allArticles: Article[] = result.data.map(mapNewsToArticle)
+
+  // Data for Featured Section (if applicable)
+  let featuredStateData = null;
+  let articles: Article[] = allArticles;
+
+  if (isFeaturedLayout && page === 1 && allArticles.length >= 14) {
+    // 1. Prepare New Magazine Featured Design Data (Matching Mockup + Enhancements)
+    // - mainFeatured (1)
+    // - gridFeatured (2)
+    // - listFeatured (6)
+    // - stateSpecial (5)
+
+    featuredStateData = {
+      mainFeatured: allArticles[0],
+      gridFeatured: allArticles.slice(1, 3),
+      listFeatured: allArticles.slice(3, 9),
+      stateSpecial: allArticles.slice(9, 14)
+    };
+
+    // 2. Standard Feed starts after the first 14 articles used above
+    articles = allArticles.slice(14);
+  }
+
   const totalPages = result.pagination.totalPages
 
   return (
-    <div className="space-y-6">
-      {/* Category Header with Share */}
-      <div className="flex items-center justify-between border-b border-zinc-800 pb-4 mb-8">
-        <div>
-          <h1 className="text-2xl md:text-4xl font-black tracking-tight uppercase">
-            {category.name}
-          </h1>
-          {/* {result.pagination.total > 0 && (
-            <p className="text-sm text-muted-foreground mt-2">
-              {result.pagination.total} {result.pagination.total === 1 ? "article" : "articles"} found
-            </p>
-          )} */}
+    <div className="flex flex-col gap-12">
+      <h2 className="text-2xl font-black uppercase tracking-tight border-l-4 border-[#FF6B35] pl-4 py-1 leading-none">
+        {category.name}
+      </h2>
+      {/* 1. Enhanced Full-Width Featured Hero (Unique Layout) */}
+      {featuredStateData && (
+        <div className="w-full">
+          <StateFeaturedSection {...featuredStateData} />
+        </div>
+      )}
+
+      {/* 2. Content + Sidebar (Standard 75/25 magazine layout) */}
+      <div className="flex flex-col lg:flex-row gap-12">
+        {/* Left Content Column (approx 72%-75%) */}
+        <div className="w-full lg:w-[72%] flex flex-col gap-8">
+          <div className="flex flex-col gap-6">
+
+
+            <div className="flex flex-col gap-2">
+              <Suspense fallback={<LoadingSkeleton />}>
+                {articles.map((article) => (
+                  <NewsCard key={article.id} article={article} />
+                ))}
+              </Suspense>
+
+              {articles.length === 0 && (
+                <div className="py-20 text-center text-zinc-500 bg-zinc-900/10 rounded-xl border border-dashed border-zinc-800">
+                  No articles found in this category.
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* <Button
-          variant="outline"
-          className="hidden md:flex rounded-full bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700 hover:text-white gap-2"
-        >
-          <Share2 className="w-4 h-4" />
-          Share
-        </Button> */}
+        {/* Right Sidebar Column (approx 25%-28%) */}
+        <div className="w-full lg:w-[28%] flex flex-col gap-8">
+          <Suspense fallback={<div className="h-[600px] w-full bg-zinc-900/50 animate-pulse rounded-xl" />}>
+            <NewsSidebar />
+          </Suspense>
+        </div>
       </div>
 
-      {/* News List with Suspense fallback */}
-      <div className="flex flex-col gap-4">
-        <Suspense fallback={<LoadingSkeleton />}>
-          {articles.map((article) => (
-            <NewsCard key={article.id} article={article} />
-          ))}
-        </Suspense>
-
-        {articles.length === 0 && (
-          <div className="py-20 text-center text-zinc-500">No articles found in this category.</div>
-        )}
-      </div>
-
-      {/* Pagination - Modern Responsive Design */}
+      {/* 3. Global Pagination */}
       {totalPages > 1 && (
         <div className="mt-12 py-6 border-t border-zinc-800">
           <Pagination className="w-full">
@@ -194,7 +233,6 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
               {(() => {
                 const pages: (number | "ellipsis")[] = []
                 const maxVisiblePages = 7 // Show max 7 page numbers on desktop
-                const mobileVisiblePages = 3 // Show max 3 page numbers on mobile
 
                 if (totalPages <= maxVisiblePages) {
                   // Show all pages if total is small
@@ -203,29 +241,18 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
                   }
                 } else {
                   // Smart pagination with ellipsis
-                  const showEllipsis = totalPages > maxVisiblePages
-
                   if (page <= 3) {
-                    // Near the beginning
-                    for (let i = 1; i <= 4; i++) {
-                      pages.push(i)
-                    }
+                    for (let i = 1; i <= 4; i++) pages.push(i)
                     pages.push("ellipsis")
                     pages.push(totalPages)
                   } else if (page >= totalPages - 2) {
-                    // Near the end
                     pages.push(1)
                     pages.push("ellipsis")
-                    for (let i = totalPages - 3; i <= totalPages; i++) {
-                      pages.push(i)
-                    }
+                    for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i)
                   } else {
-                    // In the middle
                     pages.push(1)
                     pages.push("ellipsis")
-                    for (let i = page - 1; i <= page + 1; i++) {
-                      pages.push(i)
-                    }
+                    for (let i = page - 1; i <= page + 1; i++) pages.push(i)
                     pages.push("ellipsis")
                     pages.push(totalPages)
                   }
@@ -242,11 +269,7 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
 
                   const isCurrent = p === page
                   const isMobileVisible =
-                    p === page ||
-                    p === page - 1 ||
-                    p === page + 1 ||
-                    p === 1 ||
-                    p === totalPages
+                    p === page || p === page - 1 || p === page + 1 || p === 1 || p === totalPages
 
                   return (
                     <PaginationItem key={p}>
@@ -255,15 +278,11 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
                         href={`/${encodeURIComponent(categorySlug)}?page=${p}`}
                         isActive={isCurrent}
                         className={cn(
-                          // Base styles
                           "min-w-[2.5rem] h-10 border transition-all",
-                          // Mobile: only show current and adjacent pages
                           isMobileVisible ? "flex" : "hidden sm:flex",
-                          // Active state
                           isCurrent
                             ? "bg-zinc-100 text-black border-zinc-300 hover:bg-zinc-200 font-semibold"
                             : "border-zinc-700 hover:bg-zinc-800 hover:text-white hover:border-zinc-600",
-                          // Responsive sizing
                           "text-sm sm:text-base"
                         )}
                       >
@@ -305,16 +324,17 @@ function LoadingSkeleton() {
       {[1, 2, 3].map((i) => (
         <div
           key={i}
-          className="flex flex-col md:flex-row gap-6 p-6 border border-zinc-800 rounded-xl bg-[#1a1a1a] animate-pulse"
+          className="flex flex-col md:flex-row gap-6 p-0 border-b border-zinc-800 pb-6 mb-6 last:border-0 bg-transparent animate-pulse"
         >
-          <div className="w-full md:w-64 h-48 md:h-40 bg-zinc-800 rounded-lg" />
-          <div className="flex-1 space-y-4 py-2">
+          <div className="w-full md:w-64 aspect-video bg-zinc-800 rounded-lg" />
+          <div className="flex-1 space-y-4 py-0 md:py-2">
             <div className="h-8 bg-zinc-800 rounded w-3/4" />
-            <div className="h-4 bg-zinc-800 rounded w-1/3" />
-            <div className="h-16 bg-zinc-800 rounded w-full" />
+            <div className="h-4 bg-zinc-800 rounded w-1/4" />
+            <div className="h-12 bg-zinc-800 rounded w-full" />
           </div>
         </div>
       ))}
     </div>
   )
 }
+

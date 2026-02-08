@@ -8,6 +8,7 @@ import { z } from "zod";
 import { updateNews } from "@/lib/actions/news";
 import { getPublicMenus } from "@/lib/actions/menus";
 import { useSlugTranslation } from "@/hooks/use-slug-translation";
+import { useAutoSave } from "@/hooks/use-auto-save";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -208,7 +209,7 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
   const seoAnalysis = useMemo(() => {
     let score = 0;
     const suggestions: string[] = [];
-    const keywords = metaKeywords ? metaKeywords.split(',').map(k => k.trim().toLowerCase()).filter(k => k) : [];
+    const keywords = (metaKeywords || "").split(',').map(k => k.trim().toLowerCase()).filter(k => k);
 
     if (title) {
       if (title.length >= 10 && title.length <= 70) score += 20;
@@ -226,17 +227,12 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
 
     if (keywords.length > 0) {
       score += 10;
-      // Combine all headline-related fields for checking - robust bilingual check
       const headlineContext = `${title || ""} ${metaTitle || ""} ${(slug || "").replace(/-/g, ' ')}`.toLowerCase();
-
-      // Combine description and content for checking context
       const contentText = editorContent ? JSON.stringify(editorContent).toLowerCase() : "";
       const descriptionContext = `${metaDescription || ""} ${excerpt || ""} ${contentText}`.toLowerCase();
 
-      // Scoring: Give points if present in EITHER Headline OR Content context
       if (keywords.some(k => headlineContext.includes(k.toLowerCase()))) score += 10;
       if (keywords.some(k => descriptionContext.includes(k.toLowerCase()))) score += 10;
-
     } else {
       suggestions.push("Add meta keywords to target search terms.");
     }
@@ -247,13 +243,51 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
     return { score: Math.min(score, 100), suggestions };
   }, [title, slug, metaDescription, metaKeywords, coverImage, coverVideo, metaTitle, excerpt, editorContent]);
 
-
   // Hook for English slug translation (Smart Auto-Translation)
-  const { translating, handleTranslate: handleTranslateSlug } = useSlugTranslation({
+  const { handleTranslate: handleTranslateSlug, translating } = useSlugTranslation({
+    title: watch("title"),
     setValue,
     setAutoSlug,
-    title: title || "",
-    autoMode: autoSlug
+    autoMode: autoSlug,
+  });
+
+  // Exit Guard: Prevent accidental navigation with unsaved changes
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isDirty) {
+        e.preventDefault();
+        e.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isDirty]);
+
+  // Auto-Save Implementation (Record-specific)
+  const { clearDraft, lastSaved, isLoading } = useAutoSave({
+    key: `edit-news-draft-${news.id}`,
+    data: {
+      formData: watch(),
+      editorContent,
+      selectedCategories
+    },
+    isDirty,
+    onLoad: (parsed: any) => {
+      if (parsed.formData) {
+        Object.entries(parsed.formData).forEach(([k, v]) => {
+          setValue(k as any, v);
+        });
+      }
+      if (parsed.editorContent) setEditorContent(parsed.editorContent);
+      if (parsed.selectedCategories) {
+        setSelectedCategories(parsed.selectedCategories);
+        setValue("categoryIds", parsed.selectedCategories);
+      }
+    },
+    shouldSave: (d: any) => {
+      const t = d.formData?.title?.trim() || "";
+      return t.length > 5;
+    }
   });
 
   // Auto-generate slug (Only handles title field update, slug logic is in the hook)
@@ -338,6 +372,7 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
         toast.success("Success", {
           description: data.isPublished ? "News post published!" : "News post updated.",
         });
+        clearDraft(); // Clear local edit backup on success
         router.refresh();
         router.push("/dashboard/news");
       } else {
@@ -373,6 +408,11 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
                       {isDirty ? <span className="w-1.5 h-1.5 rounded-full bg-amber-500" /> : <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/30" />}
                       {isDirty ? "Unsaved changes" : "All changes saved"}
                     </span>
+                    {lastSaved && (
+                      <span className="text-[10px] text-zinc-500 font-mono ml-2 border-l pl-2 hidden sm:inline-block">
+                        Auto-saved: {lastSaved.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -581,10 +621,19 @@ export function EditNewsForm({ news, canPublish = false, canSubmit = false }: Ed
               <div className="border rounded-lg shadow-sm bg-card overflow-hidden ring-1 ring-border/50 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
                 {/* Editor Toolbar is handled inside the component */}
                 <div className="min-h-[600px] p-1">
-                  <Editor
-                    editorSerializedState={editorContent || undefined}
-                    onSerializedChange={handleEditorChange}
-                  />
+                  {!isLoading ? (
+                    <Editor
+                      editorSerializedState={editorContent || undefined}
+                      onSerializedChange={handleEditorChange}
+                    />
+                  ) : (
+                    <div className="h-[600px] w-full flex items-center justify-center bg-muted/5 animate-pulse">
+                      <div className="flex flex-col items-center gap-2">
+                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground/40" />
+                        <span className="text-xs text-muted-foreground/40 font-medium">Loading editor...</span>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               {errors.content && (

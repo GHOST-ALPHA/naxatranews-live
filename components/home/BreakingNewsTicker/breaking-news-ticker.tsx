@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, memo } from "react"
 import { X, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -18,7 +18,7 @@ interface BreakingNewsTickerProps {
   className?: string
 }
 
-export function BreakingNewsTicker({ news, onClose, className }: BreakingNewsTickerProps) {
+export const BreakingNewsTicker = memo(function BreakingNewsTicker({ news, onClose, className }: BreakingNewsTickerProps) {
   const [isVisible, setIsVisible] = useState(true)
 
   if (!isVisible || news.length === 0) return null
@@ -101,5 +101,5 @@ export function BreakingNewsTicker({ news, onClose, className }: BreakingNewsTic
       `}</style>
     </div>
   )
-}
+})
 
