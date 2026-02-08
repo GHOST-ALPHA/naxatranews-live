@@ -51,10 +51,10 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
   const [publicMenus, setPublicMenus] = React.useState<PublicMenu[]>(initialMenus || []);
   const [isLoadingMenus, setIsLoadingMenus] = React.useState(!initialMenus || initialMenus.length === 0);
   const router = useRouter();
-  // Fix hydration: Initialize with empty string, set time only on client
+  // Fix hydration: Initialize with empty string, set time/date only on client
   const [currentTime, setCurrentTime] = React.useState<string>("");
+  const [currentDate, setCurrentDate] = React.useState<string>("");
   const [isMounted, setIsMounted] = React.useState(false);
-  const currentDate = getCurrentDateFormatted("hi-IN");
 
   // Optimized menu loading - use server-side menus if provided, otherwise fetch
   React.useEffect(() => {
@@ -133,11 +133,11 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
   // Production-optimized: Use requestAnimationFrame for smoother updates
   React.useEffect(() => {
     setIsMounted(true);
-    // Set initial time immediately
+    // Set initial date and time immediately on client
     setCurrentTime(getLiveTime());
+    setCurrentDate(getCurrentDateFormatted("hi-IN"));
 
     // Update time every second for live clock display
-    // Production: Use setInterval with proper cleanup
     let intervalId: ReturnType<typeof setTimeout>;
     let rafId: any;
 
@@ -172,6 +172,7 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
       <div className="h-28 w-full invisible md:hidden" />
 
       <header
+        suppressHydrationWarning
         className={cn(
           "fixed top-0 z-50 w-full transition-transform duration-300 ease-in-out ",
           !visible ? "-translate-y-full md:-translate-y-16" : "translate-y-0",
@@ -202,7 +203,7 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
 
               <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                 <SheetTrigger asChild>
-                  <Button variant="noting" size="icon" aria-label="Toggle menu" className="h-9 w-9 cursor-pointer">
+                  <Button variant="noting" size="icon" aria-label="Toggle menu" className="h-9 w-9 cursor-pointer" suppressHydrationWarning>
                     <Menu className="h-8 w-8" />
                   </Button>
                 </SheetTrigger>
@@ -413,7 +414,7 @@ function NavbarComponent({ menus: initialMenus }: NavbarProps = {}) {
               </a>
               {/* Desktop Navigation Links */}
               <div className="flex-1 overflow-x-auto scrollbar-hide">
-                <Menubar className="h-12 border-0 bg-transparent p-0 min-w-max">
+                <Menubar className="h-12 border-0 bg-transparent p-0 min-w-max" suppressHydrationWarning>
                   {/* Home Link */}
                   <MenubarMenu>
                     <MenubarTrigger

@@ -23,8 +23,8 @@ export default function ArticleLayout({
         showDefault={true}
       />
 
-      <div className="max-w-[90rem] justify-center mx-auto px-4 py-8">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+      <div className="max-w-[90rem] justify-center mx-auto px-4 py-6">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
           {/* Main Content Area - 75% width on desktop */}
           <main className="w-full lg:w-3/4">{children}</main>
 

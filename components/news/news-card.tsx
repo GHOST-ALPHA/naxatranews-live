@@ -10,20 +10,20 @@ interface NewsCardProps {
 
 export function NewsCard({ article }: NewsCardProps) {
   return (
-    <article className="group flex flex-col md:flex-row gap-6 space-y-6 border-b border-zinc-800 ">
-      <Link href={`/news/${article.slug}`} className="w-full md:w-64 h-48 md:h-40 flex-shrink-0">
+    <article className="group flex flex-col md:flex-row gap-6 border-b border-zinc-800 pb-6 mb-6 last:border-0 last:pb-0 last:mb-0">
+      <Link href={`/news/${article.slug}`} className="w-full md:w-64 flex-shrink-0">
         <OptimizedArticleImage
           src={article.image || "/assets/newsplaceholder.webp"}
           alt={article.title}
           videoUrl={article.video}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          aspectRatio="3/2"
-          className="rounded-lg"
+          aspectRatio="16/9"
+          className="rounded-lg shadow-sm"
           imageClassName="group-hover:scale-105"
         />
       </Link>
 
-      <div className="flex-1 flex flex-col justify-between min-h-[160px] md:py-0 pt-3">
+      <div className="flex-1 flex flex-col justify-between min-h-0 md:min-h-[160px]">
         <div>
           <Link
             href={`/news/${article.slug}`}

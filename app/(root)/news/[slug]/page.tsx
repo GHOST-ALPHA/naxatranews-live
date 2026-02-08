@@ -254,7 +254,7 @@ export default async function Page({ params }: PageProps) {
         This wrapper contains ONLY the text content and the social sidebar.
         This ensures the "sticky" track ends exactly when the content ends.
       */}
-      <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 relative">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 relative">
         {/* Sticky Social Sidebar (Left) - Only visible alongside content */}
         <div className="hidden lg:block shrink-0 w-12">
           <div className="sticky top-24">
@@ -279,7 +279,7 @@ export default async function Page({ params }: PageProps) {
         so that these components align perfectly with the text above, 
         but without the social sidebar sticking next to them.
       */}
-      <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 relative mt-10 pt-10 border-t border-border">
+      <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 relative mt-6 pt-6 border-t border-border">
         {/* Spacer to maintain alignment with the content above */}
         <div className="hidden lg:block shrink-0 w-12" aria-hidden="true" />
 
